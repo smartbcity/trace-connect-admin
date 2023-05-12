@@ -1,0 +1,36 @@
+{
+  "dashboard": "Tableau de bord",
+  "organizations": "Organisations",
+  "users": "Utilisateurs",
+  "profil": "Mon profile",
+  "myOrganization": "Mon organisation",
+  "logout": "Déconnexion",
+  "login": "Connexion",
+  "update": "Mise à jour",
+  "save": "Enregistrer",
+  "cancel": "Annuler",
+  "edit": "Modifier",
+  "view": "Voir",
+  "details": "Détail",
+  "members": "Membres",
+  "name": "Nom",
+  "role": "Rôle",
+  "roles": {
+    "super_admin": "Administrateur global",
+    "admin": "Admin",
+    "user": "Utilisateur"
+  },
+  "organizationRoles": {
+    "admin": "Admin",
+    "super_admin": "Super admin"
+  },
+  "userList": {
+    "create": "Ajouter un utilisateur",
+    "noUser": "Aucun utilisateur n'a été trouvé",
+    "noUserOrg": "$t(userList.noUser) pour cette organisation"
+  },
+  "organizationList": {
+    "create": "Créer une organisation",
+    "noOrganization": "Aucune organisation n'a été trouvée"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "im",
+  "version": "1.0.0",
+  "license": "APACHE-2.0",
+  "description": "Plateform im",
+  "main": "src/index.ts",
+  "source": "src/index.ts",
+  "types": "src/index.ts"
+}
