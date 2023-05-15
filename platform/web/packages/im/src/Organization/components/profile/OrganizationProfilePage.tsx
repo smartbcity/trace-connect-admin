@@ -1,11 +1,10 @@
 import { getOrgRolesOptions, useChainedValidation, useExtendedAuth, useRoutesDefinition } from "components"
 import { Stack, Typography } from '@mui/material'
 import { Action, Page, Section, LinkButton } from '@smartb/g2'
-import { AutomatedOrganizationFactory, MyOrganization, useOrganizationFormState, OrganizationFactoryFieldsOverride, Organization } from '@smartb/g2-i2-v2'
+import { AutomatedOrganizationFactory, MyOrganization, useOrganizationFormState, OrganizationFactoryFieldsOverride } from '@smartb/g2-i2-v2'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
-import { OrganizationDomainDetails } from './OrganizationDomainDetails'
 import { OrganizationUserList } from './OrganizationUserList'
 
 export interface OrganizationProfilePageProps {
@@ -19,9 +18,9 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
     const { organizationId } = useParams();
     const navigate = useNavigate()
     const { service } = useExtendedAuth()
-    const [currentTab, setCurrentTab] = useState("details")
+    const [currentTab, setCurrentTab] = useState("members")
     const { organizationsOrganizationIdView, organizationsOrganizationIdEdit } = useRoutesDefinition()
-    const { submitAllOrReturnFailedKey, generateRegisterSubmitter } = useChainedValidation()
+    const { submitAllOrReturnFailedKey } = useChainedValidation()
 
     const orgId = myOrganization ? service.getUser()?.memberOf : organizationId
     const isUpdate = !!organizationId || myOrganization
@@ -87,10 +86,7 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
         organizationId: orgId
     }), [orgId])
 
-    const leftSectionTabs = useMemo(() => [{
-        key: 'details',
-        label: t('details')
-    },
+    const leftSectionTabs = useMemo(() => [
     ...(!!userListFilters.organizationId ? [{
         key: 'members',
         label: t('members')
@@ -100,13 +96,6 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
     const onTabChange = useCallback((_: React.SyntheticEvent<Element, Event>, value: string) => {
         setCurrentTab(value)
     }, [])
-
-    const onSubmitAdditionnalAttributs = useCallback(
-        async (values: Partial<Organization>) => {
-            await formState.setValues((old) => ({ ...old, ...values }))
-        },
-        [],
-    )
 
     const fieldsOverride = useMemo((): OrganizationFactoryFieldsOverride => {
         return {
@@ -170,7 +159,6 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
                         onTabChange: onTabChange
                     }}
                 >
-                    <OrganizationDomainDetails readonly={readonly} registerSubmitter={generateRegisterSubmitter("details")} hidden={currentTab !== "details"} isLoading={isLoading} onSubmit={onSubmitAdditionnalAttributs} />
                     {currentTab === "members" && <OrganizationUserList organizationId={orgId} userListFilters={userListFilters} />}
                 </Section>
             </Stack>

@@ -18,16 +18,23 @@
   "roles": {
     "super_admin": "Administrateur global",
     "admin": "Admin",
-    "user": "Utilisateur"
+    "user": "Utilisateur",
+    "tr_project_manager": "Chef de projet",
+    "tr_stakeholder": "Partie prenante",
+    "tr_orchestrator": "Orchestrateur"
   },
   "organizationRoles": {
     "admin": "Admin",
-    "super_admin": "Super admin"
+    "super_admin": "Super admin",
+    "tr_project_manager": "Chef de projet",
+    "tr_stakeholder": "Partie prenante",
+    "tr_orchestrator": "Orchestrateur"
   },
   "userList": {
     "create": "Ajouter un utilisateur",
     "noUser": "Aucun utilisateur n'a été trouvé",
-    "noUserOrg": "$t(userList.noUser) pour cette organisation"
+    "noUserOrg": "$t(userList.noUser) pour cette organisation",
+    "nameFilter": "Nom"
   },
   "organizationList": {
     "create": "Créer une organisation",
