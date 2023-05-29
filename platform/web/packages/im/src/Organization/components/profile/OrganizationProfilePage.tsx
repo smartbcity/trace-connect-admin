@@ -2,10 +2,9 @@ import { getOrgRolesOptions, useExtendedAuth, useRoutesDefinition } from "compon
 import { Stack, Typography } from '@mui/material'
 import { Action, Page, Section, LinkButton, validators } from '@smartb/g2'
 import { OrganizationFactory, useOrganizationFormState, OrganizationFactoryFieldsOverride } from '@smartb/g2-i2-v2'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
-import { OrganizationUserList } from './OrganizationUserList'
 
 export interface OrganizationProfilePageProps {
     readOnly: boolean
@@ -18,7 +17,6 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
     const { organizationId } = useParams();
     const navigate = useNavigate()
     const { service } = useExtendedAuth()
-    const [currentTab, setCurrentTab] = useState("details")
     const { organizationsOrganizationIdView, organizationsOrganizationIdEdit } = useRoutesDefinition()
 
     const orgId = myOrganization ? service.getUser()?.memberOf : organizationId
@@ -72,23 +70,6 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
         }
     }, [readOnly, formState.submitForm])
 
-    const userListFilters = useMemo(() => ({
-        organizationId: orgId
-    }), [orgId])
-
-    const leftSectionTabs = useMemo(() => [{
-        key: 'details',
-        label: t('details')
-    },
-    ...(!!userListFilters.organizationId ? [{
-        key: 'members',
-        label: t('members')
-    }] : []),
-    ], [t, userListFilters.organizationId, service.executeAuthFunction])
-
-    const onTabChange = useCallback((_: React.SyntheticEvent<Element, Event>, value: string) => {
-        setCurrentTab(value)
-    }, [])
 
     const fieldsOverride = useMemo((): OrganizationFactoryFieldsOverride => {
         return {
@@ -132,19 +113,6 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
                         isLoading={isLoading}
                         fieldsOverride={fieldsOverride}
                     />
-                </Section>
-                <Section
-                    sx={{
-                        flexGrow: 1,
-                    }}
-                    flexContent
-                    headerProps={{
-                        tabs: leftSectionTabs,
-                        currentTab: currentTab,
-                        onTabChange: onTabChange
-                    }}
-                >
-                    {currentTab === "members" && <OrganizationUserList organizationId={orgId} userListFilters={userListFilters} />}
                 </Section>
             </Stack>
         </Page>

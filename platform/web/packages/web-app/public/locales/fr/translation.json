@@ -15,6 +15,8 @@
   "members": "Membres",
   "name": "Nom",
   "role": "Rôle",
+  "manageAccount": "Gérer mon compte",
+  "manageUsers": "Gérer les utilisateurs",
   "roles": {
     "super_admin": "Administrateur global",
     "admin": "Admin",

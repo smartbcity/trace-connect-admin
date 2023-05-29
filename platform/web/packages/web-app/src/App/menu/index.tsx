@@ -4,7 +4,6 @@ import { MenuItems } from '@smartb/g2-components'
 import { useLocation } from "react-router";
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import BusinessIcon from '@mui/icons-material/Business';
-import HomeIcon from '@mui/icons-material/Home';
 import { AccountCircle, Login, Logout } from "@mui/icons-material";
 import { TFunction } from "i18next";
 import { useExtendedAuth, useRoutesDefinition } from "components";
@@ -46,12 +45,6 @@ export const useMenu = (t: TFunction) => {
     const {service} = useExtendedAuth()
     const {organizations, users} = useRoutesDefinition()
     const menu: MenuItem[] = useMemo(() => [{
-        key: "dashboard",
-        to: "/",
-        label: t("dashboard"),
-        icon: <HomeIcon />,
-        isVisible: service.hasUserRouteAuth({route: ""})
-    }, {
         key: "organizations",
         to: organizations(),
         label: t("organizations"),
@@ -60,9 +53,9 @@ export const useMenu = (t: TFunction) => {
     }, {
         key: "users",
         to: users(),
-        label: t("users"),
+        label: t("manageUsers"),
         icon: <SupervisedUserCircleIcon />,
-        isVisible: service.hasUserRouteAuth({route: "organizations"})
+        isVisible: service.hasUserRouteAuth({route: "users"})
     }], [t, service.hasUserRouteAuth])
     return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }

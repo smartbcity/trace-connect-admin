@@ -1,11 +1,11 @@
 import { Typography } from '@mui/material'
 import { Action, i2Config, Page, Section, LinkButton, validators } from '@smartb/g2';
-import { UserFactory, useGetOrganizationRefs, User, userExistsByEmail, useUserFormState,UserFactoryFieldsOverride } from '@smartb/g2-i2-v2';
-import { getUserRolesOptions, useChainedValidation, useExtendedAuth, useRoutesDefinition } from "components";
+import { UserFactory, useGetOrganizationRefs, userExistsByEmail, useUserFormState,UserFactoryFieldsOverride } from '@smartb/g2-i2-v2';
+import { getUserRolesOptions, useExtendedAuth, useRoutesDefinition } from "components";
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { UserDomainDetails } from './UserDomainDetails';
+
 
 export interface UserProfilePageProps {
     readOnly: boolean
@@ -14,15 +14,13 @@ export interface UserProfilePageProps {
 
 export const UserProfilePage = (props: UserProfilePageProps) => {
     const { readOnly, myProfil = false } = props
-    const { t, i18n } = useTranslation();
-    console.log(i18n)
+    const { t } = useTranslation();
     const [searchParams] = useSearchParams()
     const { userId } = useParams();
     const navigate = useNavigate()
     const { keycloak, service } = useExtendedAuth()
     const getOrganizationRefs = useGetOrganizationRefs({ jwt: keycloak.token })
     const isUpdate = !!userId || myProfil
-    const { submitAllOrReturnFailedKey, generateRegisterSubmitter } = useChainedValidation()
 
     const organizationId = useMemo(() => {
         return searchParams.get('organizationId') ?? undefined
@@ -73,13 +71,6 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
         [organizationsOrganizationIdView],
     )
 
-    const onSubmitAttributs = useCallback(
-        async (values: Partial<User>) => {
-            await formState.setValues((old) => ({ ...old, ...values }))
-        },
-        [],
-    )
-
     const actions = useMemo((): Action[] | undefined => {
         if (!readOnly) {
             return [{
@@ -90,13 +81,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
             }, {
                 key: "save",
                 label: t("save"),
-                onClick: async () => {
-                    const errorKey = await submitAllOrReturnFailedKey()
-                    if (errorKey) {
-                        return
-                    }
-                    await formState.submitForm()
-                }
+                onClick: formState.submitForm
             }]
         }
     }, [readOnly, formState.submitForm])
@@ -163,7 +148,6 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
                     getOrganizationUrl={getOrganizationUrl}
                     fieldsOverride={fieldsOverride}
                     checkEmailValidity={checkEmailValidity}
-                    formExtension={<UserDomainDetails onSubmit={onSubmitAttributs} registerSubmitter={generateRegisterSubmitter("details")} readOnly={readOnly} isLoading={isLoading} />}
                 /> 
             </Section>
         </Page>

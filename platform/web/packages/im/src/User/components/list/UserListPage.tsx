@@ -1,20 +1,27 @@
 import { Page, Section, LinkButton } from "@smartb/g2"
 import { AutomatedUserTable } from "@smartb/g2-i2-v2"
 import { Typography } from "@mui/material";
-import { useRoutesDefinition } from "components";
+import { useExtendedAuth, useRoutesDefinition } from "components";
 import { useTranslation } from "react-i18next";
 import { useUserFilters } from "./useUserFilters";
 import { useUserListPage } from "../../hooks";
+import { useMemo } from "react";
 
 interface UserListPageProps { }
 
 export const UserListPage = (props: UserListPageProps) => {
   const { } = props;
   const { t } = useTranslation();
+  const {service} = useExtendedAuth()
+  
   const { getActions, getOrganizationUrl, onRowClicked, additionalColumns } = useUserListPage()
   const { usersAdd } = useRoutesDefinition()
 
-  const { component, submittedFilters, setPage } = useUserFilters({ searchOrg: true })
+  const canSeeAllUser = useMemo(() => service.is_super_admin(), [service.is_super_admin])
+
+  const { component, submittedFilters, setPage } = useUserFilters({ searchOrg: canSeeAllUser })
+
+  const filters = useMemo(() => ({...submittedFilters, organizationId: !canSeeAllUser ? service.getUser()?.memberOf : undefined}), [canSeeAllUser, submittedFilters, service.getUser])
 
   return (
     <Page
@@ -37,10 +44,11 @@ export const UserListPage = (props: UserListPageProps) => {
           columnsExtander={{
             getActions: getActions,
             additionalColumns,
+            blockedColumns: canSeeAllUser ? ["memberOf"] : undefined
           }}
           onRowClicked={onRowClicked}
           hasOrganizations
-          filters={submittedFilters}
+          filters={filters}
           getOrganizationUrl={getOrganizationUrl}
           noDataComponent={<Typography align="center">{t("userList.noUser")}</Typography>}
           page={submittedFilters.page + 1}
