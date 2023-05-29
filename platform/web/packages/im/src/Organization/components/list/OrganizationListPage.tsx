@@ -1,7 +1,9 @@
 import { useRoutesDefinition } from "components"
 import { EditRounded, PersonAddAltRounded, Visibility } from "@mui/icons-material"
 import { Typography } from "@mui/material"
-import { AutomatedOrganizationTable, MenuItem, Organization, Page, Row, Section, LinkButton } from "@smartb/g2"
+import { MenuItem, Page, Section, LinkButton } from "@smartb/g2"
+import { AutomatedOrganizationTable, Organization } from "@smartb/g2-i2-v2"
+import { Row } from '@tanstack/react-table'
 import { useCallback } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, LinkProps, useNavigate } from "react-router-dom"

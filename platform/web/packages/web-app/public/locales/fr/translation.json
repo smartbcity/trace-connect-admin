@@ -2,7 +2,7 @@
   "dashboard": "Tableau de bord",
   "organizations": "Organisations",
   "users": "Utilisateurs",
-  "profil": "Mon profile",
+  "profil": "Mon profil",
   "myOrganization": "Mon organisation",
   "logout": "Déconnexion",
   "login": "Connexion",
@@ -34,6 +34,7 @@
     "create": "Ajouter un utilisateur",
     "noUser": "Aucun utilisateur n'a été trouvé",
     "noUserOrg": "$t(userList.noUser) pour cette organisation",
+    "orgNameFilter": "Nom de l'organisation",
     "nameFilter": "Nom"
   },
   "organizationList": {

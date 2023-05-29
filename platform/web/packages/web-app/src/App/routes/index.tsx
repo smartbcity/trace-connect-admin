@@ -11,37 +11,37 @@ const imPages: PageRoute[] = [{
   element: <OrganizationListPage />
 }, {
   path: "organizations/add",
-  element: <OrganizationProfilePage readonly={false} />
+  element: <OrganizationProfilePage readOnly={false} />
 }, {
   path: "organizations/:organizationId/view",
-  element: <OrganizationProfilePage readonly />
+  element: <OrganizationProfilePage readOnly />
 }, {
   path: "organizations/:organizationId/edit",
-  element: <OrganizationProfilePage readonly={false} />
+  element: <OrganizationProfilePage readOnly={false} />
 }, {
   path: "myOrganization",
-  element: <OrganizationProfilePage myOrganization readonly />
+  element: <OrganizationProfilePage myOrganization readOnly />
 }, {
   path: "myOrganization/edit",
-  element: <OrganizationProfilePage myOrganization readonly={false} />
+  element: <OrganizationProfilePage myOrganization readOnly={false} />
 }, {
   path: "users",
   element: <UserListPage />
 }, {
   path: "users/add",
-  element: <UserProfilePage readonly={false} />
+  element: <UserProfilePage readOnly={false} />
 }, {
   path: "users/:userId/view",
-  element: <UserProfilePage readonly />
+  element: <UserProfilePage readOnly />
 }, {
   path: "users/:userId/edit",
-  element: <UserProfilePage readonly={false} />
+  element: <UserProfilePage readOnly={false} />
 }, {
   path: "myProfil",
-  element: <UserProfilePage myProfil readonly />
+  element: <UserProfilePage myProfil readOnly />
 }, {
   path: "myProfil/edit",
-  element: <UserProfilePage myProfil readonly={false} />
+  element: <UserProfilePage myProfil readOnly={false} />
 }]
 
 const allPages: PageRoute[] = [...imPages]

@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material'
-import { Action, i2Config, Page, Section, LinkButton } from '@smartb/g2';
-import { AutomatedUserFactory, MyProfile, useGetOrganizationRefs, User, userExistsByEmail, useUserFormState,UserFactoryFieldsOverride } from '@smartb/g2-i2-v2';
+import { Action, i2Config, Page, Section, LinkButton, validators } from '@smartb/g2';
+import { UserFactory, useGetOrganizationRefs, User, userExistsByEmail, useUserFormState,UserFactoryFieldsOverride } from '@smartb/g2-i2-v2';
 import { getUserRolesOptions, useChainedValidation, useExtendedAuth, useRoutesDefinition } from "components";
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next';
@@ -8,13 +8,14 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { UserDomainDetails } from './UserDomainDetails';
 
 export interface UserProfilePageProps {
-    readonly: boolean
+    readOnly: boolean
     myProfil?: boolean
 }
 
 export const UserProfilePage = (props: UserProfilePageProps) => {
-    const { readonly, myProfil = false } = props
-    const { t } = useTranslation();
+    const { readOnly, myProfil = false } = props
+    const { t, i18n } = useTranslation();
+    console.log(i18n)
     const [searchParams] = useSearchParams()
     const { userId } = useParams();
     const navigate = useNavigate()
@@ -53,17 +54,17 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
     })
 
     const headerRightPart = useMemo(() => {
-        if (!readonly || !user) {
+        if (!readOnly || !user) {
             return []
         }
 
         return [
             <LinkButton to={usersUserIdEdit(user.id)} key="pageEditButton">{t("update")}</LinkButton>
         ]
-    }, [readonly, user, myProfil, usersUserIdEdit])
+    }, [readOnly, user, myProfil, usersUserIdEdit])
 
     const rolesOptions = useMemo(() => ({
-        readonly: getUserRolesOptions(t, true),
+        readOnly: getUserRolesOptions(t, true),
         mutable: getUserRolesOptions(t),
     }), [t])
 
@@ -80,7 +81,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
     )
 
     const actions = useMemo((): Action[] | undefined => {
-        if (!readonly) {
+        if (!readOnly) {
             return [{
                 key: "cancel",
                 label: t("cancel"),
@@ -98,7 +99,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
                 }
             }]
         }
-    }, [readonly, formState.submitForm])
+    }, [readOnly, formState.submitForm])
 
     const isAdmin = useMemo(() => {
         return service.is_admin()
@@ -118,10 +119,11 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
             roles: {
                 params: {
                     options: rolesOptions.mutable
-                }
+                },
+                validator: validators.requiredField(t)
             },
             memberOf: {
-                readonly: isUpdate,
+                readOnly: isUpdate,
                 params: {
                     options: organizationOptions
                 }
@@ -147,36 +149,22 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
                 width: "100%",
                 gap: (theme) => theme.spacing(2),
             }}>
-                {!myProfil ? <AutomatedUserFactory
-                    readonly={readonly}
+                <UserFactory
+                    readOnly={readOnly}
                     formState={formState}
                     update={isUpdate}
                     isLoading={isLoading}
                     user={user}
                     organizationId={organizationId}
                     userId={userId}
-                    resetPasswordType={isAdmin ? "forced" : undefined}
+                    resetPasswordType={myProfil ?'email' : isAdmin ? "forced" : undefined}
                     multipleRoles={false}
-                    readonlyRolesOptions={rolesOptions.readonly}
+                    readOnlyRolesOptions={rolesOptions.readOnly}
                     getOrganizationUrl={getOrganizationUrl}
                     fieldsOverride={fieldsOverride}
                     checkEmailValidity={checkEmailValidity}
-                    formExtension={<UserDomainDetails onSubmit={onSubmitAttributs} registerSubmitter={generateRegisterSubmitter("details")} readonly={readonly} isLoading={isLoading} />}
-                /> :
-                    <MyProfile
-                        formState={formState}
-                        user={user}
-                        update={isUpdate}
-                        readonly={readonly}
-                        isLoading={isLoading}
-                        readonlyRolesOptions={rolesOptions.readonly}
-                        multipleRoles={false}
-                        resetPasswordType='email'
-                        getOrganizationUrl={getOrganizationUrl}
-                        fieldsOverride={fieldsOverride}
-                        checkEmailValidity={checkEmailValidity}
-                        formExtension={<UserDomainDetails onSubmit={onSubmitAttributs} registerSubmitter={generateRegisterSubmitter("details")} readonly={readonly} isLoading={isLoading} />}
-                    />}
+                    formExtension={<UserDomainDetails onSubmit={onSubmitAttributs} registerSubmitter={generateRegisterSubmitter("details")} readOnly={readOnly} isLoading={isLoading} />}
+                /> 
             </Section>
         </Page>
     )

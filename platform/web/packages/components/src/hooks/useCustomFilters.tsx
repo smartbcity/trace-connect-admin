@@ -21,7 +21,7 @@ export const useCustomFilters = <T extends {} = any>(params: useCustomFiltersPar
         },
         [],
     )
-    const { filtersCount, formState, submittedFilters, setAdditionnalFilter } = useFiltersComposable<T & { page: number }>({
+    const { filtersCount, formState, submittedFilters, setAdditionalFilter } = useFiltersComposable<T & { page: number }>({
         onSubmit: onSubmit,
         formikConfig: {
             initialValues: {
@@ -35,9 +35,9 @@ export const useCustomFilters = <T extends {} = any>(params: useCustomFiltersPar
 
     const setPage = useCallback(
         (newPage: number) => {
-            setAdditionnalFilter("page", newPage - 1)
+            setAdditionalFilter("page", newPage - 1)
         },
-        [setAdditionnalFilter],
+        [setAdditionalFilter],
     )
 
     const component = useMemo(() => (

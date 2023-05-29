@@ -11,7 +11,7 @@ interface UserListPageProps { }
 export const UserListPage = (props: UserListPageProps) => {
   const { } = props;
   const { t } = useTranslation();
-  const { getActions, getOrganizationUrl, onRowClicked, additionnalColumns } = useUserListPage()
+  const { getActions, getOrganizationUrl, onRowClicked, additionalColumns } = useUserListPage()
   const { usersAdd } = useRoutesDefinition()
 
   const { component, submittedFilters, setPage } = useUserFilters({ searchOrg: true })
@@ -36,7 +36,7 @@ export const UserListPage = (props: UserListPageProps) => {
         <AutomatedUserTable
           columnsExtander={{
             getActions: getActions,
-            additionnalColumns,
+            additionalColumns,
           }}
           onRowClicked={onRowClicked}
           hasOrganizations

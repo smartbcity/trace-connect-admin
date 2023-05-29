@@ -5,7 +5,8 @@ import { useNavigate } from "react-router";
 import { LinkProps } from "react-router-dom";
 import { EditRounded, Visibility } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import { Row, Column } from "@smartb/g2-layout";
+import { G2ColumnDef } from "@smartb/g2-layout";
+import { Row } from '@tanstack/react-table'
 import { useExtendedAuth, useRoutesDefinition, UserRoles, userRolesColors } from "components";
 import { User } from "@smartb/g2-i2-v2";
 
@@ -57,11 +58,11 @@ export const useUserListPage = () => {
       [organizationsOrganizationIdView],
     )
     
-    const additionnalColumns = useMemo((): Column<User>[] => {
+    const additionalColumns = useMemo((): G2ColumnDef<User>[] => {
       return [{
-        Header: t("role"),
-        accessor: "role",
-        Cell: ({row}) => {
+        header: t("role"),
+        id: "role",
+        cell: ({row}) => {
           const role = service.getPrincipalRole((row.original.roles ?? []) as UserRoles[]) as UserRoles
           return <Chip label={t("roles." + role)} color={userRolesColors[role]} />;
         },
@@ -73,6 +74,6 @@ export const useUserListPage = () => {
         getActions,
         onRowClicked,
         getOrganizationUrl,
-        additionnalColumns
+        additionalColumns
     }
 }

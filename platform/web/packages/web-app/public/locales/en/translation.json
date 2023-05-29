@@ -1,0 +1,38 @@
+{
+  "dashboard": "Dashboard",
+  "organizations": "Organizations",
+  "users": "Users",
+  "profil": "My Profile",
+  "myOrganization": "My Organization",
+  "logout": "Logout",
+  "login": "Login",
+  "update": "Update",
+  "save": "Save",
+  "cancel": "Cancel",
+  "edit": "Edit",
+  "view": "View",
+  "details": "Details",
+  "members": "Members",
+  "name": "Name",
+  "role": "Role",
+  "roles": {
+    "super_admin": "Super Admin",
+    "admin": "Admin",
+    "user": "User"
+  },
+  "organizationRoles": {
+    "admin": "Admin",
+    "super_admin": "Super Admin"
+  },
+  "userList": {
+    "create": "Add a User",
+    "noUser": "No users found",
+    "orgNameFilter": "Name of the organization",
+    "noUserOrg": "$t(userList.noUser) for this organization",
+    "nameFilter": "Name"
+  },
+  "organizationList": {
+    "create": "Create an Organization",
+    "noOrganization": "No organizations found"
+  }
+}

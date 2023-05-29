@@ -18,7 +18,7 @@ export interface OrganizationUserListProps {
 export const OrganizationUserList = (props: OrganizationUserListProps) => {
     const { organizationId, userListFilters } = props
     const { usersAdd } = useRoutesDefinition()
-    const { getActions, onRowClicked, additionnalColumns } = useUserListPage()
+    const { getActions, onRowClicked, additionalColumns } = useUserListPage()
     const { t } = useTranslation()
     const actions = useMemo((): Action[] => organizationId ? [ {
         key: "addAUser",
@@ -35,7 +35,7 @@ export const OrganizationUserList = (props: OrganizationUserListProps) => {
                 columnsExtander={{
                     getActions: getActions,
                     blockedColumns: userTableBlockedColumns,
-                    additionnalColumns
+                    additionalColumns
                 }}
                 onRowClicked={onRowClicked}
                 filters={{ ...userListFilters, ...submittedFilters }}

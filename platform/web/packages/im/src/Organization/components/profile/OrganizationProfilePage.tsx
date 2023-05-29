@@ -1,26 +1,25 @@
-import { getOrgRolesOptions, useChainedValidation, useExtendedAuth, useRoutesDefinition } from "components"
+import { getOrgRolesOptions, useExtendedAuth, useRoutesDefinition } from "components"
 import { Stack, Typography } from '@mui/material'
-import { Action, Page, Section, LinkButton } from '@smartb/g2'
-import { AutomatedOrganizationFactory, MyOrganization, useOrganizationFormState, OrganizationFactoryFieldsOverride } from '@smartb/g2-i2-v2'
+import { Action, Page, Section, LinkButton, validators } from '@smartb/g2'
+import { OrganizationFactory, useOrganizationFormState, OrganizationFactoryFieldsOverride } from '@smartb/g2-i2-v2'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 import { OrganizationUserList } from './OrganizationUserList'
 
 export interface OrganizationProfilePageProps {
-    readonly: boolean
+    readOnly: boolean
     myOrganization?: boolean
 }
 
 export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => {
-    const { readonly, myOrganization = false } = props
+    const { readOnly, myOrganization = false } = props
     const { t } = useTranslation();
     const { organizationId } = useParams();
     const navigate = useNavigate()
     const { service } = useExtendedAuth()
-    const [currentTab, setCurrentTab] = useState("members")
+    const [currentTab, setCurrentTab] = useState("details")
     const { organizationsOrganizationIdView, organizationsOrganizationIdEdit } = useRoutesDefinition()
-    const { submitAllOrReturnFailedKey } = useChainedValidation()
 
     const orgId = myOrganization ? service.getUser()?.memberOf : organizationId
     const isUpdate = !!organizationId || myOrganization
@@ -50,25 +49,16 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
     })
 
     const headerRightPart = useMemo(() => {
-        if (readonly) {
+        if (readOnly) {
             return [
                 <LinkButton to={organizationsOrganizationIdEdit(orgId!)} key="pageEditButton">{t("update")}</LinkButton>,
             ]
         }
         return []
-    }, [readonly, orgId, organizationsOrganizationIdEdit])
-
-    const doSubmit = useCallback(async () => {
-        const errorKey = await submitAllOrReturnFailedKey()
-        if (errorKey) {
-            setCurrentTab(errorKey)
-            return
-        }
-        await formState.submitForm()
-    }, [formState.submitForm, submitAllOrReturnFailedKey])
+    }, [readOnly, orgId, organizationsOrganizationIdEdit])
 
     const actions = useMemo((): Action[] | undefined => {
-        if (!readonly) {
+        if (!readOnly) {
             return [{
                 key: "cancel",
                 label: t("cancel"),
@@ -77,16 +67,19 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
             }, {
                 key: "save",
                 label: t("save"),
-                onClick: doSubmit
+                onClick: formState.submitForm
             }]
         }
-    }, [readonly, doSubmit])
+    }, [readOnly, formState.submitForm])
 
     const userListFilters = useMemo(() => ({
         organizationId: orgId
     }), [orgId])
 
-    const leftSectionTabs = useMemo(() => [
+    const leftSectionTabs = useMemo(() => [{
+        key: 'details',
+        label: t('details')
+    },
     ...(!!userListFilters.organizationId ? [{
         key: 'members',
         label: t('members')
@@ -102,7 +95,8 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
             roles: {
                 params: {
                     options: rolesOptions
-                }
+                },
+                validator: validators.requiredField(t)
             }
         }
     }, [t, rolesOptions])
@@ -130,23 +124,14 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
                     width: "310px",
                     flexShrink: 0
                 }}>
-                    {!myOrganization ? <AutomatedOrganizationFactory
-                        readonly={readonly}
+                    <OrganizationFactory
+                        readOnly={readOnly}
                         multipleRoles={false}
                         formState={formState}
                         organization={organization}
                         isLoading={isLoading}
                         fieldsOverride={fieldsOverride}
-                    /> : <MyOrganization
-                        readonly={readonly}
-                        formState={formState}
-                        organization={organization}
-                        isLoading={isLoading}
-                        fieldsOverride={fieldsOverride}
-                        multipleRoles={false}
                     />
-                    }
-
                 </Section>
                 <Section
                     sx={{
