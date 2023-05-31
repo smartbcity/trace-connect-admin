@@ -1,10 +1,11 @@
-import { getOrgRolesOptions, useExtendedAuth, useRoutesDefinition } from "components"
-import { Stack, Typography } from '@mui/material'
-import { Action, Page, Section, LinkButton, validators } from '@smartb/g2'
-import { OrganizationFactory, useOrganizationFormState, OrganizationFactoryFieldsOverride } from '@smartb/g2-i2-v2'
+import { useExtendedAuth, useRoutesDefinition } from "components"
+import { Typography } from '@mui/material'
+import {Action, Page, Section, LinkButton} from '@smartb/g2'
+import { useOrganizationFormState } from '@smartb/g2-i2-v2'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
+import {OrganizationForm} from "./OrganizationForm";
 
 export interface OrganizationProfilePageProps {
     readOnly: boolean
@@ -31,8 +32,6 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
         [navigate, organizationsOrganizationIdView],
     )
 
-    const rolesOptions = useMemo(() => getOrgRolesOptions(t), [t])
-
     const { formState, isLoading, organization } = useOrganizationFormState({
         createOrganizationOptions: {
             onSuccess: onSave,
@@ -44,6 +43,7 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
         update: isUpdate,
         myOrganization: myOrganization,
         multipleRoles: false,
+
     })
 
     const headerRightPart = useMemo(() => {
@@ -70,24 +70,12 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
         }
     }, [readOnly, formState.submitForm])
 
-
-    const fieldsOverride = useMemo((): OrganizationFactoryFieldsOverride => {
-        return {
-            roles: {
-                params: {
-                    options: rolesOptions
-                },
-                validator: validators.requiredField(t)
-            }
-        }
-    }, [t, rolesOptions])
-
     return (
         <Page
             headerProps={{
                 content: [{
                     leftPart: [
-                        <Typography sx={{ flexShrink: 0 }} variant="h5" key="pageTitle">{myOrganization ? t("myOrganization") : organization?.name ?? t("organizations")}</Typography>
+                        <Typography sx={{ flexShrink: 0 }} color="primary" variant="h5" key="pageTitle">{myOrganization ? t("myOrganization") : organization?.name ?? t("organizations")}</Typography>
                     ],
                     rightPart: headerRightPart
                 }]
@@ -96,25 +84,10 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
                 actions: actions
             }}
         >
-            <Stack
-                direction="row"
-                gap={5}
-                alignItems="flex-start"
-            >
-                <Section sx={{
-                    width: "310px",
-                    flexShrink: 0
-                }}>
-                    <OrganizationFactory
-                        readOnly={readOnly}
-                        multipleRoles={false}
-                        formState={formState}
-                        organization={organization}
-                        isLoading={isLoading}
-                        fieldsOverride={fieldsOverride}
-                    />
+                <Section flexContent>
+                    <Typography color="secondary" variant="h5" align="center">{t('myOrganization')}</Typography>
+                    <OrganizationForm isLoading={isLoading} formState={formState} readOnly={readOnly}/>
                 </Section>
-            </Stack>
         </Page>
     )
 }
