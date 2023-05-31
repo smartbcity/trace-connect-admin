@@ -121,7 +121,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
             headerProps={{
                 content: [{
                     leftPart: [
-                        <Typography sx={{ flexShrink: 0 }} color="primary" variant="h5" key="pageTitle">{myProfil ? t("profil") : t("users")}</Typography>,
+                        <Typography sx={{ flexShrink: 0 }} variant="h5" key="pageTitle">{myProfil ? t("profil") : t("users")}</Typography>,
                     ],
                     rightPart: headerRightPart
                 }]

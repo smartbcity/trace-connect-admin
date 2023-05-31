@@ -1,33 +1,32 @@
-import {AppLayout, useExtendedAuth} from "components";
-import {useMenu, useUserMenu} from "./menu";
-import logo from '../assets/smartb.png'
+import { useExtendedAuth } from "components";
+import { useMenu, useUserMenu } from "./menu";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Outlet } from "react-router-dom";
+import { StandAloneAppLayout } from "@smartb/g2";
 
 export const App = () => {
-  const {t} = useTranslation()
+  const { t } = useTranslation()
   const menu = useMenu(t)
-  const {service, keycloak} = useExtendedAuth()
+  const { service, keycloak } = useExtendedAuth()
   const user = useMemo(() => service.getUser(), [service.getUser])
-  const {loggedMenu, notLoggedMenu} = useUserMenu(keycloak.logout, keycloak.login, t)
+  const { loggedMenu, notLoggedMenu } = useUserMenu(keycloak.logout, keycloak.login, t)
 
   return (
-      <AppLayout 
-      menu={menu} 
-      logo={logo}
-      userMenuProps= {{
+    <StandAloneAppLayout
+      menu={menu}
+      userMenuProps={{
         currentUser: user ? {
           givenName: user.firstName ?? "",
           familyName: user.lastName ?? "",
           role: "Admin"
-        }: undefined,
+        } : undefined,
         loggedMenu,
         notLoggedMenu
       }}
-      >
-        <Outlet />
-      </AppLayout>
+    >
+      <Outlet />
+    </StandAloneAppLayout>
   );
 };
 

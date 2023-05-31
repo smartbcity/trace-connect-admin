@@ -30,6 +30,7 @@ const container: HTMLElement = document.getElementById("root")
 const root = createRoot(container)
 
 root.render(
+  //@ts-ignore
   <ThemeContextProvider theme={theme}>
     <KeycloakProvider
       config={g2Config().keycloak}// to complete

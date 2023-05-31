@@ -47,11 +47,12 @@ const imPages: PageRoute[] = [{
 const allPages: PageRoute[] = [...imPages]
 
 export const AppRouter = () => {
+  const { service } = useExtendedAuth()
   const pages = useMemo(() => allPages.map((page) => GenerateRoute(page)), [])
   return (
     <Router>
       <Route path="/" element={<App />} >
-        <Route path="" element={"home"} />
+        <Route path="" element={service.is_super_admin() ? <OrganizationListPage /> : <OrganizationProfilePage myOrganization readOnly />} />
         {pages}
       </Route >
     </Router>

@@ -87,7 +87,7 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
             headerProps={{
                 content: [{
                     leftPart: [
-                        <Typography sx={{ flexShrink: 0 }} color="primary" variant="h5" key="pageTitle">{myOrganization ? t("myOrganization") : organization?.name ?? t("organizations")}</Typography>
+                        <Typography sx={{ flexShrink: 0 }} variant="h5" key="pageTitle">{myOrganization ? t("myOrganization") : organization?.name ?? t("organizations")}</Typography>
                     ],
                     rightPart: headerRightPart
                 }]

@@ -15,6 +15,7 @@ interface MenuItem {
     label: string
     icon: JSX.Element;
     isVisible?: boolean;
+    isSelected?: boolean;
 }
 
 export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps>[] => {
@@ -33,7 +34,7 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps
             key: `appLayout-${item.key}`,
             label: item.label,
             icon: item.icon,
-            isSelected: item.to ? item.to === "/" ? item.to === location : location.includes(item.to) : false,
+            isSelected: item.isSelected ?? (item.to ? item.to === "/" ? item.to === location : location.includes(item.to) : false),
             ...additionals
         })
     })
@@ -43,39 +44,43 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps
 export const useMenu = (t: TFunction) => {
     const location = useLocation()
     const {service} = useExtendedAuth()
-    const {organizations, users} = useRoutesDefinition()
-    const menu: MenuItem[] = useMemo(() => [{
+    const {organizations, users, myOrganization} = useRoutesDefinition()
+    const menu: MenuItem[] = useMemo(() => [
+    ...(service.is_super_admin() ? [{
         key: "organizations",
-        to: organizations(),
+        to: "/",
         label: t("organizations"),
         icon: <BusinessIcon />,
-        isVisible: service.hasUserRouteAuth({route: "organizations"})
-    }, {
+        isVisible: service.hasUserRouteAuth({route: "organizations"}),
+        isSelected: location.pathname === "/" || location.pathname.includes(organizations())
+    } as MenuItem] : [{
+        key: "myOrganization",
+        to: "/",
+        label: t("manageAccount"),
+        icon: <AccountCircle />,
+        isVisible: service.hasUserRouteAuth({route: "myOrganization"}),
+        isSelected: location.pathname === "/" || location.pathname.includes(myOrganization())
+    } as MenuItem]),
+     {
         key: "users",
         to: users(),
-        label: t("manageUsers"),
+        label: service.is_super_admin() ? t("users") : t("manageUsers"),
         icon: <SupervisedUserCircleIcon />,
         isVisible: service.hasUserRouteAuth({route: "users"})
-    }], [t, service.hasUserRouteAuth])
+    }], [t, service.hasUserRouteAuth, location.pathname])
     return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }
 
 export const useUserMenu = (logout: () => void, login: () => void, t: TFunction) => {
     const location = useLocation()
     const {service} = useExtendedAuth()
-    const {myProfil, myOrganization} = useRoutesDefinition()
+    const {myProfil} = useRoutesDefinition()
     const loggedMenu: MenuItem[] = useMemo(() => [{
         key: "profil",
         to: myProfil(),
         label: t("profil"),
         icon: <AccountCircle />,
         isVisible: service.hasUserRouteAuth({route: "myProfil"})
-    },{
-        key: "myOrganization",
-        to: myOrganization(),
-        label: t("myOrganization"),
-        icon: <AccountCircle />,
-        isVisible: service.hasUserRouteAuth({route: "myOrganization"})
     }, {
         key: "logout",
         action: logout,

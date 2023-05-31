@@ -67,7 +67,7 @@ export const OrganizationListPage = (props: OrganizationListPageProps) => {
       headerProps={{
         content: [{
           leftPart: [
-            <Typography color="primary" variant="h5" key="pageTitle">{t("organizations")}</Typography>
+            <Typography variant="h5" key="pageTitle">{t("organizations")}</Typography>
           ],
           rightPart: [
             <LinkButton to={organizationsAdd()} key="pageAddButton">{t("organizationList.create")}</LinkButton>
