@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { useUserFilters } from "./useUserFilters";
 import { useUserListPage } from "../../hooks";
 import { useMemo } from "react";
+import {userTableColumns} from "@smartb/g2-i2-v2/dist/User/Components/UserTable";
 
 interface UserListPageProps { }
 
@@ -14,7 +15,7 @@ export const UserListPage = (props: UserListPageProps) => {
   const { t } = useTranslation();
   const {service} = useExtendedAuth()
   
-  const { getActions, getOrganizationUrl, onRowClicked, additionalColumns } = useUserListPage()
+  const { getActions, getOrganizationUrl, getRowLink, additionalColumns } = useUserListPage()
   const { usersAdd } = useRoutesDefinition()
 
   const canSeeAllUser = useMemo(() => service.is_super_admin(), [service.is_super_admin])
@@ -44,9 +45,9 @@ export const UserListPage = (props: UserListPageProps) => {
           columnsExtander={{
             getActions: getActions,
             additionalColumns,
-            blockedColumns: canSeeAllUser ? ["memberOf"] : undefined
+            blockedColumns: ["address", ...(!canSeeAllUser ? ["memberOf" as userTableColumns] : [])]
           }}
-          onRowClicked={onRowClicked}
+          getRowLink={getRowLink}
           hasOrganizations
           filters={filters}
           getOrganizationUrl={getOrganizationUrl}

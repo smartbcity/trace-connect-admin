@@ -15,6 +15,12 @@
   "members": "Membres",
   "name": "Nom",
   "role": "Rôle",
+  "actions": "Actions",
+  "description": "Description",
+  "submit": "Soumettre",
+  "country": "Pays",
+  "address": "Adresse",
+  "companyName": "Nom de l'entreprise",
   "manageAccount": "Gérer mon compte",
   "manageUsers": "Gérer les utilisateurs",
   "roles": {
@@ -36,8 +42,10 @@
     "create": "Ajouter un utilisateur",
     "noUser": "Aucun utilisateur n'a été trouvé",
     "noUserOrg": "$t(userList.noUser) pour cette organisation",
-    "orgNameFilter": "Nom de l'organisation",
-    "nameFilter": "Nom"
+    "nameFilter": "Nom",
+    "email": "Email",
+    "delete": "Supprimer utilisateur",
+    "deleteMessage": "Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action ne peut être annulée et toutes les données associées seront perdues."
   },
   "organizationList": {
     "create": "Créer une organisation",
