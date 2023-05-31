@@ -7,7 +7,7 @@ import {
 } from "@smartb/g2-providers";
 import { ThemeContextProvider } from "@smartb/g2-themes";
 import { Typography } from "@mui/material";
-import { languages } from "i18n";
+import { languages } from "components";
 import { theme } from "Themes";
 import { QueryClient } from 'react-query'
 import { createRoot } from 'react-dom/client'

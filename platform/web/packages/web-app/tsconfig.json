@@ -21,6 +21,6 @@
     "baseUrl": "src",
     "noFallthroughCasesInSwitch": true,
   },
-  "include": ["src"],
+  "include": ["src", "../components/src/i18n.ts"],
   "references": [{ "path": "./tsconfig.vite.json" }]
 }
