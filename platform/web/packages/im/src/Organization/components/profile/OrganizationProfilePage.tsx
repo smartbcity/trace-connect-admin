@@ -32,11 +32,13 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
         [navigate, organizationsOrganizationIdView],
     )
     const readOnlyAddress = useCallback(
-        (organization : Organization) => ({
-            readOnlyAddress: `${organization.address?.street}, ${organization.address?.postalCode} ${organization.address?.city}`
-        }),
-        [],
-    )
+        (organization: Organization) =>
+            organization.address?.street !== ""
+                ? { readOnlyAddress: `${organization.address?.street}, ${organization.address?.postalCode} ${organization.address?.city}` }
+                : { readOnlyAddress: undefined },
+        []
+    );
+
 
     const { formState, isLoading, organization } = useOrganizationFormState({
         createOrganizationOptions: {
