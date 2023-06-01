@@ -15,23 +15,38 @@
   "members": "Members",
   "name": "Name",
   "role": "Role",
+  "actions": "Actions",
+  "description": "Description",
+  "submit": "Submit",
+  "country": "Country",
+  "address": "Address",
+  "companyName": "Company Name",
   "manageAccount": "Manage account",
   "manageUsers": "Manage users",
   "roles": {
     "super_admin": "Super Admin",
     "admin": "Admin",
-    "user": "User"
+    "user": "User",
+    "tr_project_manager": "Project Manager",
+    "tr_stakeholder": "Stakeholder",
+    "tr_orchestrator": "Orchestrator"
   },
   "organizationRoles": {
     "admin": "Admin",
-    "super_admin": "Super Admin"
+    "super_admin": "Super Admin",
+    "tr_project_manager": "Project Manager",
+    "tr_stakeholder": "Stakeholder",
+    "tr_orchestrator": "Orchestrator"
   },
   "userList": {
     "create": "Add a User",
     "noUser": "No users found",
     "orgNameFilter": "Name of the organization",
     "noUserOrg": "$t(userList.noUser) for this organization",
-    "nameFilter": "Name"
+    "nameFilter": "Name",
+    "email": "Email",
+    "delete": "Delete User",
+    "deleteMessage": "Are you sure you want to delete this user? This action cannot be undone, and all associated data will be lost."
   },
   "organizationList": {
     "create": "Create an Organization",

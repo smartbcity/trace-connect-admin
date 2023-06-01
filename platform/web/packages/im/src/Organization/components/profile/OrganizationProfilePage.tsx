@@ -1,7 +1,7 @@
 import { useExtendedAuth, useRoutesDefinition } from "components"
 import { Typography } from '@mui/material'
 import {Action, Page, Section, LinkButton} from '@smartb/g2'
-import { useOrganizationFormState } from '@smartb/g2-i2-v2'
+import {Organization, useOrganizationFormState} from '@smartb/g2-i2-v2'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -31,6 +31,12 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
         },
         [navigate, organizationsOrganizationIdView],
     )
+    const readOnlyAddress = useCallback(
+        (organization : Organization) => ({
+            readOnlyAddress: `${organization.address?.street}, ${organization.address?.postalCode} ${organization.address?.city}`
+        }),
+        [],
+    )
 
     const { formState, isLoading, organization } = useOrganizationFormState({
         createOrganizationOptions: {
@@ -42,7 +48,8 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
         organizationId,
         update: isUpdate,
         myOrganization: myOrganization,
-        multipleRoles: false,
+        multipleRoles: true,
+        extendInitialValues : readOnlyAddress
 
     })
 
@@ -75,7 +82,7 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
             headerProps={{
                 content: [{
                     leftPart: [
-                        <Typography sx={{ flexShrink: 0 }} color="primary" variant="h5" key="pageTitle">{myOrganization ? t("myOrganization") : organization?.name ?? t("organizations")}</Typography>
+                        <Typography sx={{ flexShrink: 0 }} color="primary" variant="h5" key="pageTitle">{myOrganization ? t("manageAccount") : organization?.name ?? t("organizations")}</Typography>
                     ],
                     rightPart: headerRightPart
                 }]
