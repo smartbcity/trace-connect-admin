@@ -20,7 +20,6 @@ export const TableCellAdmin = (props: TableCellAdminProps) => {
         <>
         <Stack
             direction="row"
-            gap={0}
         >
             <Tooltip helperText={t('userList.delete')}>
                 <IconButton aria-label="delete" onClick={(e) =>{

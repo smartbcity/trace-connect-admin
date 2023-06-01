@@ -29,7 +29,7 @@ export const UserListPage = (props: UserListPageProps) => {
       headerProps={{
         content: [{
           leftPart: [
-            <Typography variant="h5" key="pageTitle">{t("users")}</Typography>
+            <Typography variant="h5" key="pageTitle">{t("manageUsers")}</Typography>
           ],
           rightPart: [
             <LinkButton to={usersAdd()} key="pageAddButton">{t("userList.create")}</LinkButton>
@@ -51,7 +51,7 @@ export const UserListPage = (props: UserListPageProps) => {
           hasOrganizations
           filters={filters}
           getOrganizationUrl={getOrganizationUrl}
-          noDataComponent={<Typography align="center">{t("userList.noUser")}</Typography>}
+          noDataComponent={<Typography align="center">{t("userList.noUserOrg")}</Typography>}
           page={submittedFilters.page + 1}
           setPage={setPage}
         />

@@ -42,7 +42,7 @@
     "create": "Add a User",
     "noUser": "No users found",
     "orgNameFilter": "Name of the organization",
-    "noUserOrg": "$t(userList.noUser) for this organization",
+    "noUserOrg": "There are no users associated with this organization.",
     "nameFilter": "Name",
     "email": "Email",
     "delete": "Delete User",

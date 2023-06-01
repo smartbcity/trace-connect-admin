@@ -16,10 +16,10 @@ export const useUserFilters = (params?: useUserFiltersParams) => {
   
     const filters = useMemo((): FilterComposableField[] => [
       {
-        key: 'userSearchFilter',
-        name: 'name',
+        key: 'emailSearchFilter',
+        name: 'email',
         type: 'textField',
-        params: { textFieldType: 'search', placeholder: t("userList.nameFilter"), style: {minWidth: "280px"} }
+        params: { textFieldType: 'search', placeholder: t("userList.email"), style: {minWidth: "280px"} }
       },
       {
         key: 'userRolesFilter',

@@ -41,7 +41,7 @@
   "userList": {
     "create": "Ajouter un utilisateur",
     "noUser": "Aucun utilisateur n'a été trouvé",
-    "noUserOrg": "$t(userList.noUser) pour cette organisation",
+    "noUserOrg": "Il n'y a aucun utilisateur associé à cette organisation.",
     "nameFilter": "Nom",
     "email": "Email",
     "delete": "Supprimer utilisateur",
