@@ -1,20 +1,21 @@
-import {useMemo} from "react";
-import {useTranslation} from "react-i18next";
-import {FormComposable, FormComposableField, FormComposableState, validators} from "@smartb/g2";
-import {useOrganizationFormFields} from "@smartb/g2-i2-v2";
-import {getOrgRolesOptions} from "components";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { FormComposable, FormComposableField, FormComposableState, validators } from "@smartb/g2";
+import { useOrganizationFormFields } from "@smartb/g2-i2-v2";
+import { getOrgRolesOptions, useExtendedAuth } from "components";
 
 export interface OrganizationFormProps {
-    isLoading : boolean
-    formState : FormComposableState
-    readOnly : boolean
+    isLoading: boolean
+    formState: FormComposableState
+    readOnly: boolean
 
 }
 
 export const OrganizationForm = (props: OrganizationFormProps) => {
-    const {isLoading, formState, readOnly} = props
+    const { isLoading, formState, readOnly } = props
     const { t } = useTranslation();
     const rolesOptions = useMemo(() => getOrgRolesOptions(t), [t])
+    const { service } = useExtendedAuth()
     const fieldsOverride = useMemo(() => {
         return {
             roles: {
@@ -27,59 +28,41 @@ export const OrganizationForm = (props: OrganizationFormProps) => {
     }, [t, rolesOptions])
 
     const fields = useOrganizationFormFields({
-            formState: formState,
-            fieldsOverride: fieldsOverride
+        formState: formState,
+        fieldsOverride: fieldsOverride
     })
-    const editOnlyFields: FormComposableField[] = [
-        fields.fields.street,
-        fields.fields.postalCode,
-        fields.fields.city,
-    ];
 
-    const finalFields = useMemo((): FormComposableField[] => {
-        if (readOnly) {
-            return [
-                {
-                    ...fields.fields.name,
-                    label: t("companyName"),
-                },
-                    fields.fields.roles
-                ,
+    const finalFields = useMemo((): FormComposableField[] => [
+        {
+            ...fields.fields.name,
+            label: t("companyName"),
+            fullRow: !service.is_super_admin(),
+        },
+        ...(service.is_super_admin() ? [fields.fields.roles] : [])
+        ,
+        ...(
+            readOnly ? [
                 {
                     name: "readOnlyAddress",
                     type: "textField",
                     label: t("address"),
-                },
-                {
-                    name: "attributes.country",
-                    type: "textField",
-                    label: t("country"),
-                },
-                {
-                    ...fields.fields.description,
-                    fullRow: true,
-                },
-            ];
-        } else {
-            return [
-                {
-                    ...fields.fields.name,
-                    label: t("companyName"),
-                    fullRow: true,
-                },
-                ...editOnlyFields,
-                {
-                    name: "attributes.country",
-                    type: "textField",
-                    label: t("country"),
-                },
-                {
-                    ...fields.fields.description,
-                    fullRow: true,
-                },
-            ];
-        }
-    }, [t, fields.fields, editOnlyFields]);
+                } as FormComposableField
+            ] : [
+                fields.fields.street,
+                fields.fields.postalCode,
+                fields.fields.city,
+            ]
+        ),
+        {
+            name: "attributes.country",
+            type: "textField",
+            label: t("country"),
+        },
+        {
+            ...fields.fields.description,
+            fullRow: true,
+        },
+    ], [t, fields.fields, service.is_super_admin]);
 
     return (
         <FormComposable
