@@ -1,4 +1,4 @@
-import { Page, Section, LinkButton } from "@smartb/g2"
+import { Page, LinkButton } from "@smartb/g2"
 import { AutomatedUserTable } from "@smartb/g2-i2-v2"
 import { Typography } from "@mui/material";
 import { useExtendedAuth, useRoutesDefinition } from "components";
@@ -37,9 +37,7 @@ export const UserListPage = (props: UserListPageProps) => {
         }]
       }}
     >
-      <Section
-        flexContent
-      >
+
         {component}
         <AutomatedUserTable
           columnsExtander={{
@@ -55,7 +53,6 @@ export const UserListPage = (props: UserListPageProps) => {
           page={submittedFilters.page + 1}
           setPage={setPage}
         />
-      </Section>
     </Page>
   )
 };

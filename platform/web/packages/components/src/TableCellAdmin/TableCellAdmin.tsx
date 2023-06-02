@@ -14,16 +14,20 @@ export const TableCellAdmin = (props: TableCellAdminProps) => {
 
     return (
         <Stack direction="row">
-            <Tooltip helperText={t("userList.delete")}>
-                <IconButton onClick={onDelete}>
-                    <DeleteRounded />
-                </IconButton>
-            </Tooltip>
-            <Tooltip helperText={t("edit")}>
-                <IconButton onClick={onEdit}>
-                    <EditRounded />
-                </IconButton>
-            </Tooltip>
+            {onDelete ?
+                <Tooltip helperText={t("delete")}>
+                    <IconButton onClick={onDelete}>
+                        <DeleteRounded />
+                    </IconButton>
+                </Tooltip>
+                : ''}
+            {onEdit ?
+                <Tooltip helperText={t("edit")}>
+                    <IconButton onClick={onEdit}>
+                        <EditRounded />
+                    </IconButton>
+                </Tooltip>
+                : ''}
         </Stack>
     );
 };
