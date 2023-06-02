@@ -34,7 +34,6 @@ export const useDeletedConfirmationPopUp = (props: UseDeletedConfirmationProps):
         [],
     )
 
-
     const actions = useMemo((): Action[] => [{
         key: "cancel",
         label: t("cancel"),
@@ -45,7 +44,6 @@ export const useDeletedConfirmationPopUp = (props: UseDeletedConfirmationProps):
         label: t("submit"),
         color: "error",
     }], [handleClose, t])
-
 
     const popup = useMemo(() => (
         <PopUp open={isOpen} onClose={handleClose} actions={actions} >

@@ -6,7 +6,14 @@ import { EditRounded, Visibility } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { G2ColumnDef } from "@smartb/g2-layout";
 import { Row } from '@tanstack/react-table'
-import { useExtendedAuth, useRoutesDefinition, UserRoles, userRolesColors, TableCellAdmin } from "components";
+import {
+    useExtendedAuth,
+    useRoutesDefinition,
+    UserRoles,
+    userRolesColors,
+    TableCellAdmin,
+    useDeletedConfirmationPopUp
+} from "components";
 import { User } from "@smartb/g2-i2-v2";
 
 
@@ -55,6 +62,18 @@ export const useUserListPage = () => {
       (organizationId: string) => organizationsOrganizationIdView(organizationId),
       [organizationsOrganizationIdView],
     )
+
+    const declineConfirmation = useDeletedConfirmationPopUp({
+        title: t("userList.delete"),
+        description: t("userList.deleteMessage"),
+    });
+
+    const onDelete = useCallback(
+        () => {
+            declineConfirmation.handleOpen();
+        },
+        [declineConfirmation]
+    );
     
     const additionalColumns = useMemo((): G2ColumnDef<User>[] => {
       return [{
@@ -68,11 +87,11 @@ export const useUserListPage = () => {
         header: t("actions"),
           id: "delete",
           cell: ({}) => {
-             return <TableCellAdmin />
+             return <><TableCellAdmin onDelete={onDelete} onEdit={() =>{}} />{declineConfirmation.popup}</>
         },
       },
     ]
-    }, [service.getPrincipalRole])
+    }, [service.getPrincipalRole, declineConfirmation])
 
     return {
         getActions,

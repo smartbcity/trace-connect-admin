@@ -21,8 +21,10 @@
   "country": "Country",
   "address": "Address",
   "companyName": "Company Name",
+  "organizationSummary": "Organization summary",
   "manageAccount": "Manage account",
   "manageUsers": "Manage users",
+  "manageAPIKeys": "Manage API keys",
   "roles": {
     "super_admin": "Super Admin",
     "admin": "Admin",
@@ -51,5 +53,10 @@
   "organizationList": {
     "create": "Create an Organization",
     "noOrganization": "No organizations found"
+  },
+  "apiKeysList": {
+    "headerText1" : "Your secret API keys are listed below. Please note that we do not display your secret API keys again after you generate them.",
+    "headerText2" : "Do not share your API key with others. or expose it in the browser or other client-side code.",
+    "create": "Create new API key"
   }
 }

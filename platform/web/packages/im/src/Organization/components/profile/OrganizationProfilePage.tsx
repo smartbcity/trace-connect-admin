@@ -94,7 +94,7 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
             }}
         >
                 <Section flexContent>
-                    <Typography color="secondary" variant="h5" align="center">{t('myOrganization')}</Typography>
+                    <Typography color="secondary" variant="h5">{t('organizationSummary')}</Typography>
                     <OrganizationForm isLoading={isLoading} formState={formState} readOnly={readOnly}/>
                 </Section>
         </Page>

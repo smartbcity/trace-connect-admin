@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { FormComposable, FormComposableField, FormComposableState, validators } from "@smartb/g2";
+import { FormComposable, FormComposableField, FormComposableState } from "@smartb/g2";
 import { useOrganizationFormFields } from "@smartb/g2-i2-v2";
 import { getOrgRolesOptions, useExtendedAuth } from "components";
 
@@ -21,8 +21,7 @@ export const OrganizationForm = (props: OrganizationFormProps) => {
             roles: {
                 params: {
                     options: rolesOptions
-                },
-                validator: validators.requiredField(t)
+                }
             }
         }
     }, [t, rolesOptions])

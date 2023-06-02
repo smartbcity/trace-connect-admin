@@ -21,6 +21,7 @@
   "country": "Pays",
   "address": "Adresse",
   "companyName": "Nom de l'entreprise",
+  "organizationSummary": "Résumé de l'organisation",
   "manageAccount": "Gérer mon compte",
   "manageUsers": "Gérer les utilisateurs",
   "roles": {
