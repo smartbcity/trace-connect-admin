@@ -3,7 +3,7 @@ import {ColumnFactory, Table, TableV2, useTable} from "@smartb/g2";
 import {TableCellAdmin} from "components";
 import {useTranslation} from "react-i18next";
 import {Box, Typography} from "@mui/material";
-import {PageQueryResult} from "../../../../../template/src";
+import {PageQueryResult} from "template";
 
 export interface APIKey {
     name : string

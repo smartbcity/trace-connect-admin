@@ -1,4 +1,4 @@
-import {f2} from "verified-emission-reduction-registry-project-f2-domain"
+import {f2} from "../f2";
 
 export interface PageQuery extends f2.dsl.cqrs.page.PageQueryDTO {}
 export interface PageQueryResult<MODEL> extends f2.dsl.cqrs.page.PageQueryResultDTO<MODEL> {}
