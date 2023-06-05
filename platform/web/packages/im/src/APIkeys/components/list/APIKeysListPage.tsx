@@ -2,17 +2,13 @@ import {useTranslation} from "react-i18next";
 import {useRoutesDefinition} from "components";
 import {Stack, Typography} from "@mui/material";
 import {LinkButton, Page} from "@smartb/g2";
-import {useAPIKeysListPage} from "../../hooks";
-import {AutomatedUserTable} from "@smartb/g2-i2-v2";
+import {APIKeysTable} from "../APIKeysTable";
 
 interface APIKeysListPageProps { }
 
 export const APIKeysListPage = (props: APIKeysListPageProps) => {
     const { } = props;
     const { t } = useTranslation();
-
-    const { additionalColumns } = useAPIKeysListPage()
-
     const { apiKeysAdd } = useRoutesDefinition()
 
     return (
@@ -31,21 +27,26 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
             <Stack gap={4}>
                 <Typography>{t('apiKeysList.headerText1')}</Typography>
                 <Typography>{t('apiKeysList.headerText2')}</Typography>
-                <AutomatedUserTable
-                    columnsExtander={{
-                        additionalColumns,
+                <APIKeysTable
+                    page={{
+                        items: [{
+                            name: "yoyo",
+                            identifier: "yaya",
+                            created: "10"
+
+                        },
+                            {
+                                name: "yoayo",
+                                identifier: "yaaya",
+                                created: "10"
+                            }
+                        ],
+                        total: 10
                     }}
-                    noDataComponent={<Typography align="center">{t("apiKeysList.noKeys")}</Typography>}
+
+
                 />
             </Stack>
         </Page>
     )
-};
-
-
-// <AutomatedAPIKeysTable
-//     columnsExtander={{
-//         additionalColumns
-//     }}
-//     noDataComponent={<Typography align="center">{t("apiKeysList.noKeys")}</Typography>}
-// />
+}
