@@ -15,6 +15,7 @@ import {
     useDeletedConfirmationPopUp
 } from "components";
 import { User } from "@smartb/g2-i2-v2";
+import {Typography} from "@mui/material";
 
 
 export const useUserListPage = () => {
@@ -65,7 +66,7 @@ export const useUserListPage = () => {
 
     const declineConfirmation = useDeletedConfirmationPopUp({
         title: t("userList.delete"),
-        description: t("userList.deleteMessage"),
+        component: <Typography sx={{ margin: (theme) => `${theme.spacing(4)} 0` }}>{t("userList.deleteMessage")}</Typography>
     });
 
     const onDelete = useCallback(

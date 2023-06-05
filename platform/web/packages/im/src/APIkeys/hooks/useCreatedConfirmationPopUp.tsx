@@ -3,12 +3,12 @@ import React, { useCallback, useMemo, useState } from "react";
 import { Action, PopUp } from "@smartb/g2";
 import { Typography } from "@mui/material";
 
-export interface UseDeletedConfirmationProps {
+export interface useCreatedConfirmationProps {
     title: string
     component?: React.ReactNode
 }
 
-export interface UseDeletedConfirmationType {
+export interface useCreatedConfirmationType {
     popup: React.ReactNode
     isOpen: boolean
     setOpen: (open: boolean) => void
@@ -16,7 +16,7 @@ export interface UseDeletedConfirmationType {
     handleClose: () => void
 }
 
-export const useDeletedConfirmationPopUp = (props: UseDeletedConfirmationProps): UseDeletedConfirmationType => {
+export const useCreatedConfirmationPopUp = (props: useCreatedConfirmationProps): useCreatedConfirmationType => {
     const {  title, component  } = props
     const { t } = useTranslation()
     const [isOpen, setOpen] = useState(false)
@@ -35,14 +35,9 @@ export const useDeletedConfirmationPopUp = (props: UseDeletedConfirmationProps):
     )
 
     const actions = useMemo((): Action[] => [{
-        key: "cancel",
-        label: t("cancel"),
-        onClick: handleClose,
-        variant: "text"
-    }, {
-        key: "delete",
-        label: t("delete"),
-        color: "error",
+        key: "close",
+        label: t("close"),
+        color: "primary",
     }], [handleClose, t])
 
 

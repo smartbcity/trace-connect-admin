@@ -1,15 +1,29 @@
 import {useTranslation} from "react-i18next";
-import {useRoutesDefinition} from "components";
-import {Stack, Typography} from "@mui/material";
-import {LinkButton, Page} from "@smartb/g2";
+import {IconButton, Stack, Typography} from "@mui/material";
+import {Button, Page, TextField} from "@smartb/g2";
 import {APIKeysTable} from "../APIKeysTable";
+import {useCallback, useMemo, useState} from "react";
+import {Offset, OffsetPagination} from "template";
+import {useCreatedConfirmationPopUp} from "../../hooks";
+import { VisibilityRounded } from "@mui/icons-material";
 
 interface APIKeysListPageProps { }
 
 export const APIKeysListPage = (props: APIKeysListPageProps) => {
     const { } = props;
     const { t } = useTranslation();
-    const { apiKeysAdd } = useRoutesDefinition()
+    // const { apiKeysAdd } = useRoutesDefinition()
+    const pagination = useMemo((): OffsetPagination => ({ offset: Offset.default.offset, limit: Offset.default.limit }), [])
+    const [isHidden, setHidden] = useState(true)
+    const createdConfirmation = useCreatedConfirmationPopUp({
+        title: t("apiKeysList.created"),
+        component :
+            <Stack gap={(theme) => `${theme.spacing(4)}`} sx={{margin : (theme) => `${theme.spacing(4)} 0`}}>
+                <Typography>{t("apiKeysList.createdMessage")}</Typography>
+                <TextField hidden={isHidden} iconPosition='end' inputIcon={<IconButton onClick={useCallback(() => {setHidden(!isHidden)}, [],)}><VisibilityRounded /></IconButton>} />
+            </Stack>
+    });
+
 
     return (
         <Page
@@ -19,7 +33,8 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
                         <Typography variant="h5" key="pageTitle">{t("manageAPIKeys")}</Typography>
                     ],
                     rightPart: [
-                        <LinkButton to={apiKeysAdd()} key="pageAddButton">{t("apiKeysList.create")}</LinkButton>
+                        // LinkButton to={apiKeysAdd()}
+                        <><Button onClick={() => createdConfirmation.handleOpen()} key="pageAddButton">{t("apiKeysList.create")}</Button>{createdConfirmation.popup}</>
                     ]
                 }]
             }}
@@ -32,19 +47,19 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
                         items: [{
                             name: "yoyo",
                             identifier: "yaya",
-                            created: "10"
+                            created: 10
 
                         },
                             {
                                 name: "yoayo",
                                 identifier: "yaaya",
-                                created: "10"
+                                created: 10
                             }
                         ],
                         total: 10
                     }}
-
-
+                    pagination={pagination}
+                    isLoading={false}
                 />
             </Stack>
         </Page>

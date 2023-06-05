@@ -1,9 +1,9 @@
 import {useMemo} from "react";
-import {ColumnFactory, Table, TableV2, useTable} from "@smartb/g2";
-import {TableCellAdmin} from "components";
+import {ColumnFactory, FormComposable, FormComposableField, useFormComposable, useTable} from "@smartb/g2";
+import {TableCellAdmin, useDeletedConfirmationPopUp} from "components";
 import {useTranslation} from "react-i18next";
-import {Box, Typography} from "@mui/material";
-import {PageQueryResult} from "template";
+import {Stack, Typography} from "@mui/material";
+import {OffsetPagination, OffsetTable, PageQueryResult} from "template";
 
 export interface APIKey {
     name : string
@@ -38,9 +38,33 @@ function useAPIKeyColumn() {
             }),
             // @ts-ignore
             action : {
-                cell: ({}) => (
-                    <TableCellAdmin />
-                )
+                cell: ({}) => {
+                    const formState = useFormComposable({
+                        isLoading: false,
+                        emptyValueInReadOnly: "-",
+                        readOnly: true
+                    })
+
+                    const fields = useMemo((): FormComposableField<keyof APIKey>[] => [{
+                        name: "identifier",
+                        type: "textField",
+                        label: t('identifier'),
+                    },{
+                        name: "created",
+                        type: "datePicker",
+                        label: t('created'),
+                    }], [t])
+
+                    const declineConfirmation = useDeletedConfirmationPopUp({
+                        title: t("apiKeysList.delete"),
+                        component :
+                        <Stack gap={(theme) => `${theme.spacing(4)}`} sx={{margin : (theme) => `${theme.spacing(4)} 0`}}>
+                            <FormComposable display="grid" formState={formState}  fields={fields}/>
+                            <Typography>{t("apiKeysList.deleteMessage")}</Typography>
+                        </Stack>
+                    });
+                    return <><TableCellAdmin onDelete={() => declineConfirmation.handleOpen()}/>{declineConfirmation.popup}</>
+                }
             }
 
 
@@ -50,12 +74,13 @@ function useAPIKeyColumn() {
 
 export interface APIKeysTableProps{
     page?: PageQueryResult<APIKey>
+    pagination: OffsetPagination
+    isLoading?: boolean
 }
 
 export const APIKeysTable = (props: APIKeysTableProps) => {
-    const {  page } = props
+    const {  page, isLoading, pagination } = props
     const { t } = useTranslation()
-
     const columns = useAPIKeyColumn()
 
     const tableState = useTable({
@@ -63,16 +88,14 @@ export const APIKeysTable = (props: APIKeysTableProps) => {
         columns: columns,
     })
 
-
-
     return (
-            <Box>
-                <Typography align="center">{t(".noData")}</Typography>
-                <TableV2 tableState={Table<APIKey>} />
-
-            </Box>
-
-
-
+                (!page?.items && !isLoading) ?
+                    <Typography align="center">{t("apiKeysList.noKeys")}</Typography>
+                    :
+                    <OffsetTable<APIKey>
+                         tableState={tableState}
+                         page={page}
+                         pagination={pagination}
+                         isLoading={isLoading} />
     )
 }

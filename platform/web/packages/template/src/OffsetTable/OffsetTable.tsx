@@ -1,10 +1,8 @@
 import { Skeleton, Stack, Typography } from "@mui/material";
 import { MergeMuiElementProps, Pagination, TableV2, TableV2Props } from "@smartb/g2";
-import { TraceIcon } from "components";
 import { useRef } from "react";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import { OffsetPagination, PageQueryResult } from "./model";
 
 export type OffsetTableBasicProps<DATA extends {}> = {
@@ -68,7 +66,6 @@ export const OffsetTable = <Data extends {}>(props: OffsetTableProps<Data>) => {
         }}
       >
         <div style={{ flexGrow: 1, flexBasis: 0 }} />
-        <Link to="/"><TraceIcon /></Link>
         <Stack
           direction="row"
           gap={2}
