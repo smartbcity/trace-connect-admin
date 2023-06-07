@@ -4,17 +4,10 @@ import {TableCellAdmin, useDeletedConfirmationPopUp} from "components";
 import {useTranslation} from "react-i18next";
 import {Stack, Typography} from "@mui/material";
 import {OffsetPagination, OffsetTable, PageQueryResult} from "template";
-
-export interface APIKey {
-    name : string
-    identifier :  string
-    created : number
-}
-
-
+import { APIKeyDTO } from "../../api";
 function useAPIKeyColumn() {
     const { t } = useTranslation();
-    return useMemo(() => ColumnFactory<APIKey>({
+    return useMemo(() => ColumnFactory<APIKeyDTO>({
         generateColumns: (generators) => ({
             name: generators.text({
                 header: t("name"),
@@ -26,14 +19,14 @@ function useAPIKeyColumn() {
             identifier: generators.text({
                 header: t("identifier"),
                 getCellProps: (registry) => ({
-                    value: registry.name
+                    value: registry.identifier
                 })
             }),
 
             date: generators.date({
                 header: t("created"),
                 getCellProps: (registry) => ({
-                    date: registry.created
+                    date: registry.creationDate
                 })
             }),
             // @ts-ignore
@@ -45,12 +38,12 @@ function useAPIKeyColumn() {
                         readOnly: true
                     })
 
-                    const fields = useMemo((): FormComposableField<keyof APIKey>[] => [{
+                    const fields = useMemo((): FormComposableField<keyof APIKeyDTO | 'created'>[] => [{
                         name: "identifier",
                         type: "textField",
                         label: t('identifier'),
                     },{
-                        name: "created",
+                        name: "creationDate",
                         type: "datePicker",
                         label: t('created'),
                     }], [t])
@@ -73,7 +66,7 @@ function useAPIKeyColumn() {
 }
 
 export interface APIKeysTableProps{
-    page?: PageQueryResult<APIKey>
+    page?: PageQueryResult<APIKeyDTO>
     pagination: OffsetPagination
     isLoading?: boolean
 }
@@ -92,7 +85,7 @@ export const APIKeysTable = (props: APIKeysTableProps) => {
                 (!page?.items && !isLoading) ?
                     <Typography align="center">{t("apiKeysList.noKeys")}</Typography>
                     :
-                    <OffsetTable<APIKey>
+                    <OffsetTable<APIKeyDTO>
                          tableState={tableState}
                          page={page}
                          pagination={pagination}
