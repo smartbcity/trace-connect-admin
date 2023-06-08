@@ -3,47 +3,58 @@ import {IconButton, Stack, Typography} from "@mui/material";
 import {Button, Page, TextField} from "@smartb/g2";
 import {APIKeysTable} from "../APIKeysTable";
 import {useCallback, useMemo, useState} from "react";
-import {Offset, OffsetPagination} from "template";
+import {Offset, OffsetPagination, PageQueryResult} from "template";
 import {useCreatedConfirmationPopUp} from "../../hooks";
 import {VisibilityRounded} from "@mui/icons-material";
-import {useSearchParams} from "react-router-dom";
-import {useOrganizationAddAPIKeyFunction} from "../../api";
+import {useParams} from "react-router-dom";
+import {APIKeyDTO, OrganizationDTO, useOrganizationAddAPIKeyFunction} from "../../api";
 import {useOrganizationFormState} from "@smartb/g2-i2-v2";
+import {useExtendedAuth} from "components";
 
-interface APIKeysListPageProps { }
+interface APIKeysListPageProps {
+    myOrganization?: boolean
+}
 
 export const APIKeysListPage = (props: APIKeysListPageProps) => {
-    const { } = props;
+    const { myOrganization = false  } = props;
     const { t } = useTranslation();
-    const [searchParams] = useSearchParams()
-    const organizationId = searchParams.get('organizationId') ?? undefined
-
-
-    const { organization } = useOrganizationFormState({
-        organizationId
+    const { service } = useExtendedAuth()
+    const { organizationId } = useParams();
+    const orgId = myOrganization ? service.getUser()?.memberOf : organizationId
+    const { organization } = useOrganizationFormState<OrganizationDTO>({
+        organizationId : orgId
     })
 
     // const { apiKeysAdd } = useRoutesDefinition()
     const pagination = useMemo((): OffsetPagination => ({ offset: Offset.default.offset, limit: Offset.default.limit }), [])
     const [isHidden, setHidden] = useState(true)
     const organizationAddAPIKeyFunction = useOrganizationAddAPIKeyFunction()
-
-    const callback = useCallback(async () => {
-        return organizationId && await organizationAddAPIKeyFunction.mutateAsync({
-            id: organizationId,
-            name: "lala"
-        })
-    },[organizationId])
-
-
     const createdConfirmation = useCreatedConfirmationPopUp({
         title: t("apiKeysList.created"),
         component :
             <Stack gap={(theme) => `${theme.spacing(4)}`} sx={{margin : (theme) => `${theme.spacing(4)} 0`}}>
                 <Typography>{t("apiKeysList.createdMessage")}</Typography>
-                <TextField type="password" hidden={isHidden} iconPosition='end' inputIcon={<IconButton onClick={useCallback(() => {setHidden(!isHidden)}, [],)}><VisibilityRounded /></IconButton>} />
+                <TextField type="password" value={""} hidden={isHidden} iconPosition='end' inputIcon={<IconButton onClick={() => {setHidden(!isHidden)}}><VisibilityRounded /></IconButton>} />
             </Stack>
     });
+
+
+    const apiKeysPage : PageQueryResult<APIKeyDTO> = useMemo(() => {
+        const apiKeys = organization?.apiKeys ?? []
+        return {
+            items: apiKeys,
+            total: apiKeys.length}
+    }, [organization?.apiKeys])
+
+    const createAPIKey = useCallback(async () => {
+        if (organization) {
+            await organizationAddAPIKeyFunction.mutateAsync({
+                id: organization.id,
+                name: `key-${organization?.apiKeys.length}`
+            });
+            createdConfirmation.handleOpen();
+        }
+    }, [organization, createdConfirmation]);
 
     return (
         <Page
@@ -54,7 +65,7 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
                     ],
                     rightPart: [
                         // LinkButton to={apiKeysAdd()}
-                        <><Button onClick={() => createdConfirmation.handleOpen()} key="pageAddButton">{t("apiKeysList.create")}</Button>{createdConfirmation.popup}</>
+                        <Button onClick={createAPIKey} key="pageAddButton">{t("apiKeysList.create")}</Button>
                     ]
                 }]
             }}
@@ -63,12 +74,12 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
                 <Typography>{t('apiKeysList.headerText1')}</Typography>
                 <Typography>{t('apiKeysList.headerText2')}</Typography>
                 <APIKeysTable
-                    page={organization?.apiKeys}
+                    page={apiKeysPage}
                     pagination={pagination}
-                    isLoading={organization?.apiKeys.isLoading}
+                    isLoading={organizationAddAPIKeyFunction.isLoading}
                 />
-                <Button onClick={callback}>create</Button>
             </Stack>
+            {createdConfirmation.popup}
         </Page>
     )
 }

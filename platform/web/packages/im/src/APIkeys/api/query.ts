@@ -1,6 +1,6 @@
 import {CommandParams, OrganizationId, useCommandRequest} from "@smartb/g2";
 import {useAuthenticatedRequest} from "../config";
-
+import {Organization} from "@smartb/g2-i2-v2";
 
 interface OrganizationAddApiKeyCommandDTO {
     /**
@@ -15,9 +15,9 @@ interface OrganizationAddApiKeyCommandDTO {
 }
 
 interface OrganizationAddedApiKeyEventDTO {
-    /**
-     * Id of the organization.
-     */
+        /**
+         * Id of the organization.
+         */
     id: OrganizationId,
 
         /**
@@ -36,6 +36,10 @@ interface OrganizationAddedApiKeyEventDTO {
     keySecret: string
 }
 
+interface OrganizationRemoveApiKeyCommandDTO {
+    id: OrganizationId
+    keyId: String
+}
 
 interface ApiKeyDTO {
     id: string
@@ -43,19 +47,35 @@ interface ApiKeyDTO {
     identifier: string
     creationDate: number
 }
+
+export interface OrganizationDTO extends Organization{
+    apiKeys: ApiKeyDTO[]
+}
 export interface APIKeyDTO extends ApiKeyDTO{ }
+export interface OrganizationRemoveApiKeyCommand extends OrganizationRemoveApiKeyCommandDTO{ }
 
 
-export interface APIKeyAddCommand extends OrganizationAddApiKeyCommandDTO{ }
-export interface APIKeyEventDTO extends  OrganizationAddedApiKeyEventDTO{ }
 
-export type OrganizationAddAPIKeyFunctionOptions = Omit<CommandParams<APIKeyAddCommand, APIKeyEventDTO>,
+export interface OrganizationAddApiKeyCommand extends OrganizationAddApiKeyCommandDTO{ }
+export interface OrganizationAddedApiKeyEvent extends  OrganizationAddedApiKeyEventDTO{ }
+
+export type OrganizationAddAPIKeyFunctionOptions = Omit<CommandParams<OrganizationAddApiKeyCommand, OrganizationAddedApiKeyEvent>,
     'jwt' | 'apiUrl'
 >
 
 export const useOrganizationAddAPIKeyFunction = (params?: OrganizationAddAPIKeyFunctionOptions) => {
     const requestProps = useAuthenticatedRequest()
-    return useCommandRequest<APIKeyAddCommand, APIKeyEventDTO>(
+    return useCommandRequest<OrganizationAddApiKeyCommand, OrganizationAddedApiKeyEvent>(
         "organizationAddApiKey", requestProps, params
+    )
+}
+
+export type OrganizationRemoveAPIKeyFunctionOptions = Omit<CommandParams<OrganizationRemoveApiKeyCommand, OrganizationAddedApiKeyEvent>,
+    'jwt' | 'apiUrl'
+>
+export const useOrganizationRemoveAPIKeyFunction = (params?: OrganizationRemoveAPIKeyFunctionOptions) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandRequest<OrganizationRemoveApiKeyCommand, OrganizationAddedApiKeyEvent>(
+        "organizationRemoveApiKey", requestProps, params
     )
 }

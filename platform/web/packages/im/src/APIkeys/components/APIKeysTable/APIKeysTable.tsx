@@ -1,10 +1,10 @@
-import {useMemo} from "react";
+import {useCallback, useMemo} from "react";
 import {ColumnFactory, FormComposable, FormComposableField, useFormComposable, useTable} from "@smartb/g2";
 import {TableCellAdmin, useDeletedConfirmationPopUp} from "components";
 import {useTranslation} from "react-i18next";
 import {Stack, Typography} from "@mui/material";
 import {OffsetPagination, OffsetTable, PageQueryResult} from "template";
-import { APIKeyDTO } from "../../api";
+import {APIKeyDTO, useOrganizationRemoveAPIKeyFunction} from "../../api";
 function useAPIKeyColumn() {
     const { t } = useTranslation();
     return useMemo(() => ColumnFactory<APIKeyDTO>({
@@ -30,15 +30,18 @@ function useAPIKeyColumn() {
                 })
             }),
             // @ts-ignore
-            action : {
-                cell: ({}) => {
+            action : ({
+                cell: ({row}) => {
                     const formState = useFormComposable({
-                        isLoading: false,
                         emptyValueInReadOnly: "-",
-                        readOnly: true
+                        readOnly: true,
+                        formikConfig : {
+                            initialValues : {
+                                ...row.original
+                            }
+                        }
                     })
-
-                    const fields = useMemo((): FormComposableField<keyof APIKeyDTO | 'created'>[] => [{
+                    const fields = useMemo((): FormComposableField<keyof APIKeyDTO>[] => [{
                         name: "identifier",
                         type: "textField",
                         label: t('identifier'),
@@ -48,19 +51,26 @@ function useAPIKeyColumn() {
                         label: t('created'),
                     }], [t])
 
+                    const useOrganizationRemoveAPIKey= useOrganizationRemoveAPIKeyFunction()
+                    const onDelete = useCallback(async ()=>{
+                        return await useOrganizationRemoveAPIKey.mutateAsync({
+                            id: row.original.id,
+                            keyId: row.original.id
+                        })
+                    },[])
+
                     const declineConfirmation = useDeletedConfirmationPopUp({
                         title: t("apiKeysList.delete"),
                         component :
                         <Stack gap={(theme) => `${theme.spacing(4)}`} sx={{margin : (theme) => `${theme.spacing(4)} 0`}}>
                             <FormComposable display="grid" formState={formState}  fields={fields}/>
                             <Typography>{t("apiKeysList.deleteMessage")}</Typography>
-                        </Stack>
+                        </Stack>,
+                        onDelete : onDelete
                     });
                     return <><TableCellAdmin onDelete={() => declineConfirmation.handleOpen()}/>{declineConfirmation.popup}</>
                 }
-            }
-
-
+            })
         })
     }), [t]);
 }
@@ -80,15 +90,15 @@ export const APIKeysTable = (props: APIKeysTableProps) => {
         data: page?.items ?? [],
         columns: columns,
     })
-
     return (
-                (!page?.items && !isLoading) ?
-                    <Typography align="center">{t("apiKeysList.noKeys")}</Typography>
-                    :
-                    <OffsetTable<APIKeyDTO>
-                         tableState={tableState}
-                         page={page}
-                         pagination={pagination}
-                         isLoading={isLoading} />
-    )
+            (!page?.items && !isLoading) ?
+                <Typography align="center">{t("apiKeysList.noKeys")}</Typography>
+                :
+                <OffsetTable<APIKeyDTO>
+                     tableState={tableState}
+                     page={page}
+                     pagination={pagination}
+                     isLoading={isLoading}
+                />
+        )
 }

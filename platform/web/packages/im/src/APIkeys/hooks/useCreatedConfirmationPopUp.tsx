@@ -17,7 +17,7 @@ export interface useCreatedConfirmationType {
 }
 
 export const useCreatedConfirmationPopUp = (props: useCreatedConfirmationProps): useCreatedConfirmationType => {
-    const {  title, component  } = props
+    const {  title, component,   } = props
     const { t } = useTranslation()
     const [isOpen, setOpen] = useState(false)
 
@@ -38,6 +38,7 @@ export const useCreatedConfirmationPopUp = (props: useCreatedConfirmationProps):
         key: "close",
         label: t("close"),
         color: "primary",
+        onClick: handleClose,
     }], [handleClose, t])
 
 

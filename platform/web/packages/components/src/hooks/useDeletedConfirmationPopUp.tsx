@@ -6,6 +6,7 @@ import { Typography } from "@mui/material";
 export interface UseDeletedConfirmationProps {
     title: string
     component?: React.ReactNode
+    onDelete: () => void
 }
 
 export interface UseDeletedConfirmationType {
@@ -17,7 +18,7 @@ export interface UseDeletedConfirmationType {
 }
 
 export const useDeletedConfirmationPopUp = (props: UseDeletedConfirmationProps): UseDeletedConfirmationType => {
-    const {  title, component  } = props
+    const {  title, component, onDelete  } = props
     const { t } = useTranslation()
     const [isOpen, setOpen] = useState(false)
 
@@ -43,7 +44,8 @@ export const useDeletedConfirmationPopUp = (props: UseDeletedConfirmationProps):
         key: "delete",
         label: t("delete"),
         color: "error",
-    }], [handleClose, t])
+        onClick: onDelete,
+    }], [handleClose, t, onDelete])
 
 
     const popup = useMemo(() => (

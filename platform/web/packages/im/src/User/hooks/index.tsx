@@ -66,7 +66,8 @@ export const useUserListPage = () => {
 
     const declineConfirmation = useDeletedConfirmationPopUp({
         title: t("userList.delete"),
-        component: <Typography sx={{ margin: (theme) => `${theme.spacing(4)} 0` }}>{t("userList.deleteMessage")}</Typography>
+        component: <Typography sx={{ margin: (theme) => `${theme.spacing(4)} 0` }}>{t("userList.deleteMessage")}</Typography>,
+        onDelete : (() => {return}) // en attendant back
     });
 
     const onDelete = useCallback(
