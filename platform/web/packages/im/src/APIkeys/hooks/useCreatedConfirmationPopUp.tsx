@@ -1,35 +1,30 @@
 import { useTranslation } from "react-i18next";
 import React, { useCallback, useMemo, useState } from "react";
-import { Action, PopUp } from "@smartb/g2";
-import { Typography } from "@mui/material";
-
-export interface useCreatedConfirmationProps {
-    title: string
-    component?: React.ReactNode
-}
+import {Action, PopUp, TextField} from "@smartb/g2";
+import {IconButton, Stack, Typography} from "@mui/material";
+import {OrganizationAddedApiKeyEvent} from "../api";
+import {VisibilityRounded} from "@mui/icons-material";
 
 export interface useCreatedConfirmationType {
     popup: React.ReactNode
     isOpen: boolean
-    setOpen: (open: boolean) => void
-    handleOpen: () => void
-    handleClose: () => void
+    open: (event : OrganizationAddedApiKeyEvent) => void
+    close: () => void
 }
 
-export const useCreatedConfirmationPopUp = (props: useCreatedConfirmationProps): useCreatedConfirmationType => {
-    const {  title, component,   } = props
+export const useCreatedConfirmationPopUp = (): useCreatedConfirmationType => {
     const { t } = useTranslation()
-    const [isOpen, setOpen] = useState(false)
+    const [keyCreatedEvent, setKeyCreatedEvent] = useState<OrganizationAddedApiKeyEvent | null>(null)
 
-    const handleClose = useCallback(
+    const close = useCallback(
         () => {
-            setOpen(false)
+            setKeyCreatedEvent(null)
         },
         [],
     )
-    const handleOpen = useCallback(
-        () => {
-            setOpen(true)
+    const open = useCallback(
+        (event : OrganizationAddedApiKeyEvent) => {
+            setKeyCreatedEvent(event)
         },
         [],
     )
@@ -38,22 +33,26 @@ export const useCreatedConfirmationPopUp = (props: useCreatedConfirmationProps):
         key: "close",
         label: t("close"),
         color: "primary",
-        onClick: handleClose,
-    }], [handleClose, t])
+        onClick: close,
+    }], [close, t])
 
+    const isOpen = keyCreatedEvent !== null
+    const [isHidden, setHidden] = useState(true)
 
     const popup = useMemo(() => (
-        <PopUp open={isOpen} onClose={handleClose} actions={actions}>
-            <Typography sx={{ whiteSpace: "pre-line" }} color="secondary" variant="h4">{title}</Typography>
-            {component && <>{component}</>}
+        <PopUp open={isOpen} onClose={close} actions={actions}>
+            <Typography sx={{ whiteSpace: "pre-line" }} color="secondary" variant="h4">{t("apiKeysList.created")}</Typography>
+            <Stack gap={(theme) => `${theme.spacing(4)}`} sx={{margin : (theme) => `${theme.spacing(4)} 0`}}>
+                <Typography>{t("apiKeysList.createdMessage")}</Typography>
+                <TextField value={keyCreatedEvent?.keySecret} textFieldType={isHidden ? "password" : "text"} iconPosition='end' inputIcon={<IconButton onClick={() => {setHidden(!isHidden)}}><VisibilityRounded /></IconButton>} />
+            </Stack>
         </PopUp>
-    ), [isOpen, handleClose, t, actions, component, title]);
+    ), [keyCreatedEvent, close, t, actions, isHidden]);
 
     return {
-        popup,
-        isOpen,
-        setOpen,
-        handleClose,
-        handleOpen
+        popup: popup,
+        isOpen : isOpen,
+        close: close,
+        open: open
     }
 }

@@ -1,11 +1,10 @@
 import {useTranslation} from "react-i18next";
-import {IconButton, Stack, Typography} from "@mui/material";
-import {Button, Page, TextField} from "@smartb/g2";
+import {Stack, Typography} from "@mui/material";
+import {Button, Page} from "@smartb/g2";
 import {APIKeysTable} from "../APIKeysTable";
-import {useCallback, useMemo, useState} from "react";
+import {useCallback, useMemo} from "react";
 import {Offset, OffsetPagination, PageQueryResult} from "template";
 import {useCreatedConfirmationPopUp} from "../../hooks";
-import {VisibilityRounded} from "@mui/icons-material";
 import {useParams} from "react-router-dom";
 import {
     APIKeyDTO,
@@ -34,16 +33,8 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
 
     // const { apiKeysAdd } = useRoutesDefinition()
     const pagination = useMemo((): OffsetPagination => ({ offset: Offset.default.offset, limit: Offset.default.limit }), [])
-    const [isHidden, setHidden] = useState(true)
     const organizationAddAPIKeyFunction = useOrganizationAddAPIKeyFunction()
-    const createdConfirmation = useCreatedConfirmationPopUp({
-        title: t("apiKeysList.created"),
-        component :
-            <Stack gap={(theme) => `${theme.spacing(4)}`} sx={{margin : (theme) => `${theme.spacing(4)} 0`}}>
-                <Typography>{t("apiKeysList.createdMessage")}</Typography>
-                <TextField value={""} textFieldType="password" hidden={isHidden} iconPosition='end' inputIcon={<IconButton onClick={() => {setHidden(!isHidden)}}><VisibilityRounded /></IconButton>} />
-            </Stack>
-    });
+    const createdConfirmation = useCreatedConfirmationPopUp();
 
 
     const apiKeysPage : PageQueryResult<APIKeyDTO> = useMemo(() => {
@@ -67,12 +58,12 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
 
     const createAPIKey = useCallback(async () => {
         if (organization) {
-            await organizationAddAPIKeyFunction.mutateAsync({
+            const result = await organizationAddAPIKeyFunction.mutateAsync({
                 id: organization.id,
                 name: `sb-${organization?.name}-${organization?.apiKeys.length+1}`
             });
             await getOrganization.refetch()
-            createdConfirmation.handleOpen();
+            result && createdConfirmation.open(result);
         }
     }, [organization, createdConfirmation]);
 
