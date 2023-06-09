@@ -1,9 +1,7 @@
-import { MenuItem, Chip } from "@smartb/g2-components";
+import { Chip } from "@smartb/g2-components";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import {LinkProps} from "react-router-dom";
-import { EditRounded, Visibility } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import {LinkProps, useNavigate} from "react-router-dom";
 import { G2ColumnDef } from "@smartb/g2-layout";
 import { Row } from '@tanstack/react-table'
 import {
@@ -21,7 +19,7 @@ import {useDeleteUserPopUp} from "./useDeleteUserPopUp";
 export const useUserListPage = () => {
 
     const { t } = useTranslation();
-
+    const navigate = useNavigate()
     const {service, keycloak} = useExtendedAuth()
 
     const {usersUserIdEdit, usersUserIdView, organizationsOrganizationIdView} = useRoutesDefinition()
@@ -30,32 +28,6 @@ export const useUserListPage = () => {
         apiUrl : i2Config().userUrl,
         jwt : keycloak.token
     })
-
-    const getActions = useCallback(
-      (user: User): MenuItem<LinkProps>[] => {
-        return [
-          {
-            key: "view",
-            label: t("view"),
-            icon: <Visibility />,
-            component: Link,
-            componentProps: {
-              to: usersUserIdView(user.id)
-            }
-          },
-          ...(service.hasUserRouteAuth({route: "users/:userId/edit"}) ? [{
-            key: "edit",
-            label: t("edit"),
-            icon: <EditRounded />,
-            component: Link,
-            componentProps: {
-              to: usersUserIdEdit(user.id)
-            }
-          }] : [])
-        ]
-      },
-      [service.hasUserRouteAuth, usersUserIdEdit, usersUserIdView],
-    )
   
     const getRowLink = useCallback(
       (row: Row<User>) : LinkProps => ({
@@ -101,14 +73,13 @@ export const useUserListPage = () => {
         header: t("actions"),
           id: "delete",
           cell: ({row}) => {
-             return <><TableCellAdmin onDelete={() => handleDeleteClick(row.original)} onEdit={() =>{}} />{declineConfirmation.popup}</>
+             return <><TableCellAdmin onDelete={() => handleDeleteClick(row.original)} onEdit={() => navigate(usersUserIdEdit(row.original.id))} />{declineConfirmation.popup}</>
         },
       },
     ]
     }, [service.getPrincipalRole, declineConfirmation])
 
     return {
-        getActions,
         getRowLink: getRowLink,
         getOrganizationUrl,
         additionalColumns

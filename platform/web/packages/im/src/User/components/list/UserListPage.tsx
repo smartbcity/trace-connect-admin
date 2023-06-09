@@ -15,7 +15,7 @@ export const UserListPage = (props: UserListPageProps) => {
   const { t } = useTranslation();
   const {service} = useExtendedAuth()
   
-  const { getActions, getOrganizationUrl, getRowLink, additionalColumns } = useUserListPage()
+  const { getOrganizationUrl, getRowLink, additionalColumns } = useUserListPage()
   const { usersAdd } = useRoutesDefinition()
 
   const canSeeAllUser = useMemo(() => service.is_super_admin(), [service.is_super_admin])
@@ -40,7 +40,6 @@ export const UserListPage = (props: UserListPageProps) => {
         {component}
         <AutomatedUserTable
           columnsExtander={{
-            getActions: getActions,
             additionalColumns,
             blockedColumns: ["address", ...(!canSeeAllUser ? ["memberOf" as userTableColumns] : [])]
           }}
