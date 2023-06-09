@@ -38,7 +38,6 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
             </Stack>
     });
 
-
     const apiKeysPage : PageQueryResult<APIKeyDTO> = useMemo(() => {
         const apiKeys = organization?.apiKeys ?? []
         return {
@@ -50,7 +49,7 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
         if (organization) {
             await organizationAddAPIKeyFunction.mutateAsync({
                 id: organization.id,
-                name: `key-${organization?.apiKeys.length}`
+                name: `sb-${organization?.name}-${organization?.apiKeys.length}`
             });
             createdConfirmation.handleOpen();
         }
@@ -77,6 +76,7 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
                     page={apiKeysPage}
                     pagination={pagination}
                     isLoading={organizationAddAPIKeyFunction.isLoading}
+                    orgId={orgId}
                 />
             </Stack>
             {createdConfirmation.popup}

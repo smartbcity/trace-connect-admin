@@ -41,6 +41,11 @@ interface OrganizationRemoveApiKeyCommandDTO {
     keyId: String
 }
 
+interface OrganizationRemovedApiKeyEventDTO {
+    id: OrganizationId
+    keyId: string
+}
+
 interface ApiKeyDTO {
     id: string
     name: string
@@ -51,9 +56,8 @@ interface ApiKeyDTO {
 export interface OrganizationDTO extends Organization{
     apiKeys: ApiKeyDTO[]
 }
-export interface APIKeyDTO extends ApiKeyDTO{ }
-export interface OrganizationRemoveApiKeyCommand extends OrganizationRemoveApiKeyCommandDTO{ }
 
+export interface APIKeyDTO extends ApiKeyDTO{ }
 
 
 export interface OrganizationAddApiKeyCommand extends OrganizationAddApiKeyCommandDTO{ }
@@ -70,12 +74,16 @@ export const useOrganizationAddAPIKeyFunction = (params?: OrganizationAddAPIKeyF
     )
 }
 
-export type OrganizationRemoveAPIKeyFunctionOptions = Omit<CommandParams<OrganizationRemoveApiKeyCommand, OrganizationAddedApiKeyEvent>,
+
+export interface OrganizationRemoveApiKeyCommand extends OrganizationRemoveApiKeyCommandDTO{ }
+export interface OrganizationRemovedApiKeyEvent extends OrganizationRemovedApiKeyEventDTO{ }
+
+export type OrganizationRemoveAPIKeyFunctionOptions = Omit<CommandParams<OrganizationRemoveApiKeyCommand, OrganizationRemovedApiKeyEvent>,
     'jwt' | 'apiUrl'
 >
 export const useOrganizationRemoveAPIKeyFunction = (params?: OrganizationRemoveAPIKeyFunctionOptions) => {
     const requestProps = useAuthenticatedRequest()
-    return useCommandRequest<OrganizationRemoveApiKeyCommand, OrganizationAddedApiKeyEvent>(
+    return useCommandRequest<OrganizationRemoveApiKeyCommand, OrganizationRemovedApiKeyEvent>(
         "organizationRemoveApiKey", requestProps, params
     )
 }

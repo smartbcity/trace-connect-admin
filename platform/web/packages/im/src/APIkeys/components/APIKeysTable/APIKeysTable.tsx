@@ -1,11 +1,18 @@
 import {useCallback, useMemo} from "react";
-import {ColumnFactory, FormComposable, FormComposableField, useFormComposable, useTable} from "@smartb/g2";
+import {
+    ColumnFactory,
+    FormComposable,
+    FormComposableField,
+    OrganizationId,
+    useFormComposable,
+    useTable
+} from "@smartb/g2";
 import {TableCellAdmin, useDeletedConfirmationPopUp} from "components";
 import {useTranslation} from "react-i18next";
 import {Stack, Typography} from "@mui/material";
 import {OffsetPagination, OffsetTable, PageQueryResult} from "template";
 import {APIKeyDTO, useOrganizationRemoveAPIKeyFunction} from "../../api";
-function useAPIKeyColumn() {
+function useAPIKeyColumn(orgId? : OrganizationId) {
     const { t } = useTranslation();
     return useMemo(() => ColumnFactory<APIKeyDTO>({
         generateColumns: (generators) => ({
@@ -53,11 +60,14 @@ function useAPIKeyColumn() {
 
                     const useOrganizationRemoveAPIKey= useOrganizationRemoveAPIKeyFunction()
                     const onDelete = useCallback(async ()=>{
-                        return await useOrganizationRemoveAPIKey.mutateAsync({
-                            id: row.original.id,
-                            keyId: row.original.id
-                        })
-                    },[])
+                        if(orgId){
+                            await useOrganizationRemoveAPIKey.mutateAsync({
+                                id: orgId,
+                                keyId: row.original.id
+                            })
+                            declineConfirmation.handleClose()
+                        }
+                    },[orgId, row.original.id])
 
                     const declineConfirmation = useDeletedConfirmationPopUp({
                         title: t("apiKeysList.delete"),
@@ -79,12 +89,13 @@ export interface APIKeysTableProps{
     page?: PageQueryResult<APIKeyDTO>
     pagination: OffsetPagination
     isLoading?: boolean
+    orgId?: OrganizationId
 }
 
 export const APIKeysTable = (props: APIKeysTableProps) => {
-    const {  page, isLoading, pagination } = props
+    const {  page, isLoading, pagination, orgId} = props
     const { t } = useTranslation()
-    const columns = useAPIKeyColumn()
+    const columns = useAPIKeyColumn(orgId)
 
     const tableState = useTable({
         data: page?.items ?? [],
