@@ -1,12 +1,17 @@
 import {APIKeyDTO} from "../../api";
-import {Row} from "@tanstack/react-table";
 import {useTranslation} from "react-i18next";
 import {FormComposable, FormComposableField, useFormComposable} from "@smartb/g2";
 import {useMemo} from "react";
 import {useDeletedConfirmationPopUp} from "components";
 import {Stack, Typography} from "@mui/material";
 
-export const useDeleteAPIKeyPopUp = (onDeleteClick : (apiKey : APIKeyDTO)  => Promise<void>, row : Row<APIKeyDTO> ) => {
+interface useDeleteAPIKeyPopUpProps{
+    onDeleteClick : (apiKey : APIKeyDTO)  => Promise<void>
+    apiKey : APIKeyDTO
+}
+
+export const useDeleteAPIKeyPopUp = (props :  useDeleteAPIKeyPopUpProps ) => {
+    const { onDeleteClick, apiKey } = props
     const { t } = useTranslation();
 
     const formState = useFormComposable({
@@ -14,7 +19,7 @@ export const useDeleteAPIKeyPopUp = (onDeleteClick : (apiKey : APIKeyDTO)  => Pr
         readOnly: true,
         formikConfig : {
             initialValues : {
-                ...row.original
+                ...apiKey
             }
         }
     })
@@ -35,6 +40,6 @@ export const useDeleteAPIKeyPopUp = (onDeleteClick : (apiKey : APIKeyDTO)  => Pr
                 <FormComposable display="grid" formState={formState}  fields={fields}/>
                 <Typography>{t("apiKeysList.deleteMessage")}</Typography>
             </Stack>,
-        onDelete : () => onDeleteClick(row.original)
+        onDelete : () => onDeleteClick(apiKey)
     });
 }

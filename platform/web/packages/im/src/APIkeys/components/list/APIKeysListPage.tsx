@@ -29,7 +29,6 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
     const { organization, getOrganization } = useOrganizationFormState<OrganizationDTO>({
         organizationId : orgId
     })
-    console.log(organization)
 
     // const { apiKeysAdd } = useRoutesDefinition()
     const pagination = useMemo((): OffsetPagination => ({ offset: Offset.default.offset, limit: Offset.default.limit }), [])
