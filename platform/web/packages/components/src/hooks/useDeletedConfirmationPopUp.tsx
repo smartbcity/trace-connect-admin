@@ -13,8 +13,8 @@ export interface UseDeletedConfirmationType {
     popup: React.ReactNode
     isOpen: boolean
     setOpen: (open: boolean) => void
-    handleOpen: () => void
-    handleClose: () => void
+    open: () => void
+    close: () => void
 }
 
 export const useDeletedConfirmationPopUp = (props: UseDeletedConfirmationProps): UseDeletedConfirmationType => {
@@ -22,13 +22,13 @@ export const useDeletedConfirmationPopUp = (props: UseDeletedConfirmationProps):
     const { t } = useTranslation()
     const [isOpen, setOpen] = useState(false)
 
-    const handleClose = useCallback(
+    const close = useCallback(
         () => {
             setOpen(false)
         },
         [],
     )
-    const handleOpen = useCallback(
+    const open = useCallback(
         () => {
             setOpen(true)
         },
@@ -37,34 +37,34 @@ export const useDeletedConfirmationPopUp = (props: UseDeletedConfirmationProps):
 
     const onDeleteClicked = useCallback(async () => {
         await onDelete()
-        handleClose()
-    }, [onDelete, handleClose])
+        close()
+    }, [onDelete, close])
 
     const actions = useMemo((): Action[] => [{
         key: "cancel",
         label: t("cancel"),
-        onClick: handleClose,
+        onClick: close,
         variant: "text"
     }, {
         key: "delete",
         label: t("delete"),
         color: "error",
         onClick: onDeleteClicked,
-    }], [handleClose, t, onDeleteClicked])
+    }], [close, t, onDeleteClicked])
 
 
     const popup = useMemo(() => (
-        <PopUp open={isOpen} onClose={handleClose} actions={actions}>
+        <PopUp open={isOpen} onClose={close} actions={actions}>
             <Typography sx={{ whiteSpace: "pre-line" }} color="secondary" variant="h4">{title}</Typography>
             {component && <>{component}</>}
         </PopUp>
-    ), [isOpen, handleClose, t, actions, component, title]);
+    ), [isOpen, close, t, actions, component, title]);
 
     return {
         popup,
         isOpen,
         setOpen,
-        handleClose,
-        handleOpen
+        close: close,
+        open: open
     }
 }

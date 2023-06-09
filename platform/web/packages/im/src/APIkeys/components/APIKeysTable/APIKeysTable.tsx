@@ -36,7 +36,7 @@ function useAPIKeyColumn(onDeleteClick : (apiKey : APIKeyDTO)  => Promise<void>)
             action : ({
                 cell: ({row}) => {
                     const popUp = useDeleteAPIKeyPopUp(onDeleteClick, row)
-                    return <><TableCellAdmin onDelete={() => popUp.handleOpen()}/>{popUp.popup}</>
+                    return <><TableCellAdmin onDelete={() => popUp.open()}/>{popUp.popup}</>
                 }
             })
         })
