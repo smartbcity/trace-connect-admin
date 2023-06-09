@@ -1,7 +1,7 @@
 import { MenuItem, Chip } from "@smartb/g2-components";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { LinkProps } from "react-router-dom";
+import {LinkProps} from "react-router-dom";
 import { EditRounded, Visibility } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { G2ColumnDef } from "@smartb/g2-layout";
@@ -11,21 +11,26 @@ import {
     useRoutesDefinition,
     UserRoles,
     userRolesColors,
-    TableCellAdmin,
-    useDeletedConfirmationPopUp
+    TableCellAdmin
 } from "components";
-import { User } from "@smartb/g2-i2-v2";
-import {Typography} from "@mui/material";
+import {User, useUserDisable2} from "@smartb/g2-i2-v2";
+import {i2Config} from "@smartb/g2-providers";
+import {useDeleteUserPopUp} from "./useDeleteUserPopUp";
 
 
 export const useUserListPage = () => {
 
     const { t } = useTranslation();
 
-    const {service} = useExtendedAuth()
+    const {service, keycloak} = useExtendedAuth()
 
     const {usersUserIdEdit, usersUserIdView, organizationsOrganizationIdView} = useRoutesDefinition()
-  
+
+    const userDisable = useUserDisable2({
+        apiUrl : i2Config().userUrl,
+        jwt : keycloak.token
+    })
+
     const getActions = useCallback(
       (user: User): MenuItem<LinkProps>[] => {
         return [
@@ -64,19 +69,26 @@ export const useUserListPage = () => {
       [organizationsOrganizationIdView],
     )
 
-    const declineConfirmation = useDeletedConfirmationPopUp({
-        title: t("userList.delete"),
-        component: <Typography sx={{ margin: (theme) => `${theme.spacing(4)} 0` }}>{t("userList.deleteMessage")}</Typography>,
-        onDelete : (() => {return}) // en attendant back
-    });
+    const onDeleteClick = useCallback(
+        async (user : User) => {
+            await userDisable.mutateAsync({
+                id: user.id,
+                anonymize: true
+            })
+            window.location.reload()
+        }, []
+    )
 
-    const onDelete = useCallback(
-        () => {
-            declineConfirmation.handleOpen();
+    const declineConfirmation = useDeleteUserPopUp({onDeleteClick : onDeleteClick})
+
+    const handleDeleteClick = useCallback(
+        (user : User) => {
+            declineConfirmation.open(user);
         },
         [declineConfirmation]
     );
-    
+
+
     const additionalColumns = useMemo((): G2ColumnDef<User>[] => {
       return [{
         header: t("role"),
@@ -88,8 +100,8 @@ export const useUserListPage = () => {
       },{
         header: t("actions"),
           id: "delete",
-          cell: ({}) => {
-             return <><TableCellAdmin onDelete={onDelete} onEdit={() =>{}} />{declineConfirmation.popup}</>
+          cell: ({row}) => {
+             return <><TableCellAdmin onDelete={() => handleDeleteClick(row.original)} onEdit={() =>{}} />{declineConfirmation.popup}</>
         },
       },
     ]
