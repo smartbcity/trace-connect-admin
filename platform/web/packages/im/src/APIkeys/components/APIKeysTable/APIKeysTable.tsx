@@ -1,18 +1,15 @@
-import {useCallback, useMemo} from "react";
+import {useMemo} from "react";
 import {
     ColumnFactory,
-    FormComposable,
-    FormComposableField,
-    OrganizationId,
-    useFormComposable,
     useTable
 } from "@smartb/g2";
-import {TableCellAdmin, useDeletedConfirmationPopUp} from "components";
+import {TableCellAdmin} from "components";
 import {useTranslation} from "react-i18next";
-import {Stack, Typography} from "@mui/material";
+import {Typography} from "@mui/material";
 import {OffsetPagination, OffsetTable, PageQueryResult} from "template";
-import {APIKeyDTO, useOrganizationRemoveAPIKeyFunction} from "../../api";
-function useAPIKeyColumn(orgId? : OrganizationId) {
+import {APIKeyDTO} from "../../api";
+import {useDeleteAPIKeyPopUp} from "./useDeleteAPIKeyPopUp";
+function useAPIKeyColumn(onDeleteClick : (apiKey : APIKeyDTO)  => Promise<void>) {
     const { t } = useTranslation();
     return useMemo(() => ColumnFactory<APIKeyDTO>({
         generateColumns: (generators) => ({
@@ -22,7 +19,6 @@ function useAPIKeyColumn(orgId? : OrganizationId) {
                     value: registry.name
                 })
             }),
-
             identifier: generators.text({
                 header: t("identifier"),
                 getCellProps: (registry) => ({
@@ -39,63 +35,25 @@ function useAPIKeyColumn(orgId? : OrganizationId) {
             // @ts-ignore
             action : ({
                 cell: ({row}) => {
-                    const formState = useFormComposable({
-                        emptyValueInReadOnly: "-",
-                        readOnly: true,
-                        formikConfig : {
-                            initialValues : {
-                                ...row.original
-                            }
-                        }
-                    })
-                    const fields = useMemo((): FormComposableField<keyof APIKeyDTO>[] => [{
-                        name: "identifier",
-                        type: "textField",
-                        label: t('identifier'),
-                    },{
-                        name: "creationDate",
-                        type: "datePicker",
-                        label: t('created'),
-                    }], [t])
-
-                    const useOrganizationRemoveAPIKey= useOrganizationRemoveAPIKeyFunction()
-                    const onDelete = useCallback(async ()=>{
-                        if(orgId){
-                            await useOrganizationRemoveAPIKey.mutateAsync({
-                                id: orgId,
-                                keyId: row.original.id
-                            })
-                            declineConfirmation.handleClose()
-                        }
-                    },[orgId, row.original.id])
-
-                    const declineConfirmation = useDeletedConfirmationPopUp({
-                        title: t("apiKeysList.delete"),
-                        component :
-                        <Stack gap={(theme) => `${theme.spacing(4)}`} sx={{margin : (theme) => `${theme.spacing(4)} 0`}}>
-                            <FormComposable display="grid" formState={formState}  fields={fields}/>
-                            <Typography>{t("apiKeysList.deleteMessage")}</Typography>
-                        </Stack>,
-                        onDelete : onDelete
-                    });
-                    return <><TableCellAdmin onDelete={() => declineConfirmation.handleOpen()}/>{declineConfirmation.popup}</>
+                    const popUp = useDeleteAPIKeyPopUp(onDeleteClick, row)
+                    return <><TableCellAdmin onDelete={() => popUp.handleOpen()}/>{popUp.popup}</>
                 }
             })
         })
-    }), [t]);
+    }), []);
 }
 
 export interface APIKeysTableProps{
     page?: PageQueryResult<APIKeyDTO>
     pagination: OffsetPagination
     isLoading?: boolean
-    orgId?: OrganizationId
+    onDeleteClick: (apiKey : APIKeyDTO) => Promise<void>
 }
 
 export const APIKeysTable = (props: APIKeysTableProps) => {
-    const {  page, isLoading, pagination, orgId} = props
+    const {  page, isLoading, pagination, onDeleteClick} = props
     const { t } = useTranslation()
-    const columns = useAPIKeyColumn(orgId)
+    const columns = useAPIKeyColumn(onDeleteClick)
 
     const tableState = useTable({
         data: page?.items ?? [],

@@ -7,7 +7,12 @@ import {Offset, OffsetPagination, PageQueryResult} from "template";
 import {useCreatedConfirmationPopUp} from "../../hooks";
 import {VisibilityRounded} from "@mui/icons-material";
 import {useParams} from "react-router-dom";
-import {APIKeyDTO, OrganizationDTO, useOrganizationAddAPIKeyFunction} from "../../api";
+import {
+    APIKeyDTO,
+    OrganizationDTO,
+    useOrganizationAddAPIKeyFunction,
+    useOrganizationRemoveAPIKeyFunction
+} from "../../api";
 import {useOrganizationFormState} from "@smartb/g2-i2-v2";
 import {useExtendedAuth} from "components";
 
@@ -19,11 +24,13 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
     const { myOrganization = false  } = props;
     const { t } = useTranslation();
     const { service } = useExtendedAuth()
+
     const { organizationId } = useParams();
     const orgId = myOrganization ? service.getUser()?.memberOf : organizationId
-    const { organization } = useOrganizationFormState<OrganizationDTO>({
+    const { organization, getOrganization } = useOrganizationFormState<OrganizationDTO>({
         organizationId : orgId
     })
+    console.log(organization)
 
     // const { apiKeysAdd } = useRoutesDefinition()
     const pagination = useMemo((): OffsetPagination => ({ offset: Offset.default.offset, limit: Offset.default.limit }), [])
@@ -34,9 +41,10 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
         component :
             <Stack gap={(theme) => `${theme.spacing(4)}`} sx={{margin : (theme) => `${theme.spacing(4)} 0`}}>
                 <Typography>{t("apiKeysList.createdMessage")}</Typography>
-                <TextField type="password" value={""} hidden={isHidden} iconPosition='end' inputIcon={<IconButton onClick={() => {setHidden(!isHidden)}}><VisibilityRounded /></IconButton>} />
+                <TextField value={""} textFieldType="password" hidden={isHidden} iconPosition='end' inputIcon={<IconButton onClick={() => {setHidden(!isHidden)}}><VisibilityRounded /></IconButton>} />
             </Stack>
     });
+
 
     const apiKeysPage : PageQueryResult<APIKeyDTO> = useMemo(() => {
         const apiKeys = organization?.apiKeys ?? []
@@ -45,12 +53,25 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
             total: apiKeys.length}
     }, [organization?.apiKeys])
 
+    const useOrganizationRemoveAPIKey= useOrganizationRemoveAPIKeyFunction()
+
+    const onDelete = useCallback(async (apiKey :  APIKeyDTO)=>{
+        if(orgId){
+            await useOrganizationRemoveAPIKey.mutateAsync({
+                id: orgId,
+                keyId: apiKey.id
+            })
+            await getOrganization.refetch()
+        }
+    },[organization, getOrganization])
+
     const createAPIKey = useCallback(async () => {
         if (organization) {
             await organizationAddAPIKeyFunction.mutateAsync({
                 id: organization.id,
-                name: `sb-${organization?.name}-${organization?.apiKeys.length}`
+                name: `sb-${organization?.name}-${organization?.apiKeys.length+1}`
             });
+            await getOrganization.refetch()
             createdConfirmation.handleOpen();
         }
     }, [organization, createdConfirmation]);
@@ -75,8 +96,8 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
                 <APIKeysTable
                     page={apiKeysPage}
                     pagination={pagination}
-                    isLoading={organizationAddAPIKeyFunction.isLoading}
-                    orgId={orgId}
+                    isLoading={getOrganization.isLoading}
+                    onDeleteClick={onDelete}
                 />
             </Stack>
             {createdConfirmation.popup}
