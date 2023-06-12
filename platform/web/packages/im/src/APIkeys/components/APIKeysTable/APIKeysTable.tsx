@@ -40,7 +40,7 @@ function useAPIKeyColumn(onDeleteClick : (apiKey : APIKeyDTO)  => Promise<void>)
                 }
             })
         })
-    }), []);
+    }), [t]);
 }
 
 export interface APIKeysTableProps{
@@ -54,11 +54,11 @@ export const APIKeysTable = (props: APIKeysTableProps) => {
     const {  page, isLoading, pagination, onDeleteClick} = props
     const { t } = useTranslation()
     const columns = useAPIKeyColumn(onDeleteClick)
-
     const tableState = useTable({
         data: page?.items ?? [],
         columns: columns,
     })
+
     return (
             (!page?.items && !isLoading) ?
                 <Typography align="center">{t("apiKeysList.noKeys")}</Typography>

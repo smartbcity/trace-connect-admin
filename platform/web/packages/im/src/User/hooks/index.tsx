@@ -14,6 +14,7 @@ import {
 import {User, useUserDisable2} from "@smartb/g2-i2-v2";
 import {i2Config} from "@smartb/g2-providers";
 import {useDeleteUserPopUp} from "./useDeleteUserPopUp";
+import {useQueryClient} from "react-query";
 
 
 export const useUserListPage = () => {
@@ -41,25 +42,17 @@ export const useUserListPage = () => {
       [organizationsOrganizationIdView],
     )
 
+    const queryClient = useQueryClient()
+
     const onDeleteClick = useCallback(
         async (user : User) => {
             await userDisable.mutateAsync({
                 id: user.id,
                 anonymize: true
             })
-            window.location.reload()
+            queryClient.invalidateQueries('users')
         }, []
     )
-
-    const declineConfirmation = useDeleteUserPopUp({onDeleteClick : onDeleteClick})
-
-    const handleDeleteClick = useCallback(
-        (user : User) => {
-            declineConfirmation.open(user);
-        },
-        [declineConfirmation]
-    );
-
 
     const additionalColumns = useMemo((): G2ColumnDef<User>[] => {
       return [{
@@ -70,14 +63,24 @@ export const useUserListPage = () => {
           return <Chip label={t("roles." + role)} color={userRolesColors[role]} />;
         },
       },{
+
         header: t("actions"),
           id: "delete",
           cell: ({row}) => {
-             return <><TableCellAdmin onDelete={() => handleDeleteClick(row.original)} onEdit={() => navigate(usersUserIdEdit(row.original.id))} />{declineConfirmation.popup}</>
+              const declineConfirmation = useDeleteUserPopUp({onDeleteClick : onDeleteClick})
+
+              const handleDeleteClick = useCallback(
+                  (user : User) => {
+                      declineConfirmation.open(user);
+                  },
+                  [declineConfirmation]
+              );
+
+              return <><TableCellAdmin onDelete={() => handleDeleteClick(row.original)} onEdit={() => navigate(usersUserIdEdit(row.original.id))} />{declineConfirmation.popup}</>
         },
       },
     ]
-    }, [service.getPrincipalRole, declineConfirmation])
+    }, [service.getPrincipalRole])
 
     return {
         getRowLink: getRowLink,

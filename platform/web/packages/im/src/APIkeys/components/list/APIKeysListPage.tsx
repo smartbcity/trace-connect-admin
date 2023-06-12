@@ -1,40 +1,29 @@
 import {useTranslation} from "react-i18next";
 import {Stack, Typography} from "@mui/material";
-import {Button, Page} from "@smartb/g2";
+import {LinkButton, Page} from "@smartb/g2";
 import {APIKeysTable} from "../APIKeysTable";
 import {useCallback, useMemo} from "react";
 import {Offset, OffsetPagination, PageQueryResult} from "template";
-import {useCreatedConfirmationPopUp} from "../../hooks";
-import {useParams} from "react-router-dom";
 import {
     APIKeyDTO,
     OrganizationDTO,
-    useOrganizationAddAPIKeyFunction,
     useOrganizationRemoveAPIKeyFunction
 } from "../../api";
 import {useOrganizationFormState} from "@smartb/g2-i2-v2";
-import {useExtendedAuth} from "components";
+import {useExtendedAuth, useRoutesDefinition} from "components";
 
 interface APIKeysListPageProps {
-    myOrganization?: boolean
 }
-
 export const APIKeysListPage = (props: APIKeysListPageProps) => {
-    const { myOrganization = false  } = props;
+    const { } = props;
     const { t } = useTranslation();
     const { service } = useExtendedAuth()
-
-    const { organizationId } = useParams();
-    const orgId = myOrganization ? service.getUser()?.memberOf : organizationId
+    const orgId = service.getUser()?.memberOf
     const { organization, getOrganization } = useOrganizationFormState<OrganizationDTO>({
         organizationId : orgId
     })
-
-    // const { apiKeysAdd } = useRoutesDefinition()
+    const { apiKeysAdd } = useRoutesDefinition()
     const pagination = useMemo((): OffsetPagination => ({ offset: Offset.default.offset, limit: Offset.default.limit }), [])
-    const organizationAddAPIKeyFunction = useOrganizationAddAPIKeyFunction()
-    const createdConfirmation = useCreatedConfirmationPopUp();
-
 
     const apiKeysPage : PageQueryResult<APIKeyDTO> = useMemo(() => {
         const apiKeys = organization?.apiKeys ?? []
@@ -55,17 +44,6 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
         }
     },[organization, getOrganization])
 
-    const createAPIKey = useCallback(async () => {
-        if (organization) {
-            const result = await organizationAddAPIKeyFunction.mutateAsync({
-                id: organization.id,
-                name: `sb-${organization?.name}-${organization?.apiKeys.length+1}`
-            });
-            await getOrganization.refetch()
-            result && createdConfirmation.open(result);
-        }
-    }, [organization, createdConfirmation]);
-
     return (
         <Page
             headerProps={{
@@ -74,8 +52,7 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
                         <Typography variant="h5" key="pageTitle">{t("manageAPIKeys")}</Typography>
                     ],
                     rightPart: [
-                        // LinkButton to={apiKeysAdd()}
-                        <Button onClick={createAPIKey} key="pageAddButton">{t("apiKeysList.create")}</Button>
+                        <LinkButton to={apiKeysAdd()} key="pageAddButton">{t("apiKeysList.create")}</LinkButton>
                     ]
                 }]
             }}
@@ -90,7 +67,6 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
                     onDeleteClick={onDelete}
                 />
             </Stack>
-            {createdConfirmation.popup}
         </Page>
     )
 }

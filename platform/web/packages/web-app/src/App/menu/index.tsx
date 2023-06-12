@@ -71,7 +71,9 @@ export const useMenu = (t: TFunction) => {
         key: "apiKeys",
         to: apiKeys(),
         label: t("manageAPIKeys"),
-        icon: <VpnKeyRounded />
+        icon: <VpnKeyRounded />,
+        isVisible: service.hasUserRouteAuth({route: "apiKeys"})
+
     }], [t, service.hasUserRouteAuth, location.pathname])
     return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }

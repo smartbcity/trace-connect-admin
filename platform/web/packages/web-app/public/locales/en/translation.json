@@ -27,6 +27,7 @@
   "created": "Created",
   "totalItem": "{{start}} - {{end}} of {{total}}",
   "organizationSummary": "Organization summary",
+  "apiKeySummary": "API Key summary",
   "manageAccount": "Manage account",
   "manageUsers": "Manage users",
   "manageAPIKeys": "Manage API keys",

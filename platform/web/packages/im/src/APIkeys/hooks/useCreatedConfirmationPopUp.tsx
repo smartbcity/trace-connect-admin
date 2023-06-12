@@ -4,6 +4,8 @@ import {Action, PopUp, TextField} from "@smartb/g2";
 import {IconButton, Stack, Typography} from "@mui/material";
 import {OrganizationAddedApiKeyEvent} from "../api";
 import {VisibilityOffRounded, VisibilityRounded} from "@mui/icons-material";
+import {useRoutesDefinition} from "components";
+import {useNavigate} from "react-router-dom";
 
 export interface useCreatedConfirmationType {
     popup: React.ReactNode
@@ -15,10 +17,13 @@ export interface useCreatedConfirmationType {
 export const useCreatedConfirmationPopUp = (): useCreatedConfirmationType => {
     const { t } = useTranslation()
     const [keyCreatedEvent, setKeyCreatedEvent] = useState<OrganizationAddedApiKeyEvent | null>(null)
+    const { apiKeys } = useRoutesDefinition()
+    const navigate = useNavigate()
 
     const close = useCallback(
         () => {
             setKeyCreatedEvent(null)
+            navigate(apiKeys())
         },
         [],
     )
