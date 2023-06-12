@@ -23,8 +23,8 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
     const isUpdate = !!userId || myProfil
 
     const organizationId = useMemo(() => {
-        return searchParams.get('organizationId') ?? undefined
-    }, [searchParams])
+        return searchParams.get('organizationId') ?? service.getUser()?.memberOf
+    }, [searchParams, service.getUser])
 
     const { usersUserIdView, usersUserIdEdit, organizationsOrganizationIdView } = useRoutesDefinition()
 
@@ -108,7 +108,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
                 validator: validators.requiredField(t)
             },
             memberOf: {
-                readOnly: isUpdate,
+                readOnly: !service.is_super_admin() || isUpdate,
                 params: {
                     options: organizationOptions
                 }

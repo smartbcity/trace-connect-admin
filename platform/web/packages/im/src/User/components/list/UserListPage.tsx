@@ -28,7 +28,7 @@ export const UserListPage = (props: UserListPageProps) => {
       headerProps={{
         content: [{
           leftPart: [
-            <Typography variant="h5" key="pageTitle">{t("users")}</Typography>
+            <Typography variant="h5" key="pageTitle">{t("manageUsers")}</Typography>
           ],
           rightPart: [
             <LinkButton to={usersAdd()} key="pageAddButton">{t("userList.create")}</LinkButton>
