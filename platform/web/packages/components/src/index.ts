@@ -1,4 +1,6 @@
 export { Example } from "./ComponentExample";
+export * from "./TableCellAdmin"
+
 export * from "./types"
 export * from "./auth"
 export * from "./roles"

@@ -9,32 +9,65 @@
   "update": "Update",
   "save": "Save",
   "cancel": "Cancel",
+  "close": "Close",
   "edit": "Edit",
   "view": "View",
   "details": "Details",
   "members": "Members",
   "name": "Name",
   "role": "Role",
+  "actions": "Actions",
+  "description": "Description",
+  "submit": "Submit",
+  "delete": "Delete",
+  "country": "Country",
+  "address": "Address",
+  "companyName": "Company Name",
+  "identifier": "Identifier",
+  "created": "Created",
+  "totalItem": "{{start}} - {{end}} of {{total}}",
+  "organizationSummary": "Organization summary",
+  "apiKeySummary": "API Key summary",
   "manageAccount": "Manage account",
   "manageUsers": "Manage users",
+  "manageAPIKeys": "Manage API keys",
   "roles": {
     "super_admin": "Super Admin",
     "admin": "Admin",
-    "user": "User"
+    "user": "User",
+    "tr_project_manager": "Project Manager",
+    "tr_stakeholder": "Stakeholder",
+    "tr_orchestrator": "Orchestrator"
   },
   "organizationRoles": {
     "admin": "Admin",
-    "super_admin": "Super Admin"
+    "super_admin": "Super Admin",
+    "tr_project_manager": "Project Manager",
+    "tr_stakeholder": "Stakeholder",
+    "tr_orchestrator": "Orchestrator"
   },
   "userList": {
     "create": "Add a User",
     "noUser": "No users found",
     "orgNameFilter": "Name of the organization",
-    "noUserOrg": "$t(userList.noUser) for this organization",
-    "nameFilter": "Name"
+    "noUserOrg": "There are no users associated with this organization.",
+    "nameFilter": "Name",
+    "email": "Email",
+    "delete": "Delete User",
+    "deleteMessage": "Are you sure you want to delete this user? This action cannot be undone, and all associated data will be lost."
   },
   "organizationList": {
     "create": "Create an Organization",
     "noOrganization": "No organizations found"
+  },
+  "apiKeysList": {
+    "headerText1" : "Your secret API keys are listed below. Please note that we do not display your secret API keys again after you generate them.",
+    "headerText2" : "Do not share your API key with others. or expose it in the browser or other client-side code.",
+    "create": "Create new API key",
+    "noKeys" : "No API key found",
+    "delete" : "Delete API Key",
+    "deleteMessage" : "Are you sure you want to delete this API key? This action cannot be undone and any application using this key will no longer be able to authenticate.",
+    "created" : "API key successfully created",
+    "createdMessage" : "Once you close this interface, you will not be able to view this API key again. Please ensure that you copy and save the API key in a safe location. If you do not save the key, you will need to create a new one."
   }
 }

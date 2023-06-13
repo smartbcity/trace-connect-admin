@@ -16,6 +16,8 @@ const IMRoutesAuthorizations = {
     "users/:userId/edit": [["memberOf", "admin"]],
     "myProfil": "open",
     "myProfil/edit": "open",
+    "apiKeys": ["admin"],
+    "apiKeys/add": ["admin"],
 } as const
 
 const strictRoutesAuthorizations = {

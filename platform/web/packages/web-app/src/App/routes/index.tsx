@@ -2,7 +2,14 @@ import { NoMatchPage, Router } from "@smartb/g2";
 import { Route, useParams, useSearchParams } from "react-router-dom";
 import { Routes, useExtendedAuth } from "components";
 import { App } from "App";
-import {OrganizationListPage, OrganizationProfilePage, UserListPage, UserProfilePage, } from "im"
+import {
+  APIKeyProfilePage,
+  APIKeysListPage,
+  OrganizationListPage,
+  OrganizationProfilePage,
+  UserListPage,
+  UserProfilePage,
+} from "im"
 import {useMemo} from "react"
 
 
@@ -42,7 +49,14 @@ const imPages: PageRoute[] = [{
 }, {
   path: "myProfil/edit",
   element: <UserProfilePage myProfil readOnly={false} />
-}]
+}, {
+  path: "apiKeys",
+  element: <APIKeysListPage />
+},
+{
+  path: "apiKeys/add",
+  element: <APIKeyProfilePage readOnly={false} />
+},]
 
 const allPages: PageRoute[] = [...imPages]
 

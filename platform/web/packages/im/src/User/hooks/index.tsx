@@ -1,63 +1,59 @@
-import { MenuItem, Chip } from "@smartb/g2-components";
+import { Chip } from "@smartb/g2-components";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
-import { LinkProps } from "react-router-dom";
-import { EditRounded, Visibility } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import {LinkProps, useNavigate} from "react-router-dom";
 import { G2ColumnDef } from "@smartb/g2-layout";
 import { Row } from '@tanstack/react-table'
-import { useExtendedAuth, useRoutesDefinition, UserRoles, userRolesColors } from "components";
-import { User } from "@smartb/g2-i2-v2";
+import {
+    useExtendedAuth,
+    useRoutesDefinition,
+    UserRoles,
+    userRolesColors,
+    TableCellAdmin
+} from "components";
+import {User, useUserDisable2} from "@smartb/g2-i2-v2";
+import {i2Config} from "@smartb/g2-providers";
+import {useDeleteUserPopUp} from "./useDeleteUserPopUp";
+import {useQueryClient} from "react-query";
 
 
 export const useUserListPage = () => {
 
     const { t } = useTranslation();
     const navigate = useNavigate()
-
-    const {service} = useExtendedAuth()
+    const {service, keycloak} = useExtendedAuth()
 
     const {usersUserIdEdit, usersUserIdView, organizationsOrganizationIdView} = useRoutesDefinition()
+
+    const userDisable = useUserDisable2({
+        apiUrl : i2Config().userUrl,
+        jwt : keycloak.token
+    })
   
-    const getActions = useCallback(
-      (user: User): MenuItem<LinkProps>[] => {
-        return [
-          {
-            key: "view",
-            label: t("view"),
-            icon: <Visibility />,
-            component: Link,
-            componentProps: {
-              to: usersUserIdView(user.id)
-            }
-          },
-          ...(service.hasUserRouteAuth({route: "users/:userId/edit"}) ? [{
-            key: "edit",
-            label: t("edit"),
-            icon: <EditRounded />,
-            component: Link,
-            componentProps: {
-              to: usersUserIdEdit(user.id)
-            }
-          }] : [])
-        ]
-      },
-      [service.hasUserRouteAuth, usersUserIdEdit, usersUserIdView],
-    )
-  
-    const onRowClicked = useCallback(
-      (row: Row<User>) => {
-        navigate(usersUserIdView(row.original.id))
-      },
-      [navigate, usersUserIdView],
+    const getRowLink = useCallback(
+      (row: Row<User>) : LinkProps => ({
+        to: usersUserIdView(row.original.id)
+      }),
+      [usersUserIdView],
     )
   
     const getOrganizationUrl = useCallback(
       (organizationId: string) => organizationsOrganizationIdView(organizationId),
       [organizationsOrganizationIdView],
     )
-    
+
+    const queryClient = useQueryClient()
+
+    const onDeleteClick = useCallback(
+        async (user : User) => {
+            await userDisable.mutateAsync({
+                id: user.id,
+                anonymize: true
+            })
+            queryClient.invalidateQueries('users')
+        }, []
+    )
+
     const additionalColumns = useMemo((): G2ColumnDef<User>[] => {
       return [{
         header: t("role"),
@@ -66,13 +62,28 @@ export const useUserListPage = () => {
           const role = service.getPrincipalRole((row.original.roles ?? []) as UserRoles[]) as UserRoles
           return <Chip label={t("roles." + role)} color={userRolesColors[role]} />;
         },
-      }
+      },{
+
+        header: t("actions"),
+          id: "delete",
+          cell: ({row}) => {
+              const declineConfirmation = useDeleteUserPopUp({onDeleteClick : onDeleteClick})
+
+              const handleDeleteClick = useCallback(
+                  (user : User) => {
+                      declineConfirmation.open(user);
+                  },
+                  [declineConfirmation]
+              );
+
+              return <><TableCellAdmin onDelete={() => handleDeleteClick(row.original)} onEdit={() => navigate(usersUserIdEdit(row.original.id))} />{declineConfirmation.popup}</>
+        },
+      },
     ]
     }, [service.getPrincipalRole])
 
     return {
-        getActions,
-        onRowClicked,
+        getRowLink: getRowLink,
         getOrganizationUrl,
         additionalColumns
     }

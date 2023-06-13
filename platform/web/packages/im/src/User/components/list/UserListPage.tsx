@@ -1,11 +1,12 @@
-import { Page, Section, LinkButton } from "@smartb/g2"
-import { AutomatedUserTable } from "@smartb/g2-i2-v2"
+import { Page, LinkButton } from "@smartb/g2"
+import {AutomatedUserTable} from "@smartb/g2-i2-v2"
 import { Typography } from "@mui/material";
 import { useExtendedAuth, useRoutesDefinition } from "components";
 import { useTranslation } from "react-i18next";
 import { useUserFilters } from "./useUserFilters";
 import { useUserListPage } from "../../hooks";
 import { useMemo } from "react";
+import {userTableColumns} from "@smartb/g2-i2-v2/dist/User/Components/UserTable";
 
 interface UserListPageProps { }
 
@@ -14,7 +15,7 @@ export const UserListPage = (props: UserListPageProps) => {
   const { t } = useTranslation();
   const {service} = useExtendedAuth()
   
-  const { getActions, getOrganizationUrl, onRowClicked, additionalColumns } = useUserListPage()
+  const { getOrganizationUrl, getRowLink, additionalColumns } = useUserListPage()
   const { usersAdd } = useRoutesDefinition()
 
   const canSeeAllUser = useMemo(() => service.is_super_admin(), [service.is_super_admin])
@@ -36,25 +37,20 @@ export const UserListPage = (props: UserListPageProps) => {
         }]
       }}
     >
-      <Section
-        flexContent
-      >
         {component}
         <AutomatedUserTable
           columnsExtander={{
-            getActions: getActions,
             additionalColumns,
-            blockedColumns: canSeeAllUser ? ["memberOf"] : undefined
+            blockedColumns: ["address", ...(!canSeeAllUser ? ["memberOf" as userTableColumns] : [])]
           }}
-          onRowClicked={onRowClicked}
+          getRowLink={getRowLink}
           hasOrganizations
           filters={filters}
           getOrganizationUrl={getOrganizationUrl}
-          noDataComponent={<Typography align="center">{t("userList.noUser")}</Typography>}
+          noDataComponent={<Typography align="center">{t("userList.noUserOrg")}</Typography>}
           page={submittedFilters.page + 1}
           setPage={setPage}
         />
-      </Section>
     </Page>
   )
 };
