@@ -2,7 +2,6 @@ FROM node:16-alpine as build
 
 WORKDIR /app
 
-COPY .npmrc ./
 COPY platform/web ./
 
 ARG VERSION
