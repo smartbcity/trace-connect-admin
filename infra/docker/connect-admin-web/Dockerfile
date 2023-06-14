@@ -12,7 +12,7 @@ RUN echo -e "\
 access=public \n\
  @smartb:registry=https://gitlab.smartb.city/api/v4/projects/127/packages/npm/ \n\
 //gitlab.smartb.city/api/v4/projects/127/packages/npm/:_authToken=${CI_NPM_AUTH_TOKEN} \n\
-" > .npmrc \
+" > .npmrc
 
 RUN yarn install
 ENV PATH /app/node_modules/.bin:$PATH
