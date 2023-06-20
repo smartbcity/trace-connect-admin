@@ -58,7 +58,9 @@
   },
   "organizationList": {
     "create": "Create an Organization",
-    "noOrganization": "No organizations found"
+    "noOrganization": "No organizations found",
+    "delete": "Delete Organization",
+    "deleteMessage" : "Are you sure you want to delete this organization? This action cannot be undone, and all associated data will be lost."
   },
   "apiKeysList": {
     "headerText1" : "Your secret API keys are listed below. Please note that we do not display your secret API keys again after you generate them.",

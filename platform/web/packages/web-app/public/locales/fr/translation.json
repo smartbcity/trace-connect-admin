@@ -58,7 +58,9 @@
   },
   "organizationList": {
     "create": "Créer une organisation",
-    "noOrganization": "Aucune organisation n'a été trouvée"
+    "noOrganization": "Aucune organisation n'a été trouvée",
+    "delete": "Supprimer l'organisation",
+    "deleteMessage" : "Êtes-vous sûr(e) de vouloir supprimer cette organisation ? Cette action est irréversible et toutes les données associées seront perdues."
   },
   "apiKeysList": {
     "headerText1" : "Vos clés d'API secrètes sont répertoriées ci-dessous. Veuillez noter que nous n'affichons plus vos clés d'API secrètes une fois générées.",
