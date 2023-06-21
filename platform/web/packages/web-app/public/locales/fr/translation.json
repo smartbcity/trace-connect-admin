@@ -60,6 +60,11 @@
   "organizationList": {
     "create": "Créer une organisation",
     "noOrganization": "Aucune organisation n'a été trouvée",
+<<<<<<< platform/web/packages/web-app/public/locales/fr/translation.json
+    "delete": "Supprimer l'organisation",
+    "deleteMessage" : "Êtes-vous sûr(e) de vouloir supprimer cette organisation ? Cette action est irréversible et toutes les données associées seront perdues."
+=======
+>>>>>>> platform/web/packages/web-app/public/locales/fr/translation.json
   },
   "apiKeysList": {
     "headerText1" : "Vos clés d'API secrètes sont répertoriées ci-dessous. Veuillez noter que nous n'affichons plus vos clés d'API secrètes une fois générées.",
