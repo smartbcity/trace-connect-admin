@@ -26,6 +26,7 @@
   "identifier": "Identifiant",
   "created": "Créé",
   "totalItem": "{{start}} - {{end}} sur {{total}}",
+  "optionalCountry": "Pays (facultatif)",
   "organizationSummary": "Résumé de l'organisation",
   "apiKeySummary": "Résumé de la clé d'API",
   "manageAccount": "Gérer mon compte",
@@ -58,7 +59,7 @@
   },
   "organizationList": {
     "create": "Créer une organisation",
-    "noOrganization": "Aucune organisation n'a été trouvée"
+    "noOrganization": "Aucune organisation n'a été trouvée",
   },
   "apiKeysList": {
     "headerText1" : "Vos clés d'API secrètes sont répertoriées ci-dessous. Veuillez noter que nous n'affichons plus vos clés d'API secrètes une fois générées.",

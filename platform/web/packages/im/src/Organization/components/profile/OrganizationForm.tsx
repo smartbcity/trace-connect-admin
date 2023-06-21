@@ -55,13 +55,13 @@ export const OrganizationForm = (props: OrganizationFormProps) => {
         {
             name: "attributes.country",
             type: "textField",
-            label: t("country"),
+            label: readOnly ? t("country") : t("optionalCountry"),
         },
         {
             ...fields.fields.description,
             fullRow: true,
         },
-    ], [t, fields.fields, service.is_super_admin]);
+    ], [t, fields.fields, service.is_super_admin, readOnly]);
 
     return (
         <FormComposable

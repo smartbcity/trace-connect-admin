@@ -26,6 +26,7 @@
   "identifier": "Identifier",
   "created": "Created",
   "totalItem": "{{start}} - {{end}} of {{total}}",
+  "optionalCountry": "Country (optional)",
   "organizationSummary": "Organization summary",
   "apiKeySummary": "API Key summary",
   "manageAccount": "Manage account",
