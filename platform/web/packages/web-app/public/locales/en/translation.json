@@ -36,9 +36,12 @@
     "super_admin": "Super Admin",
     "admin": "Admin",
     "user": "User",
-    "tr_project_manager": "Project Manager",
-    "tr_stakeholder": "Stakeholder",
-    "tr_orchestrator": "Orchestrator"
+    "tr_orchestrator_admin": "Admin",
+    "tr_orchestrator_user": "User",
+    "tr_project_manager_admin": "Admin",
+    "tr_project_manager_user": "User",
+    "tr_stakeholder_admin": "Admin",
+    "tr_stakeholder_user": "User"
   },
   "organizationRoles": {
     "admin": "Admin",
@@ -61,16 +64,16 @@
     "create": "Create an Organization",
     "noOrganization": "No organizations found",
     "delete": "Delete Organization",
-    "deleteMessage" : "Are you sure you want to delete this organization? This action cannot be undone, and all associated data will be lost."
+    "deleteMessage": "Are you sure you want to delete this organization? This action cannot be undone, and all associated data will be lost."
   },
   "apiKeysList": {
-    "headerText1" : "Your secret API keys are listed below. Please note that we do not display your secret API keys again after you generate them.",
-    "headerText2" : "Do not share your API key with others. or expose it in the browser or other client-side code.",
+    "headerText1": "Your secret API keys are listed below. Please note that we do not display your secret API keys again after you generate them.",
+    "headerText2": "Do not share your API key with others. or expose it in the browser or other client-side code.",
     "create": "Create new API key",
-    "noKeys" : "No API key found",
-    "delete" : "Delete API Key",
-    "deleteMessage" : "Are you sure you want to delete this API key? This action cannot be undone and any application using this key will no longer be able to authenticate.",
-    "created" : "API key successfully created",
-    "createdMessage" : "Once you close this interface, you will not be able to view this API key again. Please ensure that you copy and save the API key in a safe location. If you do not save the key, you will need to create a new one."
+    "noKeys": "No API key found",
+    "delete": "Delete API Key",
+    "deleteMessage": "Are you sure you want to delete this API key? This action cannot be undone and any application using this key will no longer be able to authenticate.",
+    "created": "API key successfully created",
+    "createdMessage": "Once you close this interface, you will not be able to view this API key again. Please ensure that you copy and save the API key in a safe location. If you do not save the key, you will need to create a new one."
   }
 }

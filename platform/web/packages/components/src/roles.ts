@@ -3,33 +3,50 @@ import { TFunction } from "i18next"
 
 export const userRoles = [
     "super_admin",
-    "admin",
-    "user",
+    "tr_orchestrator_admin",
+    "tr_orchestrator_user",
+    "tr_project_manager_admin",
+    "tr_project_manager_user",
+    "tr_stakeholder_admin",
+    "tr_stakeholder_user",
 ] as const
 
 export type UserRoles = typeof userRoles[number]
 
-const mutableUserRoles: UserRoles[] = [...userRoles]
+export const mutableUserRoles: UserRoles[] = [...userRoles]
 
 export const userRolesColors: { [roles in UserRoles]: string } = {
     "super_admin": "#d1b00a",
-    "admin": "#E56643",
-    "user": "#3041DC"
+    "tr_orchestrator_admin": "#E56643",
+    'tr_orchestrator_user': "#3041DC",
+    "tr_project_manager_admin": "#E56643",
+    "tr_project_manager_user": "#3041DC",
+    "tr_stakeholder_admin": "#E56643",
+    "tr_stakeholder_user": "#3041DC",
 }
 
-export const getUserRolesOptions = (t: TFunction, withSuperAdmin: boolean = false) => {
+export const getUserRolesOptions = (t: TFunction, orgRole?: OrgRoles, withSuperAdmin: boolean = false) => {
 
     const roles: Option[] = []
-    for (let key in mutableUserRoles) {
-        const role = mutableUserRoles[key]
-        if (withSuperAdmin || role !== "super_admin") {
-            roles.push({
-                key: role,
-                label: t(`roles.${role}`) as string,
-                color: userRolesColors[role]
-            })
-        }
+    if (withSuperAdmin) {
+        roles.push({
+            key: "super_admin",
+            label: t(`roles.super_admin`) as string,
+            color: userRolesColors["super_admin"]
+        })
     }
+    const admin = orgRole ? orgRole + "_admin" as UserRoles : "admin" as UserRoles
+    roles.push({
+        key: admin,
+        label: t(`roles.admin`) as string,
+        color: userRolesColors[admin]
+    })
+    const user =  orgRole ? orgRole + "_user" as UserRoles: "user" as UserRoles
+    roles.push({
+        key: user,
+        label: t(`roles.user`) as string,
+        color: userRolesColors[user]
+    })
     return roles
 }
 

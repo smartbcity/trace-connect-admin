@@ -36,9 +36,12 @@
     "super_admin": "Administrateur global",
     "admin": "Admin",
     "user": "Utilisateur",
-    "tr_project_manager": "Chef de projet",
-    "tr_stakeholder": "Partie prenante",
-    "tr_orchestrator": "Orchestrateur"
+    "tr_orchestrator_admin": "Admin",
+    "tr_orchestrator_user": "Utilisateur",
+    "tr_project_manager_admin": "Admin",
+    "tr_project_manager_user": "Utilisateur",
+    "tr_stakeholder_admin": "Admin",
+    "tr_stakeholder_user": "Utilisateur"
   },
   "organizationRoles": {
     "admin": "Admin",
@@ -60,20 +63,17 @@
   "organizationList": {
     "create": "Créer une organisation",
     "noOrganization": "Aucune organisation n'a été trouvée",
-<<<<<<< platform/web/packages/web-app/public/locales/fr/translation.json
     "delete": "Supprimer l'organisation",
-    "deleteMessage" : "Êtes-vous sûr(e) de vouloir supprimer cette organisation ? Cette action est irréversible et toutes les données associées seront perdues."
-=======
->>>>>>> platform/web/packages/web-app/public/locales/fr/translation.json
+    "deleteMessage": "Êtes-vous sûr(e) de vouloir supprimer cette organisation ? Cette action est irréversible et toutes les données associées seront perdues."
   },
   "apiKeysList": {
-    "headerText1" : "Vos clés d'API secrètes sont répertoriées ci-dessous. Veuillez noter que nous n'affichons plus vos clés d'API secrètes une fois générées.",
-    "headerText2" : "Ne partagez pas votre clé API avec d'autres personnes ou ne l'exposez pas dans le navigateur ou d'autres codes côté client.",
+    "headerText1": "Vos clés d'API secrètes sont répertoriées ci-dessous. Veuillez noter que nous n'affichons plus vos clés d'API secrètes une fois générées.",
+    "headerText2": "Ne partagez pas votre clé API avec d'autres personnes ou ne l'exposez pas dans le navigateur ou d'autres codes côté client.",
     "create": "Créer une nouvelle clé d'API",
-    "noKeys" : "Aucune clé d'API trouvée",
-    "delete" : "Supprimer la clé d'API",
-    "deleteMessage" : "Êtes-vous sûr de vouloir supprimer cette clé d'API ? Cette action est irréversible et toute application utilisant cette clé ne pourra plus s'authentifier.",
-    "created" : "Clé d'API créée avec succès",
-    "createdMessage" : "Une fois que vous aurez fermé cette interface, vous ne pourrez plus afficher cette clé d'API. Assurez-vous de copier et de sauvegarder la clé d'API dans un endroit sûr. Si vous ne sauvegardez pas la clé, vous devrez en créer une nouvelle."
+    "noKeys": "Aucune clé d'API trouvée",
+    "delete": "Supprimer la clé d'API",
+    "deleteMessage": "Êtes-vous sûr de vouloir supprimer cette clé d'API ? Cette action est irréversible et toute application utilisant cette clé ne pourra plus s'authentifier.",
+    "created": "Clé d'API créée avec succès",
+    "createdMessage": "Une fois que vous aurez fermé cette interface, vous ne pourrez plus afficher cette clé d'API. Assurez-vous de copier et de sauvegarder la clé d'API dans un endroit sûr. Si vous ne sauvegardez pas la clé, vous devrez en créer une nouvelle."
   }
 }

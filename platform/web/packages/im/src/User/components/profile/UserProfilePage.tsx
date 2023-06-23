@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material'
 import { Action, i2Config, Page, Section, LinkButton, validators } from '@smartb/g2';
 import { UserFactory, useGetOrganizationRefs, userExistsByEmail, useUserFormState,UserFactoryFieldsOverride } from '@smartb/g2-i2-v2';
-import { getUserRolesOptions, useExtendedAuth, useRoutesDefinition } from "components";
+import { OrgRoles, getUserRolesOptions, useExtendedAuth, useRoutesDefinition } from "components";
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
@@ -61,10 +61,13 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
         ]
     }, [readOnly, user, myProfil, usersUserIdEdit])
 
-    const rolesOptions = useMemo(() => ({
-        readOnly: getUserRolesOptions(t, true),
-        mutable: getUserRolesOptions(t),
-    }), [t])
+    const rolesOptions = useMemo(() => {
+        const org = getOrganizationRefs.query.data?.items.find((org) => org.id === formState.values.memberOf)
+        return {
+            readOnly: getUserRolesOptions(t, org?.roles[0] as OrgRoles, true),
+            mutable: getUserRolesOptions(t, org?.roles[0] as OrgRoles, formState.values.memberOf),
+        }
+    }, [t, formState.values.memberOf, getOrganizationRefs.query.data?.items])
 
     const getOrganizationUrl = useCallback(
         (organizationId: string) => organizationsOrganizationIdView(organizationId),
