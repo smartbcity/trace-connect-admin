@@ -51,8 +51,6 @@ export const getUserRolesOptions = (t: TFunction, orgRole?: OrgRoles, withSuperA
 }
 
 export const orgRoles = [
-    "admin",
-    "super_admin",
     "tr_orchestrator",
     "tr_project_manager",
     "tr_stakeholder"
@@ -63,8 +61,6 @@ export type OrgRoles = typeof orgRoles[number]
 const mutableOrgRoles: OrgRoles[] = [...orgRoles]
 
 export const orgRolesColors: { [roles in OrgRoles]: string } = {
-    "admin": "#2EAE62",
-    "super_admin": "#27848f",
     "tr_orchestrator": "#27848f",
     "tr_project_manager": "#27848f",
     "tr_stakeholder": "#27848f"

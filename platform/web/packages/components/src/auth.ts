@@ -11,6 +11,9 @@ type StaticServices = {
             authorizedUserOrgId?: string
         }
     }
+    isAdmin: {
+        returnType: boolean;
+    }
 }
 
 const staticServices: KeycloackService<StaticServices, Roles> = {
@@ -22,6 +25,15 @@ const staticServices: KeycloackService<StaticServices, Roles> = {
         const authorizations = routesAuthorizations[route]
         if (authorizations === "open") return true
         else return checkRelations(authorizations, isAuthedUserId, isAuthedOrgId, services.hasRole)
+    },
+    isAdmin: (_, services): boolean => {
+        const currentUser = services.getUser()
+        const roles =  currentUser?.roles ?? []
+        return (
+            roles.includes("tr_orchestrator_admin") ||
+            roles.includes("tr_project_manager_admin") ||
+            roles.includes("tr_stakeholder_admin")
+        )
     }
 }
 
