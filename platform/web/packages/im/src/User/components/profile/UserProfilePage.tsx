@@ -25,7 +25,6 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
         return service.isAdmin()
     }, [service.isAdmin()])
 
-
     const isSuperAdmin = useMemo(() => {
         return service.is_super_admin()
     }, [service.is_super_admin()])
@@ -58,9 +57,10 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
         multipleRoles: false,
         organizationId
     })
+    const canUpdate = ( isSuperAdmin || isAdmin || myProfil )
 
     const headerRightPart = useMemo(() => {
-        if (!readOnly || !user) {
+        if (!readOnly || !user || !canUpdate) {
             return []
         }
 
@@ -76,13 +76,14 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
             rolesBasic: getUserRolesOptions(t, org?.roles[0] as OrgRoles, formState.values.memberOf),
         }
     }, [t, formState.values.memberOf, getOrganizationRefs.query.data?.items])
+
     const getOrganizationUrl = useCallback(
         (organizationId: string) => organizationsOrganizationIdView(organizationId),
         [organizationsOrganizationIdView],
     )
 
     const actions = useMemo((): Action[] | undefined => {
-        if (!readOnly) {
+        if (!readOnly && canUpdate) {
             return [{
                 key: "cancel",
                 label: t("cancel"),
@@ -96,7 +97,10 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
         }
     }, [readOnly, formState.submitForm])
 
-    const organizationOptions = useMemo(() => getOrganizationRefs.query.data?.items.map((ref) => ({ key: ref.id, label: ref.name })), [getOrganizationRefs])
+    const organizationOptions = useMemo(() =>
+      getOrganizationRefs.query.data?.items.map(
+        (ref) => ({ key: ref.id, label: ref.name })
+      ), [getOrganizationRefs])
 
     const checkEmailValidity = useCallback(
         async (email: string) => {
