@@ -6,7 +6,6 @@ import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
-
 export interface UserProfilePageProps {
     readOnly: boolean
     myProfil?: boolean
@@ -21,6 +20,15 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
     const { keycloak, service } = useExtendedAuth()
     const getOrganizationRefs = useGetOrganizationRefs({ jwt: keycloak.token })
     const isUpdate = !!userId || myProfil
+
+    const isAdmin = useMemo(() => {
+        return service.isAdmin()
+    }, [service.isAdmin()])
+
+
+    const isSuperAdmin = useMemo(() => {
+        return service.is_super_admin()
+    }, [service.is_super_admin()])
 
     const organizationId = useMemo(() => {
         return searchParams.get('organizationId') ?? service.getUser()?.memberOf
@@ -64,11 +72,10 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
     const rolesOptions = useMemo(() => {
         const org = getOrganizationRefs.query.data?.items.find((org) => org.id === formState.values.memberOf)
         return {
-            readOnly: getUserRolesOptions(t, org?.roles[0] as OrgRoles, true),
-            mutable: getUserRolesOptions(t, org?.roles[0] as OrgRoles, formState.values.memberOf),
+            withSuperAdmin: getUserRolesOptions(t, org?.roles[0] as OrgRoles, true),
+            rolesBasic: getUserRolesOptions(t, org?.roles[0] as OrgRoles, formState.values.memberOf),
         }
     }, [t, formState.values.memberOf, getOrganizationRefs.query.data?.items])
-
     const getOrganizationUrl = useCallback(
         (organizationId: string) => organizationsOrganizationIdView(organizationId),
         [organizationsOrganizationIdView],
@@ -89,10 +96,6 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
         }
     }, [readOnly, formState.submitForm])
 
-    const isAdmin = useMemo(() => {
-        return service.is_admin()
-    }, [service.is_admin])
-
     const organizationOptions = useMemo(() => getOrganizationRefs.query.data?.items.map((ref) => ({ key: ref.id, label: ref.name })), [getOrganizationRefs])
 
     const checkEmailValidity = useCallback(
@@ -106,7 +109,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
         return {
             roles: {
                 params: {
-                    options: rolesOptions.mutable
+                    options: isSuperAdmin ? rolesOptions.withSuperAdmin : rolesOptions.rolesBasic
                 },
                 validator: validators.requiredField(t)
             },
@@ -147,7 +150,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
                     userId={userId}
                     resetPasswordType={myProfil ?'email' : isAdmin ? "forced" : undefined}
                     multipleRoles={false}
-                    readOnlyRolesOptions={rolesOptions.readOnly}
+                    readOnlyRolesOptions={rolesOptions.withSuperAdmin}
                     getOrganizationUrl={getOrganizationUrl}
                     fieldsOverride={fieldsOverride}
                     checkEmailValidity={checkEmailValidity}

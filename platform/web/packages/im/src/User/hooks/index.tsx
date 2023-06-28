@@ -55,31 +55,34 @@ export const useUserListPage = () => {
     )
 
     const additionalColumns = useMemo((): G2ColumnDef<User>[] => {
-      return [{
+
+      const columns: G2ColumnDef<User>[] = [{
         header: t("role"),
         id: "role",
         cell: ({row}) => {
           const role = service.getPrincipalRole((row.original.roles ?? []) as UserRoles[]) as UserRoles
           return <Chip label={t("roles." + role)} color={userRolesColors[role]} />;
         },
-      },{
+      }]
 
-        header: t("actions"),
-          id: "delete",
-          cell: ({row}) => {
-              const declineConfirmation = useDeleteUserPopUp({onDeleteClick : onDeleteClick})
+      if (service.isAdmin()) {
+        columns.push({
+            header: t("actions"),
+            id: "actions",
+            cell: ({row}) => {
+                const declineConfirmation = useDeleteUserPopUp({onDeleteClick : onDeleteClick})
+                const handleDeleteClick = useCallback(
+                    (user : User) => {
+                        declineConfirmation.open(user);
+                    },
+                    [declineConfirmation]
+                );
 
-              const handleDeleteClick = useCallback(
-                  (user : User) => {
-                      declineConfirmation.open(user);
-                  },
-                  [declineConfirmation]
-              );
-
-              return <><TableCellAdmin onDelete={() => handleDeleteClick(row.original)} onEdit={() => navigate(usersUserIdEdit(row.original.id))} />{declineConfirmation.popup}</>
-        },
-      },
-    ]
+                return <><TableCellAdmin onDelete={() => handleDeleteClick(row.original)} onEdit={() => navigate(usersUserIdEdit(row.original.id))} />{declineConfirmation.popup}</>
+            },
+        })
+      }
+      return columns
     }, [service.getPrincipalRole])
 
     return {
