@@ -6,6 +6,7 @@ import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 import {OrganizationForm} from "./OrganizationForm";
+import {usePolicies} from "../../../Policies/usePolicies";
 
 export interface OrganizationProfilePageProps {
     readOnly: boolean
@@ -18,6 +19,7 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
     const { organizationId } = useParams();
     const navigate = useNavigate()
     const { service } = useExtendedAuth()
+    const policies = usePolicies()
     const { organizationsOrganizationIdView, organizationsOrganizationIdEdit } = useRoutesDefinition()
 
     const orgId = myOrganization ? service.getUser()?.memberOf : organizationId
@@ -56,9 +58,9 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
     })
 
     const headerRightPart = useMemo(() => {
-        if (readOnly) {
+        if (readOnly && policies.organization.canUpdate) {
             return [
-                <LinkButton to={organizationsOrganizationIdEdit(orgId!)} key="pageEditButton">{t("update")}</LinkButton>,
+               <LinkButton to={organizationsOrganizationIdEdit(orgId!)} key="pageEditButton">{t("update")}</LinkButton>,
             ]
         }
         return []

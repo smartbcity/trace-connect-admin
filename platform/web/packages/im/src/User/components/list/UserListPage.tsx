@@ -7,6 +7,7 @@ import { useUserFilters } from "./useUserFilters";
 import { useUserListPage } from "../../hooks";
 import { useMemo } from "react";
 import {userTableColumns} from "@smartb/g2-i2-v2/dist/User/Components/UserTable";
+import {usePolicies} from "../../../Policies/usePolicies";
 
 interface UserListPageProps { }
 
@@ -14,15 +15,23 @@ export const UserListPage = (props: UserListPageProps) => {
   const { } = props;
   const { t } = useTranslation();
   const {service} = useExtendedAuth()
-  
+
   const { getOrganizationUrl, getRowLink, additionalColumns } = useUserListPage()
   const { usersAdd } = useRoutesDefinition()
 
-  const canSeeAllUser = useMemo(() => service.is_super_admin(), [service.is_super_admin])
+  const policies = usePolicies(false)
 
-  const { component, submittedFilters, setPage } = useUserFilters({ searchOrg: canSeeAllUser })
+  const { component, submittedFilters, setPage } = useUserFilters({ searchOrg: policies.user.canListAllUser })
 
-  const filters = useMemo(() => ({...submittedFilters, organizationId: !canSeeAllUser ? service.getUser()?.memberOf : undefined}), [canSeeAllUser, submittedFilters, service.getUser])
+  const filters = useMemo(() => (
+    {
+      ...submittedFilters,
+      organizationId: !policies.user.canListAllUser ? service.getUser()?.memberOf : undefined}
+  ), [policies.user.canListAllUser, submittedFilters, service.getUser])
+
+  const actions= policies.user.canCreate
+    ? [(<LinkButton to={usersAdd()} key="pageAddButton">{t("userList.create")}</LinkButton>)]
+    : []
 
   return (
     <Page
@@ -31,9 +40,7 @@ export const UserListPage = (props: UserListPageProps) => {
           leftPart: [
             <Typography variant="h5" key="pageTitle">{t("manageUsers")}</Typography>
           ],
-          rightPart: [
-            <LinkButton to={usersAdd()} key="pageAddButton">{t("userList.create")}</LinkButton>
-          ]
+          rightPart: actions
         }]
       }}
     >
@@ -41,7 +48,7 @@ export const UserListPage = (props: UserListPageProps) => {
         <AutomatedUserTable
           columnsExtander={{
             additionalColumns,
-            blockedColumns: ["address", ...(!canSeeAllUser ? ["memberOf" as userTableColumns] : [])]
+            blockedColumns: ["address", ...(!policies.user.canListAllUser ? ["memberOf" as userTableColumns] : [])]
           }}
           getRowLink={getRowLink}
           hasOrganizations

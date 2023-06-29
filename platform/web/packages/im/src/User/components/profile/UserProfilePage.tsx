@@ -5,6 +5,7 @@ import { OrgRoles, getUserRolesOptions, useExtendedAuth, useRoutesDefinition } f
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import {usePolicies} from "../../../Policies/usePolicies";
 
 export interface UserProfilePageProps {
     readOnly: boolean
@@ -20,14 +21,10 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
     const { keycloak, service } = useExtendedAuth()
     const getOrganizationRefs = useGetOrganizationRefs({ jwt: keycloak.token })
     const isUpdate = !!userId || myProfil
-
+    const policies = usePolicies(myProfil)
     const isAdmin = useMemo(() => {
         return service.isAdmin()
     }, [service.isAdmin()])
-
-    const isSuperAdmin = useMemo(() => {
-        return service.is_super_admin()
-    }, [service.is_super_admin()])
 
     const organizationId = useMemo(() => {
         return searchParams.get('organizationId') ?? service.getUser()?.memberOf
@@ -57,10 +54,9 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
         multipleRoles: false,
         organizationId
     })
-    const canUpdate = ( isSuperAdmin || isAdmin || myProfil )
 
     const headerRightPart = useMemo(() => {
-        if (!readOnly || !user || !canUpdate) {
+        if (!readOnly || !user || !policies.user.canUpdate) {
             return []
         }
 
@@ -83,7 +79,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
     )
 
     const actions = useMemo((): Action[] | undefined => {
-        if (!readOnly && canUpdate) {
+        if (!readOnly && policies.user.canUpdate) {
             return [{
                 key: "cancel",
                 label: t("cancel"),
@@ -113,7 +109,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
         return {
             roles: {
                 params: {
-                    options: isSuperAdmin ? rolesOptions.withSuperAdmin : rolesOptions.rolesBasic
+                    options: policies.user.canSetSuperAdminRole ? rolesOptions.withSuperAdmin : rolesOptions.rolesBasic
                 },
                 validator: validators.requiredField(t)
             },
