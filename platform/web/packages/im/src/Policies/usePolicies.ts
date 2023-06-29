@@ -1,8 +1,12 @@
 import {useExtendedAuth} from "components";
 
-export const usePolicies = (
+export interface UsePoliciesProps {
   myProfil ?: boolean,
   myOrganization?: boolean
+}
+
+export const usePolicies = (
+  props?: UsePoliciesProps,
 ) => {
   const { service} = useExtendedAuth()
   const isAdmin = service.isAdmin()
@@ -12,13 +16,13 @@ export const usePolicies = (
   return {
     organization: {
       canCreate: ( isSuperAdmin || isOrchestratorAdmin) ,
-      canUpdate: ( isSuperAdmin || (isAdmin && myOrganization) ),
+      canUpdate: ( isSuperAdmin || (isAdmin && props?.myOrganization) ),
       canDelete: ( isSuperAdmin || isOrchestratorAdmin ),
     },
     user: {
-      canCreate: ( isSuperAdmin || isAdmin || myProfil ),
-      canUpdate: ( isSuperAdmin || isAdmin || myProfil ),
-      canDelete: ( isSuperAdmin || isAdmin || myProfil ),
+      canCreate: ( isSuperAdmin || isAdmin || props?.myProfil ),
+      canUpdate: ( isSuperAdmin || isAdmin || props?.myProfil ),
+      canDelete: ( isSuperAdmin || isAdmin || props?.myProfil ),
       canSetSuperAdminRole: isSuperAdmin,
       canListAllUser: service.is_super_admin()
     }

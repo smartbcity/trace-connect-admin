@@ -19,7 +19,7 @@ export const UserListPage = (props: UserListPageProps) => {
   const { getOrganizationUrl, getRowLink, additionalColumns } = useUserListPage()
   const { usersAdd } = useRoutesDefinition()
 
-  const policies = usePolicies(false)
+  const policies = usePolicies()
 
   const { component, submittedFilters, setPage } = useUserFilters({ searchOrg: policies.user.canListAllUser })
 

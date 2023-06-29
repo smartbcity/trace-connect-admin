@@ -1,23 +1,23 @@
 import { useCallback, useMemo } from "react"
-import { Roles } from "./roles"
+import {Roles, userAdminRoles} from "./roles"
 import { insertObjectIdsInsideRoutes, RecordCamelCase } from "@smartb/g2"
-import { useExtendedAuth } from "./auth"
+import {useExtendedAuth} from "./auth"
 
 const IMRoutesAuthorizations = {
     "organizations": "open",
     "organizations/add": "open",
     "organizations/:organizationId/view": "open",
-    "organizations/:organizationId/edit": "open",
+    "organizations/:organizationId/edit": "tr_orchestrator_admin",
     "myOrganization": "open",
-    "myOrganization/edit": ["admin"],
+    "myOrganization/edit": userAdminRoles,
     "users": "open",
-    "users/add": "open",
+    "users/add": userAdminRoles,
     "users/:userId/view": "open",
-    "users/:userId/edit": [["memberOf", "admin"]],
+    "users/:userId/edit": [["memberOf", userAdminRoles]],
     "myProfil": "open",
     "myProfil/edit": "open",
-    "apiKeys": ["admin"],
-    "apiKeys/add": ["admin"],
+    "apiKeys": userAdminRoles,
+    "apiKeys/add": userAdminRoles,
 } as const
 
 const strictRoutesAuthorizations = {

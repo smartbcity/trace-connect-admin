@@ -1,5 +1,5 @@
 import { useAuth, KeycloackService } from "@smartb/g2"
-import { Roles, userEffectiveRoles } from "./roles";
+import {Roles, userAdminRoles, userEffectiveRoles} from "./roles";
 import { Routes, routesAuthorizations, RoutesRoles } from "./routes";
 
 type StaticServices = {
@@ -30,9 +30,7 @@ const staticServices: KeycloackService<StaticServices, Roles> = {
         const currentUser = services.getUser()
         const roles =  currentUser?.roles ?? []
         return (
-            roles.includes("tr_orchestrator_admin") ||
-            roles.includes("tr_project_manager_admin") ||
-            roles.includes("tr_stakeholder_admin")
+            userAdminRoles.some(role => roles.includes(role))
         )
     }
 }

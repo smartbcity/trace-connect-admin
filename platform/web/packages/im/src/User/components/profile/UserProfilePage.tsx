@@ -21,7 +21,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
     const { keycloak, service } = useExtendedAuth()
     const getOrganizationRefs = useGetOrganizationRefs({ jwt: keycloak.token })
     const isUpdate = !!userId || myProfil
-    const policies = usePolicies(myProfil)
+    const policies = usePolicies({myProfil: myProfil})
     const isAdmin = useMemo(() => {
         return service.isAdmin()
     }, [service.isAdmin()])

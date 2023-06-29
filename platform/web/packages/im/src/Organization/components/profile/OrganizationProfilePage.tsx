@@ -19,7 +19,7 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
     const { organizationId } = useParams();
     const navigate = useNavigate()
     const { service } = useExtendedAuth()
-    const policies = usePolicies()
+    const policies = usePolicies({myOrganization: myOrganization})
     const { organizationsOrganizationIdView, organizationsOrganizationIdEdit } = useRoutesDefinition()
 
     const orgId = myOrganization ? service.getUser()?.memberOf : organizationId

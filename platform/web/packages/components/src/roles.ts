@@ -1,15 +1,21 @@
 import { Option } from "@smartb/g2"
 import { TFunction } from "i18next"
 
+export const userAdminRoles = [
+    "tr_orchestrator_admin",
+    "tr_project_manager_admin",
+    "tr_stakeholder_admin"
+] as const
+
 export const userRoles = [
     "super_admin",
-    "tr_orchestrator_admin",
+    ...userAdminRoles,
     "tr_orchestrator_user",
-    "tr_project_manager_admin",
     "tr_project_manager_user",
-    "tr_stakeholder_admin",
     "tr_stakeholder_user",
 ] as const
+
+
 
 export type UserRoles = typeof userRoles[number]
 
