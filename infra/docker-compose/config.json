@@ -5,7 +5,19 @@
       "webUrl": "http://localhost:5173"
     }
   ],
-  "appClients": [],
+  "appClients": [
+    {
+      "clientId": "sb-platform-app-im",
+      "clientSecret": "secret",
+      "roles": [],
+      "realmManagementRoles": [
+        "manage-users",
+        "view-users",
+        "query-groups",
+        "superadmin"
+      ]
+    }
+  ],
   "users": [],
   "roles": [
     "tr_orchestrator",
@@ -16,12 +28,14 @@
     "tr_project_manager_admin",
     "tr_stakeholder",
     "tr_stakeholder_user",
-    "tr_stakeholder_admin"
+    "tr_stakeholder_admin",
+    "im_read_apikey",
+    "im_write_apikey"
   ],
   "roleComposites": {
-    "tr_orchestrator_admin": ["im_read_organization", "im_write_organization", "im_write_role"],
+    "tr_orchestrator_admin": ["im_read_organization", "im_write_organization", "im_write_role", "im_read_apikey", "im_write_apikey"],
     "tr_orchestrator_user": ["im_read_user"],
-    "tr_project_manager_admin": ["im_write_my_organization"],
-    "tr_stakeholder_admin": ["im_write_my_organization"]
+    "tr_project_manager_admin": ["im_write_my_organization", "im_read_apikey", "im_write_apikey"],
+    "tr_stakeholder_admin": ["im_write_my_organization", "im_read_apikey", "im_write_apikey"]
   }
 }

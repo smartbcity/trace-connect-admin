@@ -6,16 +6,14 @@ services:
     container_name: im-gateway
     environment:
       - i2_issuers[0]_name=local
-      - i2_issuers[0]_authUrl=http://keycloak-it:8080/auth
-      - i2_issuers[0]_realm=boislocal-local
-      - i2_issuers[0]_im_clientId=im-test-client
+      - i2_issuers[0]_authUrl=${AUTH_HOST_URL}
+      - i2_issuers[0]_realm=im-test
+      - i2_issuers[0]_im_clientId=sb-platform-app-im
       - i2_issuers[0]_im_clientSecret=secret
     ports:
       - "8009:8009"
-    depends_on:
-      - keycloak-it
 
 networks:
-  default:
+  bclannet-it:
     name: bclannet-it
     external: true

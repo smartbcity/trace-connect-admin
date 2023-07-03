@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.7"
 
 services:
   i2-config:
@@ -13,3 +13,7 @@ services:
     volumes:
       - ./config.json:/tmp/config.json
 
+networks:
+  bclannet-it:
+    name: bclannet-it
+    external: true
