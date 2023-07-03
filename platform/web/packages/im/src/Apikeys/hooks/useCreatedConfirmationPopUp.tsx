@@ -2,21 +2,21 @@ import { useTranslation } from "react-i18next";
 import React, { useCallback, useMemo, useState } from "react";
 import {Action, PopUp, TextField} from "@smartb/g2";
 import {IconButton, Stack, Typography} from "@mui/material";
-import {OrganizationAddedApiKeyEvent} from "../api";
 import {VisibilityOffRounded, VisibilityRounded} from "@mui/icons-material";
 import {useRoutesDefinition} from "components";
 import {useNavigate} from "react-router-dom";
+import {ApiKeyAddedEvent} from "../api/command/add";
 
 export interface useCreatedConfirmationType {
     popup: React.ReactNode
     isOpen: boolean
-    open: (event : OrganizationAddedApiKeyEvent) => void
+    open: (event : ApiKeyAddedEvent) => void
     close: () => void
 }
 
 export const useCreatedConfirmationPopUp = (): useCreatedConfirmationType => {
     const { t } = useTranslation()
-    const [keyCreatedEvent, setKeyCreatedEvent] = useState<OrganizationAddedApiKeyEvent | null>(null)
+    const [keyCreatedEvent, setKeyCreatedEvent] = useState<ApiKeyAddedEvent | null>(null)
     const { apiKeys } = useRoutesDefinition()
     const navigate = useNavigate()
 
@@ -28,7 +28,7 @@ export const useCreatedConfirmationPopUp = (): useCreatedConfirmationType => {
         [],
     )
     const open = useCallback(
-        (event : OrganizationAddedApiKeyEvent) => {
+        (event : ApiKeyAddedEvent) => {
             setKeyCreatedEvent(event)
         },
         [],

@@ -1,39 +1,42 @@
 import {useTranslation} from "react-i18next";
-import { useNavigate } from "react-router-dom";
 import {useExtendedAuth} from "components";
 import {useCallback, useMemo} from "react";
 import {Action, Page, Section, useFormComposable} from "@smartb/g2";
 import {Typography} from "@mui/material";
-import { APIKeyForm } from "./APIKeyForm";
-import {OrganizationAddApiKeyCommand, OrganizationDTO, useOrganizationAddAPIKeyFunction} from "../../api";
-import {useOrganizationFormState} from "@smartb/g2-i2-v2";
 import {useCreatedConfirmationPopUp} from "../../hooks";
+import {ApiKeyAddCommand, useApiKeyAddFunction, useApiKeyPageQueryFunction} from "../../api/";
+import {useNavigate} from "react-router-dom";
+import {APIKeyForm} from "../../components";
 
 export interface APIKeyProfilePageProps {
     readOnly: boolean
 }
-export const APIKeyProfilePage = (props: APIKeyProfilePageProps) => {
+export const ApiKeyAddPage = (props: APIKeyProfilePageProps) => {
     const { readOnly} = props
     const { t } = useTranslation();
     const navigate = useNavigate()
     const { service } = useExtendedAuth()
-    const { organization, getOrganization } = useOrganizationFormState<OrganizationDTO>({
-        organizationId : service.getUser()?.memberOf
+    const organizationId = service.getUser()!!.memberOf ?? ""
+    const apiKeyPageQuery = useApiKeyPageQueryFunction({
+        query: {
+            organizationId: organizationId
+        }
     })
-    const organizationAddAPIKeyFunction = useOrganizationAddAPIKeyFunction()
+    const apiKeyAddFunction = useApiKeyAddFunction()
     const createdConfirmation = useCreatedConfirmationPopUp();
 
-
-    const createAPIKey = useCallback(async (command : Partial<OrganizationAddApiKeyCommand>) => {
-        if (organization) {
-            const result = command.name && await organizationAddAPIKeyFunction.mutateAsync({
-                id: organization.id,
+    const createAPIKey = useCallback(async (command : Partial<ApiKeyAddCommand>) => {
+        console.log("createAPIKey")
+        console.log(organizationId)
+        if (organizationId) {
+            const result = command.name && await apiKeyAddFunction.mutateAsync({
+                organizationId: organizationId,
                 name : command.name
             });
-            await getOrganization.refetch()
+            apiKeyPageQuery.refetch()
             result && createdConfirmation.open(result)
         }
-    }, [organization]);
+    }, [organizationId]);
 
     const formState = useFormComposable({
         emptyValueInReadOnly: "-",

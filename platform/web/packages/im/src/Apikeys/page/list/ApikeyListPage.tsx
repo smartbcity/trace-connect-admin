@@ -1,48 +1,44 @@
 import {useTranslation} from "react-i18next";
 import {Stack, Typography} from "@mui/material";
 import {LinkButton, Page} from "@smartb/g2";
-import {APIKeysTable} from "../APIKeysTable";
 import {useCallback, useMemo} from "react";
 import {Offset, OffsetPagination, PageQueryResult} from "template";
-import {
-    APIKeyDTO,
-    OrganizationDTO,
-    useOrganizationRemoveAPIKeyFunction
-} from "../../api";
-import {useOrganizationFormState} from "@smartb/g2-i2-v2";
 import {useExtendedAuth, useRoutesDefinition} from "components";
+import {ApiKeyDTO, useApiKeyPageQueryFunction, useApikeyRemoveFunction} from "../../api";
+import {APIKeysTable} from "../../components";
 
 interface APIKeysListPageProps {
 }
-export const APIKeysListPage = (props: APIKeysListPageProps) => {
+export const ApikeyListPage = (props: APIKeysListPageProps) => {
     const { } = props;
     const { t } = useTranslation();
-    const { service } = useExtendedAuth()
-    const orgId = service.getUser()?.memberOf
-    const { organization, getOrganization } = useOrganizationFormState<OrganizationDTO>({
-        organizationId : orgId
-    })
+    const { service} = useExtendedAuth()
+    const organizationId = service.getUser()?.memberOf
     const { apiKeysAdd } = useRoutesDefinition()
     const pagination = useMemo((): OffsetPagination => ({ offset: Offset.default.offset, limit: Offset.default.limit }), [])
-
-    const apiKeysPage : PageQueryResult<APIKeyDTO> = useMemo(() => {
-        const apiKeys = organization?.apiKeys ?? []
+    const apiKeyPageQuery = useApiKeyPageQueryFunction({
+        query: {
+            organizationId: organizationId
+        }
+    })
+    const apiKeysPage : PageQueryResult<ApiKeyDTO> = useMemo(() => {
+        const apiKeys = apiKeyPageQuery?.data?.items ?? []
         return {
             items: apiKeys,
             total: apiKeys.length}
-    }, [organization?.apiKeys])
+    }, [apiKeyPageQuery?.data])
 
-    const useOrganizationRemoveAPIKey= useOrganizationRemoveAPIKeyFunction()
+    const useOrganizationRemoveAPIKey= useApikeyRemoveFunction()
 
-    const onDelete = useCallback(async (apiKey :  APIKeyDTO)=>{
-        if(orgId){
+    const onDelete = useCallback(async (apiKey : ApiKeyDTO)=>{
+        if(organizationId){
             await useOrganizationRemoveAPIKey.mutateAsync({
-                id: orgId,
-                keyId: apiKey.id
+                organizationId: organizationId,
+                id: apiKey.id
             })
-            await getOrganization.refetch()
+            await apiKeyPageQuery.refetch()
         }
-    },[organization, getOrganization])
+    },[organizationId])
 
     return (
         <Page
@@ -63,7 +59,7 @@ export const APIKeysListPage = (props: APIKeysListPageProps) => {
                 <APIKeysTable
                     page={apiKeysPage}
                     pagination={pagination}
-                    isLoading={getOrganization.isLoading}
+                    isLoading={apiKeyPageQuery.isLoading}
                     onDeleteClick={onDelete}
                 />
             </Stack>

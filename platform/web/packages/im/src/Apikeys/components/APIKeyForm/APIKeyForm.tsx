@@ -1,7 +1,7 @@
 import {FormComposable, FormComposableField, FormComposableState} from "@smartb/g2";
 import {useTranslation} from "react-i18next";
 import {useMemo} from "react";
-import {APIKeyDTO} from "../../api";
+import {ApiKeyDTO} from "../../api";
 
 export interface APIKeyFormProps {
     readOnly: boolean
@@ -12,7 +12,7 @@ export const APIKeyForm = (props: APIKeyFormProps) => {
     const {  readOnly, formState } = props
     const { t } = useTranslation();
 
-    const fields = useMemo((): FormComposableField<keyof APIKeyDTO>[] => [{
+    const fields = useMemo((): FormComposableField<keyof ApiKeyDTO>[] => [{
         name: "name",
         type: "textField",
         label: t('name'),

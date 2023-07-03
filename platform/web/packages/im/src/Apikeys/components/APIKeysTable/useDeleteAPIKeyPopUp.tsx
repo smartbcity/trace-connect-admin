@@ -1,13 +1,13 @@
-import {APIKeyDTO} from "../../api";
 import {useTranslation} from "react-i18next";
 import {FormComposable, FormComposableField, useFormComposable} from "@smartb/g2";
 import {useMemo} from "react";
 import {useDeletedConfirmationPopUp} from "components";
 import {Stack, Typography} from "@mui/material";
+import {ApiKeyDTO} from "../../api";
 
 interface useDeleteAPIKeyPopUpProps{
-    onDeleteClick : (apiKey : APIKeyDTO)  => Promise<void>
-    apiKey : APIKeyDTO
+    onDeleteClick : (apiKey : ApiKeyDTO)  => Promise<void>
+    apiKey : ApiKeyDTO
 }
 
 export const useDeleteAPIKeyPopUp = (props :  useDeleteAPIKeyPopUpProps ) => {
@@ -23,7 +23,7 @@ export const useDeleteAPIKeyPopUp = (props :  useDeleteAPIKeyPopUpProps ) => {
             }
         }
     })
-    const fields = useMemo((): FormComposableField<keyof APIKeyDTO>[] => [{
+    const fields = useMemo((): FormComposableField<keyof ApiKeyDTO>[] => [{
         name: "identifier",
         type: "textField",
         label: t('identifier'),

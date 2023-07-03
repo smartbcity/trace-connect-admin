@@ -7,11 +7,11 @@ import {TableCellAdmin} from "components";
 import {useTranslation} from "react-i18next";
 import {Typography} from "@mui/material";
 import {OffsetPagination, OffsetTable, PageQueryResult} from "template";
-import {APIKeyDTO} from "../../api";
 import {useDeleteAPIKeyPopUp} from "./useDeleteAPIKeyPopUp";
-function useAPIKeyColumn(onDeleteClick : (apiKey : APIKeyDTO)  => Promise<void>) {
+import {ApiKeyDTO} from "../../api";
+function useAPIKeyColumn(onDeleteClick : (apiKey : ApiKeyDTO)  => Promise<void>) {
     const { t } = useTranslation();
-    return useMemo(() => ColumnFactory<APIKeyDTO>({
+    return useMemo(() => ColumnFactory<ApiKeyDTO>({
         generateColumns: (generators) => ({
             name: generators.text({
                 header: t("name"),
@@ -44,10 +44,10 @@ function useAPIKeyColumn(onDeleteClick : (apiKey : APIKeyDTO)  => Promise<void>)
 }
 
 export interface APIKeysTableProps{
-    page?: PageQueryResult<APIKeyDTO>
+    page?: PageQueryResult<ApiKeyDTO>
     pagination: OffsetPagination
     isLoading?: boolean
-    onDeleteClick: (apiKey : APIKeyDTO) => Promise<void>
+    onDeleteClick: (apiKey : ApiKeyDTO) => Promise<void>
 }
 
 export const APIKeysTable = (props: APIKeysTableProps) => {
@@ -63,7 +63,7 @@ export const APIKeysTable = (props: APIKeysTableProps) => {
             (!page?.items && !isLoading) ?
                 <Typography align="center">{t("apiKeysList.noKeys")}</Typography>
                 :
-                <OffsetTable<APIKeyDTO>
+                <OffsetTable<ApiKeyDTO>
                      tableState={tableState}
                      page={page}
                      pagination={pagination}

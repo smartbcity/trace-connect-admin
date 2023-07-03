@@ -3,14 +3,14 @@ import { Route, useParams, useSearchParams } from "react-router-dom";
 import { Routes, useExtendedAuth } from "components";
 import { App } from "App";
 import {
-  APIKeyProfilePage,
-  APIKeysListPage,
   OrganizationListPage,
   OrganizationProfilePage,
   UserListPage,
   UserProfilePage,
 } from "im"
 import {useMemo} from "react"
+import {ApikeyListPage} from "im/src/Apikeys/page/list";
+import {ApiKeyAddPage} from "im/src/Apikeys/page/add";
 
 
 const imPages: PageRoute[] = [{
@@ -51,11 +51,11 @@ const imPages: PageRoute[] = [{
   element: <UserProfilePage myProfil readOnly={false} />
 }, {
   path: "apiKeys",
-  element: <APIKeysListPage />
+  element: <ApikeyListPage />
 },
 {
   path: "apiKeys/add",
-  element: <APIKeyProfilePage readOnly={false} />
+  element: <ApiKeyAddPage readOnly={false} />
 },]
 
 const allPages: PageRoute[] = [...imPages]
