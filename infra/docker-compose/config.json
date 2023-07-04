@@ -29,8 +29,20 @@
     "tr_stakeholder",
     "tr_stakeholder_user",
     "tr_stakeholder_admin",
+
+    "im_read_user",
+    "im_write_user",
+    "im_write_organization",
+    "im_read_organization",
+    "im_read_role",
+    "im_write_role",
+    "im_write_my_organization",
     "im_read_apikey",
-    "im_write_apikey"
+    "im_write_apikey",
+
+    "super_admin",
+    "admin",
+    "user"
   ],
   "roleComposites": {
     "tr_orchestrator_admin": ["im_read_organization", "im_write_organization", "im_write_role", "im_read_apikey", "im_write_apikey"],

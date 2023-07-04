@@ -15,14 +15,14 @@ interface ApiKeyAddCommandDTO {
 
 interface ApiKeyAddedEventDTO {
     /**
+     * Id of the new key.
+     */
+    id: string,
+
+    /**
      * Id of the organization.
      */
     organizationId: OrganizationId,
-
-    /**
-     * Id of the new key.
-     */
-    keyId: string,
 
     /**
      * Identifier of the new key.
