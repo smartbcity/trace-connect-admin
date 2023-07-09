@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   i2-init:
-    image: smartbcity/i2-init:experimental-13122
+    image: smartbcity/i2-init:${I2_VERSION}
     container_name: i2-init
     environment:
       i2_keycloak_serverUrl: ${AUTH_HOST_URL}
