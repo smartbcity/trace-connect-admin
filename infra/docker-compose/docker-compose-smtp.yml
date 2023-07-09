@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-  smtp:
+  connect-fake-smtp:
     container_name: connect-fake-smtp
     image: reachfive/fake-smtp-server:latest
     ports:
