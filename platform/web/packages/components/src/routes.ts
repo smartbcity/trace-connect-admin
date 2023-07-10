@@ -16,8 +16,8 @@ const IMRoutesAuthorizations = {
     "users/:userId/edit": [["memberOf", userAdminRoles]],
     "myProfil": "open",
     "myProfil/edit": "open",
-    "apiKeys": userAdminRoles,
-    "apiKeys/add": userAdminRoles,
+    "apiKeys": [["hasOrganization", "isAdmin"]],
+    "apiKeys/add": [["hasOrganization", "isAdmin"]],
 } as const
 
 const strictRoutesAuthorizations = {
@@ -27,7 +27,7 @@ const strictRoutesAuthorizations = {
 
 export type Routes = keyof typeof strictRoutesAuthorizations
 
-export type RoutesRoles = Roles | "memberOf" | "currentUser"
+export type RoutesRoles = Roles | "hasOrganization" | "isAdmin" | "memberOf" | "currentUser"
 export type RoutesAuthorizations = { [route: string]: RoutesRoles[] | RoutesRoles[][] | "open" }
 //@ts-ignore
 export const routesAuthorizations: RoutesAuthorizations = { ...strictRoutesAuthorizations }
