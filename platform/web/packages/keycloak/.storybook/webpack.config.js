@@ -4,7 +4,7 @@ module.exports = ({ config }) => {
     if (!!rule.test && !Array.isArray(rule.test)) {
       if (rule.test.source && rule.test.source.includes("ts")) {
         rule.include = undefined;
-        rule.exclude = [/node_modules/,  ...(rule.exclude ? Array.isArray(rule.exclude) ? rule.exclude : [rule.exclude] : [])];
+        rule.exclude = [/node_modules/, /(?=.*kotlin)(?=.*js).*/,  ...(rule.exclude ? Array.isArray(rule.exclude) ? rule.exclude : [rule.exclude] : [])];
       }
     }
   })

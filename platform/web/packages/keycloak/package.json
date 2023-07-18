@@ -1,10 +1,10 @@
 {
     "name": "keycloak",
+    "version": "0.0.0",
     "description": "A starter/demo project for keycloakify",
     "scripts": {
-        "postinstall": "copy-keycloak-resources-to-public",
-        "start": "react-scripts start",
-        "build": "react-scripts build",
+        "start": "react-app-rewired start",
+        "build": "react-app-rewired build",
         "build-keycloak-theme": "yarn build && keycloakify",
         "storybook": "start-storybook -p 6006"
     },
@@ -36,7 +36,8 @@
         "@storybook/node-logger": "^6.5.16",
         "@storybook/preset-create-react-app": "^4.1.2",
         "@storybook/react": "^6.5.16",
-        "@storybook/testing-library": "^0.0.13"
+        "@storybook/testing-library": "^0.0.13",
+        "react-app-rewired": "^2.2.1"
     },
     "eslintConfig": {
       "extends": [
