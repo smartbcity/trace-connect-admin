@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   keycloak-it:
-    image: smartbcity/i2-keycloak:${I2_VERSION}
+    image: smartbcity/connect-admin-keycloak:${CONNECT_ADMIN_KEYCLOAK_VERSION}
     container_name: ${KC_HOSTNAME}
     environment:
       KC_DB_URL: 'jdbc:postgresql://keycloak-postgres/keycloak-it'
@@ -26,6 +26,8 @@ services:
       POSTGRES_DB: keycloak-it
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
+    ports:
+      - '5432:5432'
 
 networks:
   bclannet-it:
