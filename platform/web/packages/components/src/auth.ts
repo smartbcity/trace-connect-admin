@@ -48,9 +48,6 @@ const matches = (authorization: RoutesRoles, currentUser: AuthedUser | undefined
         return !!currentUser?.memberOf
     }
     if (authorization === "isAdmin") {
-        console.log("isAdmin", currentUser?.roles)
-        console.log("isAdmin", userAdminRoles)
-        console.log("isAdmin", userAdminRoles.some(role => currentUser?.roles?.includes(role)))
         return userAdminRoles.some(role => currentUser?.roles?.includes(role))
     }
     return hasRole([authorization])
@@ -59,7 +56,6 @@ const matches = (authorization: RoutesRoles, currentUser: AuthedUser | undefined
 const checkRelations = (authorizations: RoutesRoles[] | RoutesRoles[][], currentUser: AuthedUser | undefined, isAuthedUserId: boolean, isAuthedOrgId: boolean, hasRole: (roles: Roles[]) => boolean) => {
     return authorizations.some((roles: any) => {
         if (Array.isArray(roles)) {
-            console.log("roles.isArray", roles)
             return roles.every(role => matches(role, currentUser, isAuthedUserId, isAuthedOrgId, hasRole))
         } else {
             return matches(roles, currentUser, isAuthedUserId, isAuthedOrgId, hasRole)

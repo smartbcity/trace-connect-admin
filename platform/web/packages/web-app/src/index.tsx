@@ -1,9 +1,7 @@
 import React from "react";
 import {
   AppProvider,
-  KeycloakProvider,
-  G2ConfigBuilder,
-  g2Config
+  KeycloakProvider
 } from "@smartb/g2-providers";
 import { ThemeContextProvider } from "@smartb/g2-themes";
 import { Typography } from "@mui/material";
@@ -22,32 +20,25 @@ const queryClient = new QueryClient({
 })
 
 //@ts-ignore
-G2ConfigBuilder(window._env_)
-
-//@ts-ignore
 const container: HTMLElement = document.getElementById("root")
 
 const root = createRoot(container)
 
 root.render(
-  //@ts-ignore
-  <ThemeContextProvider theme={theme}>
-    <KeycloakProvider
-      config={g2Config().keycloak}// to complete
-      initOptions={{ onLoad: "login-required" }}
-      loadingComponent={<Typography>Loading...</Typography>}
-    >
-      <React.StrictMode //react strict mode must be here to avoid an infinite loop if placed above KeycloakProvider
-      >
-        <AppProvider
-          languages={languages}
-          queryClient={queryClient}
-          loadingComponent={<Typography>Loading...</Typography>}
-        >
-          <AppRouter />
-        </AppProvider>
-      </React.StrictMode>
-    </KeycloakProvider>
-  </ThemeContextProvider>
+  <React.StrictMode //react strict mode must be here to avoid an infinite loop if placed above KeycloakProvider
+  >
+    {/* @ts-ignore */}
+    <ThemeContextProvider theme={theme}>
+      <KeycloakProvider>
+          <AppProvider
+            languages={languages}
+            queryClient={queryClient}
+            loadingComponent={<Typography>Loading...</Typography>}
+          >
+            <AppRouter />
+          </AppProvider>
+      </KeycloakProvider>
+    </ThemeContextProvider>
+  </React.StrictMode>
 );
 
