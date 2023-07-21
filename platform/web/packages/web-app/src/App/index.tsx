@@ -10,7 +10,6 @@ export const App = () => {
   const menu = useMenu(t)
   const { service, keycloak } = useExtendedAuth()
   const user = useMemo(() => service.getUser(), [service.getUser])
-  console.log(keycloak.token, keycloak.tokenParsed)
   const { loggedMenu, notLoggedMenu } = useUserMenu(keycloak.logout, keycloak.login, t)
 
   return (

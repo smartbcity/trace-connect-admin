@@ -29,7 +29,7 @@ root.render(
   >
     {/* @ts-ignore */}
     <ThemeContextProvider theme={theme}>
-      <KeycloakProvider>
+      <KeycloakProvider >
           <AppProvider
             languages={languages}
             queryClient={queryClient}

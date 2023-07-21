@@ -1,27 +1,35 @@
 // ejected using 'npx eject-keycloak-page'
-import { useState, useMemo, type FormEventHandler } from "react";
-import { useConstCallback } from "keycloakify/tools/useConstCallback";
+import { useMemo, useCallback } from "react";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
 import { FormComposableField, useFormComposable, FormComposable, Action, Link } from "@smartb/g2";
+import { postForm } from "../../keycloakRequest";
 
 export default function Login(props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>) {
-    const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
+    const { kcContext, i18n, doUseDefaultCss, Template, classes, } = props;
 
 
-    const { social, realm, url, usernameEditDisabled, login, registrationDisabled } = kcContext;
+    const { social, realm, url, usernameEditDisabled, login, registrationDisabled, auth } = kcContext;
 
     const { msg, msgStr } = i18n;
 
-    const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false);
+    const submitForm = useCallback(
+        (values: any) => {
+            postForm(url.loginAction, { username: values.email, ...values })
+        },
+        [url.loginAction],
+    )
+
 
     const initialValues = useMemo(() => ({
         ...login,
-        email: login.username
-    }), [login, realm])
+        email: login.username,
+        credentialId: auth?.selectedCredential
+    }), [login, realm, auth?.selectedCredential])
 
     const formState = useFormComposable({
+        onSubmit: submitForm,
         formikConfig: {
             initialValues
         }
@@ -59,24 +67,9 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
         return [{
             key: "logIn",
             label: msgStr("doLogIn"),
-            type: "submit",
-            disabled: isLoginButtonDisabled
+            onClick: formState.submitForm
         }]
-    }, [isLoginButtonDisabled])
-
-    const onSubmit = useConstCallback<FormEventHandler<HTMLFormElement>>(e => {
-        e.preventDefault();
-
-        setIsLoginButtonDisabled(true);
-
-        const formElement = e.target as HTMLFormElement;
-
-        //NOTE: Even if we login with email Keycloak expect username and password in
-        //the POST request.
-        formElement.querySelector("input[name='email']")?.setAttribute("name", "username");
-
-        formElement.submit();
-    });
+    }, [])
 
     return (
         <Template
@@ -102,9 +95,6 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
             <FormComposable
                 fields={fields}
                 formState={formState}
-                onSubmit={onSubmit}
-                action={url.loginAction}
-                method="post"
                 actions={actions}
             />
             {realm.resetPasswordAllowed &&
