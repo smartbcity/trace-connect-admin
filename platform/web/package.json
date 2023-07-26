@@ -2,7 +2,7 @@
   "name": "example-web",
   "version": "1.0.0",
   "author": "SmartB",
-  "license": "APACHE-2.0",
+  "license": "Apache-2.0",
   "private": true,
   "devDependencies": {
     "@types/node": "^18.0.0",
