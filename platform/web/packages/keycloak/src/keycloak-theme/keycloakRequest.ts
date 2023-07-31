@@ -2,14 +2,14 @@ import { request } from "@smartb/g2"
 
 
 export const postForm = async (url: string, body: any) => {
-    const formData = new FormData()
+    const data = new URLSearchParams();
     Object.keys(body).forEach((key) => {
-        formData.append(key, body[key])
-    })
+        data.append(key, body[key]);
+    });
     const res = await request({
         url,
         method: "POST",
-        formData,
+        body: data,
         //@ts-ignore
         contentType: "application/x-www-form-urlencoded",
         returnType: "text"

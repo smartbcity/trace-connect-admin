@@ -9,7 +9,6 @@ import { postForm } from "../../keycloakRequest";
 export default function Login(props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, Template, classes, } = props;
 
-
     const { social, realm, url, usernameEditDisabled, login, registrationDisabled, auth } = kcContext;
 
     const { msg, msgStr } = i18n;
@@ -20,7 +19,6 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
         },
         [url.loginAction],
     )
-
 
     const initialValues = useMemo(() => ({
         ...login,

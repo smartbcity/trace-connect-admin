@@ -7,17 +7,17 @@ KEYCLOAK_DOCKERFILE	    := infra/docker/keycloak/Dockerfile
 KEYCLOAK_NAME	   	 	:= smartbcity/connect-admin-keycloak
 KEYCLOAK_IMG	    	:= ${KEYCLOAK_NAME}:${VERSION}
 
-package: docker-web
+docker: docker-web package-keycloak
 
 docker-web:
 	@docker build --no-cache=true --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} --build-arg VERSION=${VERSION} -f ${WEB_DOCKERFILE} -t ${WEB_IMG} .
 	@docker push ${WEB_IMG}
 
-package-keycloak:
+docker-keycloak:
 	@docker build --no-cache=true --progress=plain --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} --build-arg VERSION=${VERSION} -f ${KEYCLOAK_DOCKERFILE} -t ${KEYCLOAK_IMG} .
 	@docker push ${KEYCLOAK_IMG}
 
-package-keycloak-dev:
+docker-keycloak-dev:
 	@docker build --no-cache=true --progress=plain --build-arg VERSION=${VERSION} -f ${KEYCLOAK_DOCKERFILE_DEV} -t ${KEYCLOAK_IMG} .
 
 
