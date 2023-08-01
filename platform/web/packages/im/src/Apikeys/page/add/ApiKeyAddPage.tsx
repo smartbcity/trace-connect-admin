@@ -1,18 +1,18 @@
-import {useTranslation} from "react-i18next";
-import {useExtendedAuth} from "components";
-import {useCallback, useMemo} from "react";
-import {Action, Page, Section, useFormComposable} from "@smartb/g2";
-import {Typography} from "@mui/material";
-import {useCreatedConfirmationPopUp} from "../../hooks";
-import {ApiKeyAddCommand, useApiKeyAddFunction, useApiKeyPageQueryFunction} from "../../api/";
-import {useNavigate} from "react-router-dom";
-import {APIKeyForm} from "../../components";
+import { useTranslation } from "react-i18next";
+import { PageHeaderObject, useExtendedAuth } from "components";
+import { useCallback, useMemo } from "react";
+import { Action, Page, Section, useFormComposable } from "@smartb/g2";
+import { Typography } from "@mui/material";
+import { useCreatedConfirmationPopUp } from "../../hooks";
+import { ApiKeyAddCommand, useApiKeyAddFunction, useApiKeyPageQueryFunction } from "../../api/";
+import { useNavigate } from "react-router-dom";
+import { APIKeyForm } from "../../components";
 
 export interface APIKeyProfilePageProps {
     readOnly: boolean
 }
 export const ApiKeyAddPage = (props: APIKeyProfilePageProps) => {
-    const { readOnly} = props
+    const { readOnly } = props
     const { t } = useTranslation();
     const navigate = useNavigate()
     const { service } = useExtendedAuth()
@@ -25,13 +25,13 @@ export const ApiKeyAddPage = (props: APIKeyProfilePageProps) => {
     const apiKeyAddFunction = useApiKeyAddFunction()
     const createdConfirmation = useCreatedConfirmationPopUp();
 
-    const createAPIKey = useCallback(async (command : Partial<ApiKeyAddCommand>) => {
+    const createAPIKey = useCallback(async (command: Partial<ApiKeyAddCommand>) => {
         console.log("createAPIKey")
         console.log(organizationId)
         if (organizationId) {
             const result = command.name && await apiKeyAddFunction.mutateAsync({
                 organizationId: organizationId,
-                name : command.name
+                name: command.name
             });
             apiKeyPageQuery.refetch()
             result && createdConfirmation.open(result)
@@ -61,13 +61,10 @@ export const ApiKeyAddPage = (props: APIKeyProfilePageProps) => {
 
     return (
         <Page
-            headerProps={{
-                content: [{
-                    leftPart: [
-                        <Typography sx={{ flexShrink: 0 }} color="secondary" variant="h5" key="pageTitle">{t("manageAPIKeys")}</Typography>
-                    ]
-                }]
-            }}
+            headerProps={PageHeaderObject({
+                title: t("manageAPIKeys"),
+                titleProps: { sx: { flexShrink: 0 }, color: "secondary" },
+            })}
             bottomActionsProps={{
                 actions: actions
             }}

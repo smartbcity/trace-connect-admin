@@ -1,7 +1,7 @@
 import { Page, LinkButton } from "@smartb/g2"
 import {AutomatedUserTable} from "@smartb/g2-i2-v2"
 import { Typography } from "@mui/material";
-import { useExtendedAuth, useRoutesDefinition } from "components";
+import { PageHeaderObject, useExtendedAuth, useRoutesDefinition } from "components";
 import { useTranslation } from "react-i18next";
 import { useUserFilters } from "./useUserFilters";
 import { useUserListPage } from "../../hooks";
@@ -35,14 +35,10 @@ export const UserListPage = (props: UserListPageProps) => {
 
   return (
     <Page
-      headerProps={{
-        content: [{
-          leftPart: [
-            <Typography variant="h5" key="pageTitle">{t("manageUsers")}</Typography>
-          ],
-          rightPart: actions
-        }]
-      }}
+      headerProps={PageHeaderObject({
+        title: t("manageUsers"),
+        rightPart: actions
+      })}
     >
         {component}
         <AutomatedUserTable
