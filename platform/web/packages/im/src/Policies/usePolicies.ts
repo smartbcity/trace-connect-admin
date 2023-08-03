@@ -13,8 +13,6 @@ export const usePolicies = (
   const isSuperAdmin = service.is_super_admin()
   const isOrchestratorAdmin = service.is_tr_orchestrator_admin()
 
-  console.log(isSuperAdmin, keycloak.tokenParsed)
-
   return {
     organization: {
       canCreate: ( isSuperAdmin || isOrchestratorAdmin) ,

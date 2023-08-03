@@ -26,8 +26,6 @@ export const ApiKeyAddPage = (props: APIKeyProfilePageProps) => {
     const createdConfirmation = useCreatedConfirmationPopUp();
 
     const createAPIKey = useCallback(async (command: Partial<ApiKeyAddCommand>) => {
-        console.log("createAPIKey")
-        console.log(organizationId)
         if (organizationId) {
             const result = command.name && await apiKeyAddFunction.mutateAsync({
                 organizationId: organizationId,

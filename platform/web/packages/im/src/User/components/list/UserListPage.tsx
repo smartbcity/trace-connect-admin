@@ -1,7 +1,7 @@
 import { Page, LinkButton } from "@smartb/g2"
 import {AutomatedUserTable} from "@smartb/g2-i2-v2"
 import { Typography } from "@mui/material";
-import { PageHeaderObject, useExtendedAuth, useRoutesDefinition } from "components";
+import { PageHeaderObject, useExtendedAuth, useRoutesDefinition, userAdminRoles, userBaseRoles } from "components";
 import { useTranslation } from "react-i18next";
 import { useUserFilters } from "./useUserFilters";
 import { useUserListPage } from "../../hooks";
@@ -26,6 +26,10 @@ export const UserListPage = (props: UserListPageProps) => {
   const filters = useMemo(() => (
     {
       ...submittedFilters,
+      role: [
+        ...(submittedFilters.role?.includes("user") ? userBaseRoles : []),
+        ...(submittedFilters.role?.includes("admin") ? userAdminRoles : [])
+      ],
       organizationId: !policies.user.canListAllUser ? service.getUser()?.memberOf : undefined}
   ), [policies.user.canListAllUser, submittedFilters, service.getUser])
 

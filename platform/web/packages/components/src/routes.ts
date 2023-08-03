@@ -7,7 +7,7 @@ const IMRoutesAuthorizations = {
     "organizations": "open",
     "organizations/add": "open",
     "organizations/:organizationId/view": "open",
-    "organizations/:organizationId/edit": "tr_orchestrator_admin",
+    "organizations/:organizationId/edit": ["tr_orchestrator_admin"],
     "myOrganization": "open",
     "myOrganization/edit": userAdminRoles,
     "users": "open",
