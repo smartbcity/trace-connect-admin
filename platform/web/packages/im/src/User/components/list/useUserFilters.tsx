@@ -13,6 +13,8 @@ export const useUserFilters = (params?: useUserFiltersParams) => {
     const {t} = useTranslation()
   
     const rolesOptions = useMemo(() => getUserRolesOptions(t), [t])
+
+    console.log(rolesOptions)
   
     const filters = useMemo((): FilterComposableField[] => [
       {
@@ -37,7 +39,7 @@ export const useUserFilters = (params?: useUserFiltersParams) => {
         type: 'textField',
         params: { textFieldType: 'search', placeholder: t("userList.orgNameFilter"), style: {minWidth: "220px"} }
       } as FilterComposableField] : [])
-    ], [t, searchOrg])
+    ], [t, searchOrg, rolesOptions])
 
     return useCustomFilters({filters: filters, actions})
 }

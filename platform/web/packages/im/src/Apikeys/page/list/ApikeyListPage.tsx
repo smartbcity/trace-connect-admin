@@ -3,7 +3,7 @@ import {Stack, Typography} from "@mui/material";
 import {LinkButton, Page} from "@smartb/g2";
 import {useCallback, useMemo} from "react";
 import {Offset, OffsetPagination, PageQueryResult} from "template";
-import {useExtendedAuth, useRoutesDefinition} from "components";
+import {PageHeaderObject, useExtendedAuth, useRoutesDefinition} from "components";
 import {ApiKeyDTO, useApiKeyPageQueryFunction, useApikeyRemoveFunction} from "../../api";
 import {APIKeysTable} from "../../components";
 
@@ -42,16 +42,10 @@ export const ApikeyListPage = (props: APIKeysListPageProps) => {
 
     return (
         <Page
-            headerProps={{
-                content: [{
-                    leftPart: [
-                        <Typography variant="h5" key="pageTitle">{t("manageAPIKeys")}</Typography>
-                    ],
-                    rightPart: [
-                        <LinkButton to={apiKeysAdd()} key="pageAddButton">{t("apiKeysList.create")}</LinkButton>
-                    ]
-                }]
-            }}
+            headerProps={PageHeaderObject({
+                title: t("manageAPIKeys"),
+                rightPart: [<LinkButton to={apiKeysAdd()} key="pageAddButton">{t("apiKeysList.create")}</LinkButton>]
+            })}
         >
             <Stack gap={4}>
                 <Typography>{t('apiKeysList.headerText1')}</Typography>

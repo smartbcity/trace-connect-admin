@@ -7,12 +7,16 @@ export const userAdminRoles = [
     "tr_stakeholder_admin"
 ] as const
 
-export const userRoles = [
-    "super_admin",
-    ...userAdminRoles,
+export const userBaseRoles = [
     "tr_orchestrator_user",
     "tr_project_manager_user",
     "tr_stakeholder_user",
+] as const
+
+export const userRoles = [
+    "super_admin",
+    ...userAdminRoles,
+    ...userBaseRoles
 ] as const
 
 

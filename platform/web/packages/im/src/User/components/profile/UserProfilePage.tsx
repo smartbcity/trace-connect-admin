@@ -1,11 +1,10 @@
-import { Typography } from '@mui/material'
 import { Action, i2Config, Page, Section, LinkButton, validators } from '@smartb/g2';
-import { UserFactory, useGetOrganizationRefs, userExistsByEmail, useUserFormState,UserFactoryFieldsOverride } from '@smartb/g2-i2-v2';
-import { OrgRoles, getUserRolesOptions, useExtendedAuth, useRoutesDefinition } from "components";
+import { UserFactory, useGetOrganizationRefs, userExistsByEmail, useUserFormState, UserFactoryFieldsOverride } from '@smartb/g2-i2-v2';
+import { OrgRoles, PageHeaderObject, getUserRolesOptions, useExtendedAuth, useRoutesDefinition } from "components";
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import {usePolicies} from "../../../Policies/usePolicies";
+import { usePolicies } from "../../../Policies/usePolicies";
 
 export interface UserProfilePageProps {
     readOnly: boolean
@@ -21,7 +20,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
     const { keycloak, service } = useExtendedAuth()
     const getOrganizationRefs = useGetOrganizationRefs({ jwt: keycloak.token })
     const isUpdate = !!userId || myProfil
-    const policies = usePolicies({myProfil: myProfil})
+    const policies = usePolicies({ myProfil: myProfil })
     const isAdmin = useMemo(() => {
         return service.isAdmin()
     }, [service.isAdmin()])
@@ -94,9 +93,9 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
     }, [readOnly, formState.submitForm])
 
     const organizationOptions = useMemo(() =>
-      getOrganizationRefs.query.data?.items.map(
-        (ref) => ({ key: ref.id, label: ref.name })
-      ), [getOrganizationRefs])
+        getOrganizationRefs.query.data?.items.map(
+            (ref) => ({ key: ref.id, label: ref.name })
+        ), [getOrganizationRefs])
 
     const checkEmailValidity = useCallback(
         async (email: string) => {
@@ -124,14 +123,11 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
 
     return (
         <Page
-            headerProps={{
-                content: [{
-                    leftPart: [
-                        <Typography sx={{ flexShrink: 0 }} variant="h5" key="pageTitle">{myProfil ? t("profil") : t("users")}</Typography>,
-                    ],
-                    rightPart: headerRightPart
-                }]
-            }}
+            headerProps={PageHeaderObject({
+                title: myProfil ? t("profil") : t("users"),
+                titleProps: { sx: { flexShrink: 0 } },
+                rightPart: headerRightPart
+            })}
             bottomActionsProps={{
                 actions: actions
             }}
@@ -148,13 +144,13 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
                     user={user}
                     organizationId={organizationId}
                     userId={userId}
-                    resetPasswordType={myProfil ?'email' : isAdmin ? "forced" : undefined}
+                    resetPasswordType={myProfil ? 'email' : isAdmin ? "forced" : undefined}
                     multipleRoles={false}
                     readOnlyRolesOptions={rolesOptions.withSuperAdmin}
                     getOrganizationUrl={getOrganizationUrl}
                     fieldsOverride={fieldsOverride}
                     checkEmailValidity={checkEmailValidity}
-                /> 
+                />
             </Section>
         </Page>
     )

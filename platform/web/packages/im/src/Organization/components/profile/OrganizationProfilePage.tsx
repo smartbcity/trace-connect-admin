@@ -1,4 +1,4 @@
-import { useExtendedAuth, useRoutesDefinition } from "components"
+import { PageHeaderObject, useExtendedAuth, useRoutesDefinition } from "components"
 import { Typography } from '@mui/material'
 import {Action, Page, Section, LinkButton} from '@smartb/g2'
 import {Organization, useOrganizationFormState} from '@smartb/g2-i2-v2'
@@ -83,16 +83,11 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
 
     return (
         <Page
-            headerProps={{
-                content: [{
-                    leftPart: [
-                        <Typography sx={{ flexShrink: 0 }} color="secondary" variant="h5" key="pageTitle">
-                            {myOrganization ? t("manageAccount") : organization?.name ?? t("organizations")}
-                        </Typography>
-                    ],
-                    rightPart: headerRightPart
-                }]
-            }}
+            headerProps={PageHeaderObject({
+                title: myOrganization ? t("manageAccount") : organization?.name ?? t("organizations"),
+                titleProps: { sx: { flexShrink: 0 }, color: "secondary" },
+                rightPart: headerRightPart
+            })}
             bottomActionsProps={{
                 actions: actions
             }}

@@ -13,4 +13,4 @@ web:
   extends:
     - .make
   variables:
-    MAKE_TARGET: docker-web
+    MAKE_TARGET: docker
