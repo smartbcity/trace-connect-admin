@@ -8,9 +8,16 @@ stages:
 ##########################################
 ## Tasks
 ##########################################
+keycloak-theme:
+  stage: package
+  extends:
+    - .make
+  variables:
+    MAKE_TARGET: docker-web
+
 web:
   stage: package
   extends:
     - .make
   variables:
-    MAKE_TARGET: docker
+    MAKE_TARGET: docker-keycloak
