@@ -18,8 +18,8 @@ export const useOrganizationFilters = () => {
             mandatory: true
         },
         {
-            name: 'role',
-            label: t("role") as string,
+            name: 'roles',
+            label: t("role"),
             type: 'select',
             params: {
                 options: rolesOptions,
