@@ -13,11 +13,11 @@ keycloak-theme:
   extends:
     - .make
   variables:
-    MAKE_TARGET: docker-web
+    MAKE_TARGET: docker-keycloak
 
 web:
   stage: package
   extends:
     - .make
   variables:
-    MAKE_TARGET: docker-keycloak
+    MAKE_TARGET: docker-web
