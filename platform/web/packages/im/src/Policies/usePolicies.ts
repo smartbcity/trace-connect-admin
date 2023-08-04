@@ -1,4 +1,5 @@
 import {useExtendedAuth} from "components";
+import {useMemo} from "react"
 
 export interface UsePoliciesProps {
   myProfil ?: boolean,
@@ -8,12 +9,12 @@ export interface UsePoliciesProps {
 export const usePolicies = (
   props?: UsePoliciesProps,
 ) => {
-  const { service, keycloak} = useExtendedAuth()
+  const { service} = useExtendedAuth()
   const isAdmin = service.isAdmin()
   const isSuperAdmin = service.is_super_admin()
   const isOrchestratorAdmin = service.is_tr_orchestrator_admin()
 
-  return {
+  return useMemo(() => ({
     organization: {
       canCreate: ( isSuperAdmin || isOrchestratorAdmin) ,
       canUpdate: ( isSuperAdmin || (isAdmin && props?.myOrganization) ),
@@ -26,5 +27,5 @@ export const usePolicies = (
       canSetSuperAdminRole: isSuperAdmin,
       canListAllUser: service.is_super_admin()
     }
-  }
+  }), [service])
 }

@@ -16,6 +16,8 @@ export const OrganizationListPage = (props: OrganizationListPageProps) => {
   const { additionalColumns, getRowLink } = useOrganizationListPage()
   const { component, submittedFilters, setPage } = useOrganizationFilters()
 
+  console.log(submittedFilters)
+
   const { organizationsAdd } = useRoutesDefinition()
   const actions = policies.organization.canCreate ? [(<LinkButton to={organizationsAdd()} key="pageAddButton">{t("organizationList.create")}</LinkButton>)] : []
   return (

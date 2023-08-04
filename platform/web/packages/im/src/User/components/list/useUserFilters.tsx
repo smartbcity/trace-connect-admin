@@ -14,8 +14,6 @@ export const useUserFilters = (params?: useUserFiltersParams) => {
   
     const rolesOptions = useMemo(() => getUserRolesOptions(t), [t])
 
-    console.log(rolesOptions)
-  
     const filters = useMemo((): FilterComposableField[] => [
       {
         key: 'emailSearchFilter',

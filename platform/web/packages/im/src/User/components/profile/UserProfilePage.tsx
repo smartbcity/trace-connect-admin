@@ -141,7 +141,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
                     formState={formState}
                     update={isUpdate}
                     isLoading={isLoading}
-                    user={user}
+                    user={user ?? undefined}
                     organizationId={organizationId}
                     userId={userId}
                     resetPasswordType={myProfil ? 'email' : isAdmin ? "forced" : undefined}

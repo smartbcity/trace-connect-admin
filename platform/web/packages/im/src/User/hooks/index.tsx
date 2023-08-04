@@ -14,7 +14,7 @@ import {
 import {User, useUserDisable2} from "@smartb/g2-i2-v2";
 import {i2Config} from "@smartb/g2-providers";
 import {useDeleteUserPopUp} from "./useDeleteUserPopUp";
-import {useQueryClient} from "react-query";
+import {useQueryClient} from "@tanstack/react-query";
 
 
 export const useUserListPage = () => {
@@ -50,7 +50,7 @@ export const useUserListPage = () => {
                 id: user.id,
                 anonymize: true
             })
-            queryClient.invalidateQueries('users')
+            queryClient.invalidateQueries({ queryKey: ['users'] })
         }, []
     )
 

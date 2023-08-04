@@ -4,7 +4,7 @@ import {TableCellAdmin, useExtendedAuth, useRoutesDefinition} from "components";
 import {Organization, useOrganizationDisable2} from "@smartb/g2-i2-v2";
 import {useCallback, useMemo} from "react";
 import {Row} from "@tanstack/react-table";
-import {useQueryClient} from "react-query";
+import {useQueryClient} from "@tanstack/react-query";
 import {G2ColumnDef} from "@smartb/g2-layout";
 import {i2Config} from "@smartb/g2-providers";
 import {useDeleteOrganizationPopUp} from "./useDeleteOrganizationPopUp";
@@ -38,7 +38,7 @@ export const useOrganizationListPage = () => {
                 id: organization.id,
                 anonymize: true
             })
-            queryClient.invalidateQueries('organizations')
+            queryClient.invalidateQueries({ queryKey: ['organizations'] })
         }, []
     )
 
