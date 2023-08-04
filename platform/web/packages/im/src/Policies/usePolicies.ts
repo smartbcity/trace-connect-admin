@@ -9,7 +9,7 @@ export interface UsePoliciesProps {
 export const usePolicies = (
   props?: UsePoliciesProps,
 ) => {
-  const { service} = useExtendedAuth()
+  const { service } = useExtendedAuth()
   const isAdmin = service.isAdmin()
   const isSuperAdmin = service.is_super_admin()
   const isOrchestratorAdmin = service.is_tr_orchestrator_admin()

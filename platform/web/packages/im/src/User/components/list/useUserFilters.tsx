@@ -23,7 +23,7 @@ export const useUserFilters = (params?: useUserFiltersParams) => {
       },
       {
         key: 'userRolesFilter',
-        name: 'role',
+        name: 'roles',
         label: t("role"),
         type: 'select',
         params: {

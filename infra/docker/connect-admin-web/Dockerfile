@@ -18,7 +18,7 @@ RUN yarn install
 ENV PATH /app/node_modules/.bin:$PATH
 RUN yarn workspace web-app build
 
-FROM nginx:1.17.0-alpine
+FROM nginx:1.25.1-alpine
 
 COPY --from=build /app/packages/web-app/dist /var/www
 COPY infra/docker/connect-admin-web/nginx.conf /etc/nginx/nginx.conf
