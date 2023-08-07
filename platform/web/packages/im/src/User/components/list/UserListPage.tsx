@@ -1,20 +1,18 @@
 import { Page, LinkButton } from "@smartb/g2"
-// import { AutomatedUserTable } from "@smartb/g2-i2-v2"
+import { AutomatedUserTable } from "@smartb/g2-i2-v2"
 import { Typography } from "@mui/material";
 import { PageHeaderObject, useExtendedAuth, useRoutesDefinition, userAdminRoles, userBaseRoles } from "components";
 import { useTranslation } from "react-i18next";
 import { useUserFilters } from "./useUserFilters";
 import { useUserListPage } from "../../hooks";
 import { useMemo } from "react";
-import { userTableColumns } from "@smartb/g2-i2-v2/dist/User/Components/UserTable";
 import { usePolicies } from "../../../Policies/usePolicies";
-import { AutomatedUserTable } from "./UserTable";
 
 export const UserListPage = () => {
   const { t } = useTranslation();
   const { service } = useExtendedAuth()
 
-  const { getOrganizationUrl, getRowLink, additionalColumns } = useUserListPage()
+  const { getRowLink, columns } = useUserListPage()
   const { usersAdd } = useRoutesDefinition()
 
   const policies = usePolicies()
@@ -45,14 +43,12 @@ export const UserListPage = () => {
     >
       {component}
       <AutomatedUserTable
-        columnsExtander={{
-          additionalColumns,
-          blockedColumns: ["address", ...(!policies.user.canListAllUser ? ["memberOf" as userTableColumns] : [])]
+        tableStateParams={{
+          columns
         }}
         getRowLink={getRowLink}
         hasOrganizations
         filters={filters}
-        getOrganizationUrl={getOrganizationUrl}
         noDataComponent={<Typography align="center">{t("userList.noUserOrg")}</Typography>}
         page={submittedFilters.page + 1}
         setPage={setPage}

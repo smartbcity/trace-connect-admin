@@ -13,13 +13,14 @@ export const OrganizationListPage = (props: OrganizationListPageProps) => {
   const { } = props;
   const { t } = useTranslation()
   const policies = usePolicies()
-  const { additionalColumns, getRowLink } = useOrganizationListPage()
+  const { columns, getRowLink } = useOrganizationListPage()
   const { component, submittedFilters, setPage } = useOrganizationFilters()
-
-  console.log(submittedFilters)
 
   const { organizationsAdd } = useRoutesDefinition()
   const actions = policies.organization.canCreate ? [(<LinkButton to={organizationsAdd()} key="pageAddButton">{t("organizationList.create")}</LinkButton>)] : []
+
+ 
+
   return (
     <Page
       headerProps={PageHeaderObject({
@@ -29,8 +30,8 @@ export const OrganizationListPage = (props: OrganizationListPageProps) => {
     >
       {component}
       <AutomatedOrganizationTable
-        columnsExtander={{
-          additionalColumns
+        tableStateParams={{
+          columns
         }}
         filters={submittedFilters}
         getRowLink={getRowLink}

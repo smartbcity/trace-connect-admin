@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import {LinkProps, useNavigate} from "react-router-dom";
-import {TableCellAdmin, useExtendedAuth, useRoutesDefinition} from "components";
+import {TableCellAdmin, getOrgRolesOptions, useExtendedAuth, useRoutesDefinition} from "components";
 import {Organization, useOrganizationDisable2} from "@smartb/g2-i2-v2";
 import {useCallback, useMemo} from "react";
 import {Row} from "@tanstack/react-table";
@@ -8,6 +8,8 @@ import {useQueryClient} from "@tanstack/react-query";
 import {G2ColumnDef} from "@smartb/g2-layout";
 import {i2Config} from "@smartb/g2-providers";
 import {useDeleteOrganizationPopUp} from "./useDeleteOrganizationPopUp";
+import { useOrganizationColumns } from "@smartb/g2-i2-v2";
+import { InputForm } from "@smartb/g2";
 
 
 export const useOrganizationListPage = () => {
@@ -42,8 +44,20 @@ export const useOrganizationListPage = () => {
         }, []
     )
 
-    const additionalColumns = useMemo((): G2ColumnDef<Organization>[] => {
-        return [{
+    const base = useOrganizationColumns()
+
+    const columns = useMemo((): G2ColumnDef<Organization>[] => {
+        return [
+            base.columns.name,
+            {
+                header: t("role"),
+                id: "roles",
+                cell: ({row}) => {
+                    return <InputForm inputType="select" value={(row.original.roles ?? [])[0]} readOnly readOnlyType="chip" options={getOrgRolesOptions(t)} />
+                },
+            },
+            base.columns.address,
+            {
             header: t("actions"),
             id: "delete",
             cell: ({row}) => {
@@ -59,10 +73,10 @@ export const useOrganizationListPage = () => {
             },
         },
         ]
-    }, [service.getPrincipalRole])
+    }, [service.getPrincipalRole, base.columns])
 
     return {
         getRowLink: getRowLink,
-        additionalColumns
+        columns
     }
 }

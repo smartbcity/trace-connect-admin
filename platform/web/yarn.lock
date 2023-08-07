@@ -3053,8 +3053,8 @@
 
 "@smartb/g2-i2-v2@1.0.0-alpha.166":
   version "1.0.0-alpha.166"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-i2-v2/-/@smartb/g2-i2-v2-1.0.0-alpha.166.tgz#1b44dd5ffdec39fdb428b91f724cbde32b930667"
-  integrity sha1-G0TdX/3sOf20KLkfcky94yuTBmc=
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-i2-v2/-/@smartb/g2-i2-v2-1.0.0-alpha.166.tgz#9d20bf86b01afb5e04b0e0bbd13de90dc7c616ab"
+  integrity sha1-nSC/hrAa+14EsOC70T3pDcfGFqs=
   dependencies:
     "@mantine/hooks" "^4.2.12"
     "@mui/icons-material" "^5.11.11"
