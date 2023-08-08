@@ -22,9 +22,9 @@ export const UserListPage = () => {
   const filters = useMemo(() => (
     {
       ...submittedFilters,
-      role: submittedFilters.role ? [
-        ...(submittedFilters.role.includes("user") ? userBaseRoles : []),
-        ...(submittedFilters.role.includes("admin") ? userAdminRoles : [])
+      roles: submittedFilters.roles ? [
+        ...(submittedFilters.roles.includes("user") ? userBaseRoles : []),
+        ...(submittedFilters.roles.includes("admin") ? userAdminRoles : [])
       ] : undefined,
       organizationId: !policies.user.canListAllUser ? service.getUser()?.memberOf : undefined
     }
