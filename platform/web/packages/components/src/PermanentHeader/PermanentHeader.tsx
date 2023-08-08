@@ -2,7 +2,6 @@ import { Box, IconButton } from "@mui/material"
 import { Link } from "react-router-dom"
 import { TraceIcon } from "../icons";
 import { Menu } from "@mui/icons-material";
-import { LanguageSelector } from "../LanguageSelector";
 
 export interface PermanentHeaderProps {
     toggleOpenDrawer: () => void
@@ -21,7 +20,7 @@ export const PermanentHeader = (props: PermanentHeaderProps) => {
                 alignItems: "center",
             }}
         >
-            <LanguageSelector />
+            <Box />
             <Link
                 to="/"
                 style={{

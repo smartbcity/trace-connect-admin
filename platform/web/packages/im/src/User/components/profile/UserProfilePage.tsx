@@ -1,10 +1,11 @@
 import { Action, i2Config, Page, Section, LinkButton, validators } from '@smartb/g2';
 import { UserFactory, useGetOrganizationRefs, userExistsByEmail, useUserFormState, UserFactoryFieldsOverride } from '@smartb/g2-i2-v2';
-import { OrgRoles, PageHeaderObject, getUserRolesOptions, useExtendedAuth, useRoutesDefinition } from "components";
+import { LanguageSelector, OrgRoles, PageHeaderObject, getUserRolesOptions, useExtendedAuth, useRoutesDefinition } from "components";
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { usePolicies } from "../../../Policies/usePolicies";
+import {Box} from "@mui/material"
 
 export interface UserProfilePageProps {
     readOnly: boolean
@@ -135,7 +136,17 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
             <Section sx={{
                 width: "100%",
                 gap: (theme) => theme.spacing(2),
+                position: "relative"
             }}>
+                <Box
+                sx={{
+                    position: "absolute",
+                    top: "5px",
+                    right: "15px"
+                }}
+                >
+                <LanguageSelector />
+                </Box>
                 <UserFactory
                     readOnly={readOnly}
                     formState={formState}

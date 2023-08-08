@@ -20,11 +20,8 @@ export const App = () => {
           background: "none"
         },
         "& .MuiListItemButton-root:hover": {
-          color: "primary.main"
+          background: "rgba(0, 0, 0, 0.04)"
         },
-        "& .MuiListItemButton-root:hover .MuiListItemIcon-root": {
-          color: "primary.main"
-        }
       }
     }}
       menu={menu}
