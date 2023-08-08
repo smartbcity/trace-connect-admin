@@ -59,6 +59,7 @@ export const OrganizationForm = (props: OrganizationFormProps) => {
         },
         {
             ...fields.fields.description,
+            label: readOnly ? t("description") : t("optionalDescription"),
             fullRow: true,
         },
     ], [t, fields.fields, service.is_super_admin, readOnly]);

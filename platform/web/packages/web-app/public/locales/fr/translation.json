@@ -27,6 +27,7 @@
   "created": "Créé",
   "totalItem": "{{start}} - {{end}} sur {{total}}",
   "optionalCountry": "Pays (facultatif)",
+  "optionalDescription": "Description (facultatif)",
   "organizationSummary": "Résumé de l'organisation",
   "apiKeySummary": "Résumé de la clé d'API",
   "manageAccount": "Gérer mon compte",

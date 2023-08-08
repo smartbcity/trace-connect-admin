@@ -14,6 +14,19 @@ export const App = () => {
 
   return (
     <StandAloneAppLayout
+    drawerProps={{
+      sx: {
+        "& .MuiListItemButton-root": {
+          background: "none"
+        },
+        "& .MuiListItemButton-root:hover": {
+          color: "primary.main"
+        },
+        "& .MuiListItemButton-root:hover .MuiListItemIcon-root": {
+          color: "primary.main"
+        }
+      }
+    }}
       menu={menu}
       userMenuProps={{
         currentUser: user ? {
