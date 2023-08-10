@@ -40,7 +40,9 @@ export const useOrganizationListPage = () => {
                 id: organization.id,
                 anonymize: true
             })
-            queryClient.invalidateQueries({ queryKey: ['organizations'] })
+            queryClient.invalidateQueries({ queryKey: ["organizationRefList"] })
+            queryClient.invalidateQueries({ queryKey: ["organizations"] })
+            queryClient.invalidateQueries({ queryKey: ["organization"] })
         }, []
     )
 

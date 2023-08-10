@@ -2965,45 +2965,45 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@smartb/g2-components@1.0.0-alpha.166":
-  version "1.0.0-alpha.166"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-components/-/@smartb/g2-components-1.0.0-alpha.166.tgz#33495a3ac7a35504b1135cf9318ea9507ff7d69c"
-  integrity sha1-M0laOsejVQSxE1z5MY6pUH/31pw=
+"@smartb/g2-components@1.0.0-alpha.167":
+  version "1.0.0-alpha.167"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-components/-/@smartb/g2-components-1.0.0-alpha.167.tgz#7595796f56e8cc8af940d10fa33a2a997963ef8c"
+  integrity sha1-dZV5b1bozIr5QNEPozoqmXlj74w=
   dependencies:
     "@mantine/core" "^4.2.12"
     "@mantine/dropzone" "^4.2.12"
     "@mantine/hooks" "^4.2.12"
     "@mui/icons-material" "^5.11.11"
     "@mui/lab" "5.0.0-alpha.122"
-    "@smartb/g2-notifications" "1.0.0-alpha.166"
-    "@smartb/g2-themes" "1.0.0-alpha.166"
-    "@smartb/g2-utils" "1.0.0-alpha.166"
+    "@smartb/g2-notifications" "1.0.0-alpha.167"
+    "@smartb/g2-themes" "1.0.0-alpha.167"
+    "@smartb/g2-utils" "1.0.0-alpha.167"
     react-dropzone "^11.3.2"
     react-i18next "^12.2.0"
     react-router-dom "^6.8.2"
 
-"@smartb/g2-composable@1.0.0-alpha.166":
-  version "1.0.0-alpha.166"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-composable/-/@smartb/g2-composable-1.0.0-alpha.166.tgz#7f6782de5e927cee385e9ab2f3caedf7baa9bfee"
-  integrity sha1-f2eC3l6SfO44Xpqy88rt97qpv+4=
+"@smartb/g2-composable@1.0.0-alpha.167":
+  version "1.0.0-alpha.167"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-composable/-/@smartb/g2-composable-1.0.0-alpha.167.tgz#ca817f513228fad191d4180453795578b563d876"
+  integrity sha1-yoF/UTIo+tGR1BgEU3lVeLVj2HY=
   dependencies:
     "@mui/icons-material" "^5.11.11"
-    "@smartb/g2-components" "1.0.0-alpha.166"
-    "@smartb/g2-forms" "1.0.0-alpha.166"
-    "@smartb/g2-themes" "1.0.0-alpha.166"
-    "@smartb/g2-utils" "1.0.0-alpha.166"
+    "@smartb/g2-components" "1.0.0-alpha.167"
+    "@smartb/g2-forms" "1.0.0-alpha.167"
+    "@smartb/g2-themes" "1.0.0-alpha.167"
+    "@smartb/g2-utils" "1.0.0-alpha.167"
     formik "^2.2.9"
     qs "^6.11.1"
     ramda "^0.28.0"
     react-router-dom "^6.8.2"
 
-"@smartb/g2-documentation@1.0.0-alpha.166":
-  version "1.0.0-alpha.166"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-documentation/-/@smartb/g2-documentation-1.0.0-alpha.166.tgz#77bf237f4977ea579e432c2159509ee31a818f7a"
-  integrity sha1-d78jf0l36leeQywhWVCe4xqBj3o=
+"@smartb/g2-documentation@1.0.0-alpha.167":
+  version "1.0.0-alpha.167"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-documentation/-/@smartb/g2-documentation-1.0.0-alpha.167.tgz#8e0b8a0e7379f7ce261692b16bc731ca1f21e383"
+  integrity sha1-jguKDnN5984mFpKxa8cxyh8h44M=
   dependencies:
-    "@smartb/g2-themes" "1.0.0-alpha.166"
-    "@smartb/g2-utils" "1.0.0-alpha.166"
+    "@smartb/g2-themes" "1.0.0-alpha.167"
+    "@smartb/g2-utils" "1.0.0-alpha.167"
     github-markdown-css "^4.0.0"
     react-markdown "^6.0.2"
     react-syntax-highlighter "^15.5.0"
@@ -3011,17 +3011,17 @@
     rehype-sanitize "^4.0.0"
     remark-gfm "^1.0.0"
 
-"@smartb/g2-forms@1.0.0-alpha.166":
-  version "1.0.0-alpha.166"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-forms/-/@smartb/g2-forms-1.0.0-alpha.166.tgz#6b163e761a6051d55e4452e587d198d17ca93b57"
-  integrity sha1-axY+dhpgUdVeRFLlh9GY0XypO1c=
+"@smartb/g2-forms@1.0.0-alpha.167":
+  version "1.0.0-alpha.167"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-forms/-/@smartb/g2-forms-1.0.0-alpha.167.tgz#7d009d5edbbcd1f877aa3781f063153aa767b4ad"
+  integrity sha1-fQCdXtu80fh3qjeB8GMVOqdntK0=
   dependencies:
     "@mantine/hooks" "^4.2.12"
     "@mui/icons-material" "^5.11.11"
     "@mui/x-date-pickers" "^5.0.2"
-    "@smartb/g2-components" "1.0.0-alpha.166"
-    "@smartb/g2-themes" "1.0.0-alpha.166"
-    "@smartb/g2-utils" "1.0.0-alpha.166"
+    "@smartb/g2-components" "1.0.0-alpha.167"
+    "@smartb/g2-themes" "1.0.0-alpha.167"
+    "@smartb/g2-utils" "1.0.0-alpha.167"
     date-fns "^2.29.3"
     formik "^2.2.9"
     geojson "^0.5.0"
@@ -3032,95 +3032,95 @@
     react-router-dom "^6.8.2"
     tinycolor2 "^1.4.2"
 
-"@smartb/g2-fs@1.0.0-alpha.166":
-  version "1.0.0-alpha.166"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-fs/-/@smartb/g2-fs-1.0.0-alpha.166.tgz#36366871e503f4f7e52672d928877691f8442394"
-  integrity sha1-NjZoceUD9PflJnLZKId2kfhEI5Q=
+"@smartb/g2-fs@1.0.0-alpha.167":
+  version "1.0.0-alpha.167"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-fs/-/@smartb/g2-fs-1.0.0-alpha.167.tgz#6296b2fdacc3172521f0207b690c0febaf3a2a80"
+  integrity sha1-Ypay/azDFyUh8CB7aQwP6686KoA=
   dependencies:
     "@mantine/core" "^4.2.12"
     "@mantine/dropzone" "^4.2.12"
     "@mantine/hooks" "^4.2.12"
     "@mui/icons-material" "^5.11.11"
-    "@smartb/g2-components" "1.0.0-alpha.166"
-    "@smartb/g2-forms" "1.0.0-alpha.166"
-    "@smartb/g2-providers" "1.0.0-alpha.166"
-    "@smartb/g2-themes" "1.0.0-alpha.166"
-    "@smartb/g2-utils" "1.0.0-alpha.166"
+    "@smartb/g2-components" "1.0.0-alpha.167"
+    "@smartb/g2-forms" "1.0.0-alpha.167"
+    "@smartb/g2-providers" "1.0.0-alpha.167"
+    "@smartb/g2-themes" "1.0.0-alpha.167"
+    "@smartb/g2-utils" "1.0.0-alpha.167"
     "@tanstack/react-query" "^4.32.5"
     react-dropzone "^11.3.2"
     react-i18next "^12.2.0"
     uuid "^8.3.2"
 
-"@smartb/g2-i2-v2@1.0.0-alpha.166":
-  version "1.0.0-alpha.166"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-i2-v2/-/@smartb/g2-i2-v2-1.0.0-alpha.166.tgz#9d20bf86b01afb5e04b0e0bbd13de90dc7c616ab"
-  integrity sha1-nSC/hrAa+14EsOC70T3pDcfGFqs=
+"@smartb/g2-i2-v2@1.0.0-alpha.167":
+  version "1.0.0-alpha.167"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-i2-v2/-/@smartb/g2-i2-v2-1.0.0-alpha.167.tgz#b9a99e640a8ba3d3410e01dfffc1cc781c37132d"
+  integrity sha1-uameZAqLo9NBDgHf/8HMeBw3Ey0=
   dependencies:
     "@mantine/hooks" "^4.2.12"
     "@mui/icons-material" "^5.11.11"
-    "@smartb/g2-components" "1.0.0-alpha.166"
-    "@smartb/g2-composable" "1.0.0-alpha.166"
-    "@smartb/g2-forms" "1.0.0-alpha.166"
-    "@smartb/g2-layout" "1.0.0-alpha.166"
-    "@smartb/g2-notifications" "1.0.0-alpha.166"
-    "@smartb/g2-providers" "1.0.0-alpha.166"
-    "@smartb/g2-themes" "1.0.0-alpha.166"
-    "@smartb/g2-utils" "1.0.0-alpha.166"
+    "@smartb/g2-components" "1.0.0-alpha.167"
+    "@smartb/g2-composable" "1.0.0-alpha.167"
+    "@smartb/g2-forms" "1.0.0-alpha.167"
+    "@smartb/g2-layout" "1.0.0-alpha.167"
+    "@smartb/g2-notifications" "1.0.0-alpha.167"
+    "@smartb/g2-providers" "1.0.0-alpha.167"
+    "@smartb/g2-themes" "1.0.0-alpha.167"
+    "@smartb/g2-utils" "1.0.0-alpha.167"
     react-i18next "^12.2.0"
     react-router-dom "^6.8.2"
 
-"@smartb/g2-i2@1.0.0-alpha.166":
-  version "1.0.0-alpha.166"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-i2/-/@smartb/g2-i2-1.0.0-alpha.166.tgz#c89ed658ab840a09fb355f7474ab25c7c488285b"
-  integrity sha1-yJ7WWKuECgn7NV90dKslx8SIKFs=
+"@smartb/g2-i2@1.0.0-alpha.167":
+  version "1.0.0-alpha.167"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-i2/-/@smartb/g2-i2-1.0.0-alpha.167.tgz#5d57905c662608a2ababbccce5326cfe2d2ee02d"
+  integrity sha1-XVeQXGYmCKKrq7zM5TJs/i0u4C0=
   dependencies:
     "@mantine/hooks" "^4.2.12"
     "@mui/icons-material" "^5.11.11"
-    "@smartb/g2-components" "1.0.0-alpha.166"
-    "@smartb/g2-forms" "1.0.0-alpha.166"
-    "@smartb/g2-layout" "1.0.0-alpha.166"
-    "@smartb/g2-notifications" "1.0.0-alpha.166"
-    "@smartb/g2-providers" "1.0.0-alpha.166"
-    "@smartb/g2-themes" "1.0.0-alpha.166"
-    "@smartb/g2-utils" "1.0.0-alpha.166"
+    "@smartb/g2-components" "1.0.0-alpha.167"
+    "@smartb/g2-forms" "1.0.0-alpha.167"
+    "@smartb/g2-layout" "1.0.0-alpha.167"
+    "@smartb/g2-notifications" "1.0.0-alpha.167"
+    "@smartb/g2-providers" "1.0.0-alpha.167"
+    "@smartb/g2-themes" "1.0.0-alpha.167"
+    "@smartb/g2-utils" "1.0.0-alpha.167"
     react-router-dom "^6.8.2"
 
-"@smartb/g2-layout@1.0.0-alpha.166":
-  version "1.0.0-alpha.166"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-layout/-/@smartb/g2-layout-1.0.0-alpha.166.tgz#012e7b5bb7c47d83a033f69c968019d8cd77bc21"
-  integrity sha1-AS57W7fEfYOgM/acloAZ2M13vCE=
+"@smartb/g2-layout@1.0.0-alpha.167":
+  version "1.0.0-alpha.167"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-layout/-/@smartb/g2-layout-1.0.0-alpha.167.tgz#b72b59e7f2f06faf163844d505fc5d5cc9887c11"
+  integrity sha1-tytZ5/Lwb68WOETVBfxdXMmIfBE=
   dependencies:
     "@mui/icons-material" "^5.11.11"
-    "@smartb/g2-components" "1.0.0-alpha.166"
-    "@smartb/g2-forms" "1.0.0-alpha.166"
-    "@smartb/g2-notifications" "1.0.0-alpha.166"
-    "@smartb/g2-themes" "1.0.0-alpha.166"
-    "@smartb/g2-utils" "1.0.0-alpha.166"
+    "@smartb/g2-components" "1.0.0-alpha.167"
+    "@smartb/g2-forms" "1.0.0-alpha.167"
+    "@smartb/g2-notifications" "1.0.0-alpha.167"
+    "@smartb/g2-themes" "1.0.0-alpha.167"
+    "@smartb/g2-utils" "1.0.0-alpha.167"
     "@tanstack/react-table" "^8.7.9"
     "@types/react-table" "^7.7.12"
     react-router-dom "^6.8.2"
     react-table "^7.8.0"
 
-"@smartb/g2-notifications@1.0.0-alpha.166":
-  version "1.0.0-alpha.166"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-notifications/-/@smartb/g2-notifications-1.0.0-alpha.166.tgz#104d6207c506cd27a6038d006757edee31f57852"
-  integrity sha1-EE1iB8UGzSemA40AZ1ft7jH1eFI=
+"@smartb/g2-notifications@1.0.0-alpha.167":
+  version "1.0.0-alpha.167"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-notifications/-/@smartb/g2-notifications-1.0.0-alpha.167.tgz#8f0551ae06537caa8d1909a34ef1328ec404e0f2"
+  integrity sha1-jwVRrgZTfKqNGQmjTvEyjsQE4PI=
   dependencies:
     "@mui/icons-material" "^5.11.11"
-    "@smartb/g2-themes" "1.0.0-alpha.166"
-    "@smartb/g2-utils" "1.0.0-alpha.166"
+    "@smartb/g2-themes" "1.0.0-alpha.167"
+    "@smartb/g2-utils" "1.0.0-alpha.167"
     notistack "3.0.0-alpha.7"
 
-"@smartb/g2-providers@1.0.0-alpha.166":
-  version "1.0.0-alpha.166"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-providers/-/@smartb/g2-providers-1.0.0-alpha.166.tgz#f7d6ac5ea90c2810fca975a3718d518541b3fe08"
-  integrity sha1-99asXqkMKBD8qXWjcY1RhUGz/gg=
+"@smartb/g2-providers@1.0.0-alpha.167":
+  version "1.0.0-alpha.167"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-providers/-/@smartb/g2-providers-1.0.0-alpha.167.tgz#0a76d4d5a29f17b5a162ad272e5023844f0781b4"
+  integrity sha1-CnbU1aKfF7WhYq0nLlAjhE8HgbQ=
   dependencies:
     "@axa-fr/react-oidc" "^6.20.0"
-    "@smartb/g2-components" "1.0.0-alpha.166"
-    "@smartb/g2-composable" "1.0.0-alpha.166"
-    "@smartb/g2-themes" "1.0.0-alpha.166"
-    "@smartb/g2-utils" "1.0.0-alpha.166"
+    "@smartb/g2-components" "1.0.0-alpha.167"
+    "@smartb/g2-composable" "1.0.0-alpha.167"
+    "@smartb/g2-themes" "1.0.0-alpha.167"
+    "@smartb/g2-utils" "1.0.0-alpha.167"
     i18next "^22.4.11"
     i18next-browser-languagedetector "^7.0.1"
     i18next-http-backend "^2.2.1"
@@ -3130,53 +3130,53 @@
     react-router-dom "^6.8.2"
     redux "^4.1.0"
 
-"@smartb/g2-s2@1.0.0-alpha.166":
-  version "1.0.0-alpha.166"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-s2/-/@smartb/g2-s2-1.0.0-alpha.166.tgz#ea82577c959234fd878ea627c127af9e0ee635cd"
-  integrity sha1-6oJXfJWSNP2HjqYnwSevng7mNc0=
+"@smartb/g2-s2@1.0.0-alpha.167":
+  version "1.0.0-alpha.167"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-s2/-/@smartb/g2-s2-1.0.0-alpha.167.tgz#c61243f3614d7998b77c444fb59f1f4255fcf9ea"
+  integrity sha1-xhJD82FNeZi3fERPtZ8fQlX8+eo=
   dependencies:
-    "@smartb/g2-themes" "1.0.0-alpha.166"
-    "@smartb/g2-utils" "1.0.0-alpha.166"
+    "@smartb/g2-themes" "1.0.0-alpha.167"
+    "@smartb/g2-utils" "1.0.0-alpha.167"
     mermaid "^8.9.2"
     vis-data "^7.1.2"
     vis-network "^9.0.0"
 
-"@smartb/g2-themes@1.0.0-alpha.166":
-  version "1.0.0-alpha.166"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-themes/-/@smartb/g2-themes-1.0.0-alpha.166.tgz#8ccbb4f21fe2958058ea6f5f99643a0117c5dd84"
-  integrity sha1-jMu08h/ilYBY6m9fmWQ6ARfF3YQ=
+"@smartb/g2-themes@1.0.0-alpha.167":
+  version "1.0.0-alpha.167"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-themes/-/@smartb/g2-themes-1.0.0-alpha.167.tgz#53c0d787d24e3057a522db02e774b1b12c25de26"
+  integrity sha1-U8DXh9JOMFelItsC53SxsSwl3iY=
   dependencies:
     "@emotion/cache" "^11.10.5"
     ramda "^0.28.0"
     tinycolor2 "^1.6.0"
     tss-react "^3.7.0"
 
-"@smartb/g2-utils@1.0.0-alpha.166":
-  version "1.0.0-alpha.166"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-utils/-/@smartb/g2-utils-1.0.0-alpha.166.tgz#6fb19e06bf600cb0019f610daa3eed3150783ff9"
-  integrity sha1-b7GeBr9gDLABn2ENqj7tMVB4P/k=
+"@smartb/g2-utils@1.0.0-alpha.167":
+  version "1.0.0-alpha.167"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-utils/-/@smartb/g2-utils-1.0.0-alpha.167.tgz#696be41e3754dff82a4be8b7b4ba5fea027cad1c"
+  integrity sha1-aWvkHjdU3/gqS+i3tLpf6gJ8rRw=
   dependencies:
     "@mantine/hooks" "^4.2.12"
     "@tanstack/react-query" "^4.32.5"
     i18next "^22.4.11"
 
-"@smartb/g2@1.0.0-alpha.166":
-  version "1.0.0-alpha.166"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2/-/@smartb/g2-1.0.0-alpha.166.tgz#98b85f2bef73e2610fd67fb86f5d0ff388c62171"
-  integrity sha1-mLhfK+9z4mEP1n+4b10P84jGIXE=
+"@smartb/g2@1.0.0-alpha.167":
+  version "1.0.0-alpha.167"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2/-/@smartb/g2-1.0.0-alpha.167.tgz#49bb4f973992ee49599f5217c13c0b7998d51989"
+  integrity sha1-SbtPlzmS7klZn1IXwTwLeZjVGYk=
   dependencies:
-    "@smartb/g2-components" "1.0.0-alpha.166"
-    "@smartb/g2-composable" "1.0.0-alpha.166"
-    "@smartb/g2-documentation" "1.0.0-alpha.166"
-    "@smartb/g2-forms" "1.0.0-alpha.166"
-    "@smartb/g2-fs" "1.0.0-alpha.166"
-    "@smartb/g2-i2" "1.0.0-alpha.166"
-    "@smartb/g2-layout" "1.0.0-alpha.166"
-    "@smartb/g2-notifications" "1.0.0-alpha.166"
-    "@smartb/g2-providers" "1.0.0-alpha.166"
-    "@smartb/g2-s2" "1.0.0-alpha.166"
-    "@smartb/g2-themes" "1.0.0-alpha.166"
-    "@smartb/g2-utils" "1.0.0-alpha.166"
+    "@smartb/g2-components" "1.0.0-alpha.167"
+    "@smartb/g2-composable" "1.0.0-alpha.167"
+    "@smartb/g2-documentation" "1.0.0-alpha.167"
+    "@smartb/g2-forms" "1.0.0-alpha.167"
+    "@smartb/g2-fs" "1.0.0-alpha.167"
+    "@smartb/g2-i2" "1.0.0-alpha.167"
+    "@smartb/g2-layout" "1.0.0-alpha.167"
+    "@smartb/g2-notifications" "1.0.0-alpha.167"
+    "@smartb/g2-providers" "1.0.0-alpha.167"
+    "@smartb/g2-s2" "1.0.0-alpha.167"
+    "@smartb/g2-themes" "1.0.0-alpha.167"
+    "@smartb/g2-utils" "1.0.0-alpha.167"
 
 "@storybook/addon-actions@6.5.16", "@storybook/addon-actions@^6.5.16":
   version "6.5.16"

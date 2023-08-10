@@ -1,11 +1,11 @@
-import {useTranslation} from "react-i18next";
-import {useDeletedConfirmationPopUp} from "components";
-import {Typography} from "@mui/material";
-import {User} from "@smartb/g2-i2-v2";
-import {useCallback, useState} from "react";
+import { useTranslation } from "react-i18next";
+import { useDeletedConfirmationPopUp } from "components";
+import { Typography } from "@mui/material";
+import { User } from "@smartb/g2-i2-v2";
+import { useCallback, useState } from "react";
 
-interface UseDeleteUserPopUpProps{
-    onDeleteClick : (user : User)  => Promise<void>
+interface UseDeleteUserPopUpProps {
+    onDeleteClick: (user: User) => Promise<void>
 }
 export const useDeleteUserPopUp = (props: UseDeleteUserPopUpProps) => {
     const { t } = useTranslation();
@@ -17,14 +17,20 @@ export const useDeleteUserPopUp = (props: UseDeleteUserPopUpProps) => {
 
     const popup = useDeletedConfirmationPopUp({
         title: t("userList.delete"),
-        component : <Typography sx={{ margin: (theme) => `${theme.spacing(4)} 0` }}>{t("userList.deleteMessage")}</Typography>,
-        onDelete : userDelete
+        component: <Typography sx={{ margin: (theme) => `${theme.spacing(4)} 0` }}>{t("userList.deleteMessage")}</Typography>,
+        onDelete: userDelete
     });
-    return {
-        ...popup,
-        open: (user: User) => {
+
+    const open = useCallback(
+        (user: User) => {
             setUser(user)
             popup.setOpen(true)
-        }
+        },
+        [popup.setOpen],
+    )
+
+    return {
+        ...popup,
+        open
     }
 }

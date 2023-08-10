@@ -33,6 +33,7 @@
   "manageAccount": "Manage account",
   "manageUsers": "Manage users",
   "manageAPIKeys": "Manage API keys",
+  "closeOrganization": "Close organization",
   "roles": {
     "super_admin": "Super Admin",
     "admin": "Admin",

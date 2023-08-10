@@ -6,19 +6,27 @@ import {Offset, OffsetPagination, PageQueryResult} from "template";
 import {PageHeaderObject, useExtendedAuth, useRoutesDefinition} from "components";
 import {ApiKeyDTO, useApiKeyPageQueryFunction, useApikeyRemoveFunction} from "../../api";
 import {APIKeysTable} from "../../components";
+import { useGetOrganizationRefs } from "@smartb/g2-i2-v2";
+import { useApiKeysFilters } from "./useApiKeysFilters";
 
 interface APIKeysListPageProps {
 }
 export const ApikeyListPage = (props: APIKeysListPageProps) => {
     const { } = props;
     const { t } = useTranslation();
-    const { service} = useExtendedAuth()
+    const { service, keycloak} = useExtendedAuth()
     const organizationId = service.getUser()?.memberOf
     const { apiKeysAdd } = useRoutesDefinition()
+
+    const getOrganizationRefs = useGetOrganizationRefs({ jwt: keycloak.token })
+
+    const {component, submittedFilters} = useApiKeysFilters({orgRef: getOrganizationRefs.query.data?.items, canFilterOrg: service.is_super_admin()})
+
     const pagination = useMemo((): OffsetPagination => ({ offset: Offset.default.offset, limit: Offset.default.limit }), [])
     const apiKeyPageQuery = useApiKeyPageQueryFunction({
         query: {
-            organizationId: organizationId
+            ...submittedFilters,
+            organizationId: !service.is_super_admin() ? organizationId : submittedFilters.organizationId
         }
     })
     const apiKeysPage : PageQueryResult<ApiKeyDTO> = useMemo(() => {
@@ -44,12 +52,13 @@ export const ApikeyListPage = (props: APIKeysListPageProps) => {
         <Page
             headerProps={PageHeaderObject({
                 title: t("manageAPIKeys"),
-                rightPart: [<LinkButton to={apiKeysAdd()} key="pageAddButton">{t("apiKeysList.create")}</LinkButton>]
+                rightPart: [service.hasUserRouteAuth({route: "apiKeys/add"}) ? <LinkButton to={apiKeysAdd()} key="pageAddButton">{t("apiKeysList.create")}</LinkButton> : undefined]
             })}
         >
             <Stack gap={4}>
                 <Typography>{t('apiKeysList.headerText1')}</Typography>
                 <Typography>{t('apiKeysList.headerText2')}</Typography>
+                {component}
                 <APIKeysTable
                     page={apiKeysPage}
                     pagination={pagination}

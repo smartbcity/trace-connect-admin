@@ -16,12 +16,19 @@ export const App = () => {
     <StandAloneAppLayout
     drawerProps={{
       sx: {
+        "& .MuiListItemButton-root.Mui-selected": {
+          background: "none",
+          color: "primary.main"
+        },
+        "& .MuiListItemButton-root.Mui-selected .MuiListItemIcon-root": {
+          color: "primary.main"
+        },
         "& .MuiListItemButton-root": {
-          background: "none"
+          color: "secondary.main"
         },
-        "& .MuiListItemButton-root:hover": {
-          background: "rgba(0, 0, 0, 0.04)"
-        },
+        "& .MuiListItemButton-root .MuiListItemIcon-root": {
+          color: "secondary.main"
+        }
       }
     }}
       menu={menu}

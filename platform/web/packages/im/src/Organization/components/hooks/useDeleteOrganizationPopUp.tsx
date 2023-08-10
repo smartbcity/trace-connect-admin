@@ -20,11 +20,17 @@ export const useDeleteOrganizationPopUp = (props: useDeleteOrganizationPopUpProp
         component : <Typography sx={{ margin: (theme) => `${theme.spacing(4)} 0` }}>{t("organizationList.deleteMessage")}</Typography>,
         onDelete : orgDelete
     });
-    return {
-        ...popup,
-        open: (organization: Organization) => {
+
+    const open = useCallback(
+        (organization: Organization) => {
             setOrganization(organization)
             popup.setOpen(true)
-        }
+        },
+        [popup.setOpen],
+    )
+    
+    return {
+        ...popup,
+        open
     }
 }

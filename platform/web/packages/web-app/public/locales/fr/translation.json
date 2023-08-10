@@ -33,6 +33,7 @@
   "manageAccount": "Gérer mon compte",
   "manageUsers": "Gérer les utilisateurs",
   "manageAPIKeys": "Gérer les clés d'API",
+  "closeOrganization": "Fermer l'organisation",
   "roles": {
     "super_admin": "Administrateur global",
     "admin": "Admin",

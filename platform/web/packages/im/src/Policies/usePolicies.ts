@@ -24,7 +24,7 @@ export const usePolicies = (
       canCreate: ( isSuperAdmin || isAdmin || props?.myProfil ),
       canUpdate: ( isSuperAdmin || isAdmin || props?.myProfil ),
       canUpdateRole: ( (isSuperAdmin || isAdmin) && !props?.myProfil ),
-      canDelete: ( isSuperAdmin || isAdmin || props?.myProfil ),
+      canDelete: ( isSuperAdmin || isAdmin ),
       canSetSuperAdminRole: isSuperAdmin,
       canListAllUser: service.is_super_admin()
     }

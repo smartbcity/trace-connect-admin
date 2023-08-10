@@ -53,7 +53,9 @@ export const useUserListPage = () => {
         id: user.id,
         anonymize: true
       })
-      queryClient.invalidateQueries({ queryKey: ['users'] })
+      queryClient.invalidateQueries({ queryKey: ["userRefList"] })
+      queryClient.invalidateQueries({ queryKey: ["users"] })
+      queryClient.invalidateQueries({ queryKey: ["user"] })
     }, []
   )
 
