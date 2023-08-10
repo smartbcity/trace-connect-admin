@@ -6,7 +6,6 @@ import {
   OidcSecure
 } from "@smartb/g2-providers";
 import { ThemeContextProvider } from "@smartb/g2-themes";
-import { Typography } from "@mui/material";
 import { languages } from "components";
 import { theme } from "Themes";
 import { QueryClient } from "@tanstack/react-query"
@@ -51,7 +50,6 @@ root.render(
           <AppProvider
             languages={languages}
             queryClient={queryClient}
-            loadingComponent={<Typography>Loading...</Typography>}
           >
             <AppRouter />
           </AppProvider>

@@ -8,5 +8,6 @@ export const theme: DeepPartial<AruiTheme> = {// to complete and to use
     secondary: "#353945",
   },
   //@ts-ignore
-  permanentHeader: PermanentHeader
+  permanentHeader: PermanentHeader,
+  logoUrl: "/connect.png"
 };
