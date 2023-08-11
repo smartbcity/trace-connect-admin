@@ -76,8 +76,7 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
         update: isUpdate,
         myOrganization: myOrganization,
         multipleRoles: true,
-        extendInitialValues : readOnlyAddress
-
+        extendInitialValues : readOnlyAddress,
     })
 
     const headerRightPart = useMemo(() => {
@@ -121,7 +120,7 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
         >
                 <Section flexContent>
                     <Typography color="secondary" variant="h5">{t('organizationSummary')}</Typography>
-                    <OrganizationForm isLoading={isLoading} formState={formState} readOnly={readOnly}/>
+                    <OrganizationForm canVerify={policies.organization.canVerify} isUpdate={isUpdate} isLoading={isLoading} formState={formState} readOnly={readOnly}/>
                 </Section>
                 {popup}
         </Page>

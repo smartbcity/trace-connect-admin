@@ -34,6 +34,7 @@
   "manageUsers": "Manage users",
   "manageAPIKeys": "Manage API keys",
   "closeOrganization": "Close organization",
+  "status": "Status",
   "roles": {
     "super_admin": "Super Admin",
     "admin": "Admin",
@@ -51,6 +52,11 @@
     "tr_project_manager": "Project Manager",
     "tr_stakeholder": "Stakeholder",
     "tr_orchestrator": "Orchestrator"
+  },
+  "organizationStatus": {
+    "VERIFIED": "Verified",
+    "WAITING": "Awaiting",
+    "REFUSED": "Refused"
   },
   "userList": {
     "create": "Add a User",

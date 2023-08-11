@@ -34,6 +34,7 @@
   "manageUsers": "Gérer les utilisateurs",
   "manageAPIKeys": "Gérer les clés d'API",
   "closeOrganization": "Fermer l'organisation",
+  "status": "Status",
   "roles": {
     "super_admin": "Administrateur global",
     "admin": "Admin",
@@ -51,6 +52,11 @@
     "tr_project_manager": "Chef de projet",
     "tr_stakeholder": "Partie prenante",
     "tr_orchestrator": "Orchestrateur"
+  },
+  "organizationStatus": {
+    "VERIFIED": "Vérifié",
+    "WAITING": "En attente",
+    "REFUSED": "Refusé"
   },
   "userList": {
     "create": "Ajouter un utilisateur",

@@ -48,10 +48,11 @@ export interface APIKeysTableProps{
     pagination: OffsetPagination
     isLoading?: boolean
     onDeleteClick: (apiKey : ApiKeyDTO) => Promise<void>
+    onOffsetChange?: (newPage: OffsetPagination) => void
 }
 
 export const APIKeysTable = (props: APIKeysTableProps) => {
-    const {  page, isLoading, pagination, onDeleteClick} = props
+    const {  page, isLoading, pagination, onDeleteClick, onOffsetChange} = props
     const { t } = useTranslation()
     const columns = useAPIKeyColumn(onDeleteClick)
     const tableState = useTable({
@@ -68,6 +69,7 @@ export const APIKeysTable = (props: APIKeysTableProps) => {
                      page={page}
                      pagination={pagination}
                      isLoading={isLoading}
+                     onOffsetChange={onOffsetChange}
                 />
         )
 }

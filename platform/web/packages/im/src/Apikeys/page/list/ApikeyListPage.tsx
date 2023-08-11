@@ -20,9 +20,9 @@ export const ApikeyListPage = (props: APIKeysListPageProps) => {
 
     const getOrganizationRefs = useGetOrganizationRefs({ jwt: keycloak.token })
 
-    const {component, submittedFilters} = useApiKeysFilters({orgRef: getOrganizationRefs.query.data?.items, canFilterOrg: service.is_super_admin()})
+    const {component, submittedFilters, setOffset} = useApiKeysFilters({orgRef: getOrganizationRefs.query.data?.items, canFilterOrg: service.is_super_admin()})
 
-    const pagination = useMemo((): OffsetPagination => ({ offset: Offset.default.offset, limit: Offset.default.limit }), [])
+    const pagination = useMemo((): OffsetPagination => ({ offset: submittedFilters.offset ?? Offset.default.offset, limit: submittedFilters.limit ?? Offset.default.limit }), [submittedFilters.offset, submittedFilters.limit])
     const apiKeyPageQuery = useApiKeyPageQueryFunction({
         query: {
             ...submittedFilters,
@@ -64,6 +64,7 @@ export const ApikeyListPage = (props: APIKeysListPageProps) => {
                     pagination={pagination}
                     isLoading={apiKeyPageQuery.isLoading}
                     onDeleteClick={onDelete}
+                    onOffsetChange={setOffset}
                 />
             </Stack>
         </Page>

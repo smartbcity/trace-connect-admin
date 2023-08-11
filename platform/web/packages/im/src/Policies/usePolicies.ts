@@ -19,6 +19,7 @@ export const usePolicies = (
       canCreate: ( isSuperAdmin || isOrchestratorAdmin) ,
       canUpdate: ( isSuperAdmin || (isAdmin && props?.myOrganization) ),
       canDelete: ( isSuperAdmin || isOrchestratorAdmin ),
+      canVerify: ( isSuperAdmin || isOrchestratorAdmin ),
     },
     user: {
       canCreate: ( isSuperAdmin || isAdmin || props?.myProfil ),
