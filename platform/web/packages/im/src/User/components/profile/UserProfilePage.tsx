@@ -99,7 +99,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
             withSuperAdmin: getUserRolesOptions(t, org?.roles[0] as OrgRoles, true),
             rolesBasic: getUserRolesOptions(t, org?.roles[0] as OrgRoles),
         }
-    }, [t, getOrganizationRefs.query.data?.items])
+    }, [t, getOrganizationRefs.query.data?.items, formState.values.memberOf])
 
     const getOrganizationUrl = useCallback(
         (organizationId: string) => organizationsOrganizationIdView(organizationId),
@@ -137,7 +137,8 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
         return {
             roles: {
                 params: {
-                    options: policies.user.canSetSuperAdminRole ? rolesOptions.withSuperAdmin : rolesOptions.rolesBasic
+                    options: policies.user.canSetSuperAdminRole ? rolesOptions.withSuperAdmin : rolesOptions.rolesBasic,
+                    disabled: !isUpdate && !formState.values.memberOf
                 },
                 readOnly: isUpdate && !policies.user.canUpdateRole,
                 validator: validators.requiredField(t)
@@ -149,7 +150,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
                 }
             }
         }
-    }, [t, rolesOptions, isUpdate, organizationOptions, policies.user])
+    }, [t, rolesOptions, isUpdate, organizationOptions, policies.user, formState.values.memberOf])
 
     return (
         <Page

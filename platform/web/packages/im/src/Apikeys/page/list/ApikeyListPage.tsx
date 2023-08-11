@@ -28,7 +28,7 @@ export const ApikeyListPage = (props: APIKeysListPageProps) => {
     const apiKeyPageQuery = useApiKeyPageQueryFunction({
         query: {
             ...submittedFilters,
-            organizationId: policies.apiKeys.canfilter ? organizationId : submittedFilters.organizationId
+            organizationId: !policies.apiKeys.canfilter ? organizationId : submittedFilters.organizationId
         }
     })
     const apiKeysPage : PageQueryResult<ApiKeyDTO> = useMemo(() => {

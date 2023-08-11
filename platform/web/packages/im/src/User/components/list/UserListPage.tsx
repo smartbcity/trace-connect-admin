@@ -19,6 +19,8 @@ export const UserListPage = () => {
 
   const { component, submittedFilters, setPage } = useUserFilters({ searchOrg: policies.user.canListAllUser })
 
+  
+
   const filters = useMemo(() => (
     {
       ...submittedFilters,

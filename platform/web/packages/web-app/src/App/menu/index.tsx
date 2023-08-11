@@ -46,7 +46,7 @@ export const useMenu = (t: TFunction) => {
     const {service} = useExtendedAuth()
     const {organizations, users, myOrganization, apiKeys} = useRoutesDefinition()
     const menu: MenuItem[] = useMemo(() => [
-    ...(service.is_super_admin() ? [{
+    ...(service.is_super_admin() || service.is_tr_orchestrator_admin() ? [{
         key: "organizations",
         to: "/",
         label: t("organizations"),
