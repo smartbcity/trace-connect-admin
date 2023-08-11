@@ -4,20 +4,20 @@ import { insertObjectIdsInsideRoutes, RecordCamelCase } from "@smartb/g2"
 import {useExtendedAuth} from "./auth"
 
 const IMRoutesAuthorizations = {
-    "organizations": "open",
-    "organizations/add": "open",
+    "organizations": ["tr_orchestrator_admin", "super_admin"],
+    "organizations/add": ["tr_orchestrator_admin", "super_admin"],
     "organizations/:organizationId/view": "open",
     "organizations/:organizationId/edit": ["tr_orchestrator_admin", "super_admin"],
     "myOrganization": "open",
     "myOrganization/edit": userAdminRoles,
     "users": "open",
-    "users/add": [["isAdmin", "memberOf"], "super_admin"],
+    "users/add": [["isAdmin", "memberOf"], "super_admin", "tr_orchestrator_admin"],
     "users/:userId/view": "open",
-    "users/:userId/edit": ["isAdmin", "super_admin"],
+    "users/:userId/edit": ["isAdmin", "super_admin", "tr_orchestrator_admin"],
     "myProfil": "open",
     "myProfil/edit": "open",
-    "apiKeys": [["hasOrganization", "isAdmin"], "super_admin"],
-    "apiKeys/add": [["hasOrganization", "isAdmin"]],
+    "apiKeys": [["hasOrganization", "isAdmin"], "super_admin", "tr_orchestrator_admin"],
+    "apiKeys/add": [["hasOrganization", "isAdmin"], "super_admin", "tr_orchestrator_admin"],
 } as const
 
 const strictRoutesAuthorizations = {

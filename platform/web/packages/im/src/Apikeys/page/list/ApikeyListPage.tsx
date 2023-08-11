@@ -8,6 +8,7 @@ import {ApiKeyDTO, useApiKeyPageQueryFunction, useApikeyRemoveFunction} from "..
 import {APIKeysTable} from "../../components";
 import { useGetOrganizationRefs } from "@smartb/g2-i2-v2";
 import { useApiKeysFilters } from "./useApiKeysFilters";
+import { usePolicies } from "../../../Policies/usePolicies";
 
 interface APIKeysListPageProps {
 }
@@ -17,16 +18,17 @@ export const ApikeyListPage = (props: APIKeysListPageProps) => {
     const { service, keycloak} = useExtendedAuth()
     const organizationId = service.getUser()?.memberOf
     const { apiKeysAdd } = useRoutesDefinition()
+    const policies = usePolicies()
 
     const getOrganizationRefs = useGetOrganizationRefs({ jwt: keycloak.token })
 
-    const {component, submittedFilters, setOffset} = useApiKeysFilters({orgRef: getOrganizationRefs.query.data?.items, canFilterOrg: service.is_super_admin()})
+    const {component, submittedFilters, setOffset} = useApiKeysFilters({orgRef: getOrganizationRefs.query.data?.items, canFilterOrg: policies.apiKeys.canfilter})
 
     const pagination = useMemo((): OffsetPagination => ({ offset: submittedFilters.offset ?? Offset.default.offset, limit: submittedFilters.limit ?? Offset.default.limit }), [submittedFilters.offset, submittedFilters.limit])
     const apiKeyPageQuery = useApiKeyPageQueryFunction({
         query: {
             ...submittedFilters,
-            organizationId: !service.is_super_admin() ? organizationId : submittedFilters.organizationId
+            organizationId: policies.apiKeys.canfilter ? organizationId : submittedFilters.organizationId
         }
     })
     const apiKeysPage : PageQueryResult<ApiKeyDTO> = useMemo(() => {
@@ -52,7 +54,7 @@ export const ApikeyListPage = (props: APIKeysListPageProps) => {
         <Page
             headerProps={PageHeaderObject({
                 title: t("manageAPIKeys"),
-                rightPart: [service.hasUserRouteAuth({route: "apiKeys/add"}) ? <LinkButton to={apiKeysAdd()} key="pageAddButton">{t("apiKeysList.create")}</LinkButton> : undefined]
+                rightPart: [policies.apiKeys.canCreate ? <LinkButton to={apiKeysAdd()} key="pageAddButton">{t("apiKeysList.create")}</LinkButton> : undefined]
             })}
         >
             <Stack gap={4}>

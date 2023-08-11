@@ -14,20 +14,30 @@ export const usePolicies = (
   const isSuperAdmin = service.is_super_admin()
   const isOrchestratorAdmin = service.is_tr_orchestrator_admin()
 
+  const hasSuperAdminRights = isSuperAdmin || isOrchestratorAdmin
+
   return useMemo(() => ({
+    apiKeys: {
+      canfilter: hasSuperAdminRights,
+      canDelete: ( hasSuperAdminRights || isAdmin),
+      canCreate: ( hasSuperAdminRights || isAdmin),
+      canCreateForAllOrg: hasSuperAdminRights,
+    },
     organization: {
-      canCreate: ( isSuperAdmin || isOrchestratorAdmin) ,
-      canUpdate: ( isSuperAdmin || (isAdmin && props?.myOrganization) ),
-      canDelete: ( isSuperAdmin || isOrchestratorAdmin ),
-      canVerify: ( isSuperAdmin || isOrchestratorAdmin ),
+      canViewlist: hasSuperAdminRights,
+      canCreate: hasSuperAdminRights,
+      canUpdate: ( hasSuperAdminRights || (isAdmin && props?.myOrganization) ),
+      canUpdateRoles: hasSuperAdminRights,
+      canDelete: hasSuperAdminRights,
+      canVerify: hasSuperAdminRights,
     },
     user: {
-      canCreate: ( isSuperAdmin || isAdmin || props?.myProfil ),
-      canUpdate: ( isSuperAdmin || isAdmin || props?.myProfil ),
-      canUpdateRole: ( (isSuperAdmin || isAdmin) && !props?.myProfil ),
-      canDelete: ( isSuperAdmin || isAdmin ),
+      canCreate: ( hasSuperAdminRights || props?.myProfil ),
+      canUpdate: ( hasSuperAdminRights|| props?.myProfil ),
+      canUpdateRole: ( hasSuperAdminRights && !props?.myProfil ),
+      canDelete: hasSuperAdminRights,
       canSetSuperAdminRole: isSuperAdmin,
-      canListAllUser: service.is_super_admin()
+      canListAllUser: hasSuperAdminRights
     }
   }), [service])
 }

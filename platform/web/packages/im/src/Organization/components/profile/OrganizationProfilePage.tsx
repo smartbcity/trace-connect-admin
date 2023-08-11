@@ -120,7 +120,7 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
         >
                 <Section flexContent>
                     <Typography color="secondary" variant="h5">{t('organizationSummary')}</Typography>
-                    <OrganizationForm canVerify={policies.organization.canVerify} isUpdate={isUpdate} isLoading={isLoading} formState={formState} readOnly={readOnly}/>
+                    <OrganizationForm policies={policies} isUpdate={isUpdate} isLoading={isLoading} formState={formState} readOnly={readOnly}/>
                 </Section>
                 {popup}
         </Page>

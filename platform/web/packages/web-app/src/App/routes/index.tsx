@@ -11,6 +11,7 @@ import {
 import {useMemo} from "react"
 import {ApikeyListPage} from "im/src/Apikeys/page/list";
 import {ApiKeyAddPage} from "im/src/Apikeys/page/add";
+import { usePolicies } from "im/src/Policies/usePolicies";
 
 
 const imPages: PageRoute[] = [{
@@ -61,12 +62,14 @@ const imPages: PageRoute[] = [{
 const allPages: PageRoute[] = [...imPages]
 
 export const AppRouter = () => {
-  const { service } = useExtendedAuth()
   const pages = useMemo(() => allPages.map((page) => GenerateRoute(page)), [])
+
+  const policies = usePolicies()
+
   return (
     <Router>
       <Route path="/" element={<App />} >
-        <Route path="" element={service.is_super_admin() ? <OrganizationListPage /> : <OrganizationProfilePage myOrganization readOnly />} />
+        <Route path="" element={policies.organization.canViewlist ? <OrganizationListPage /> : <OrganizationProfilePage myOrganization readOnly />} />
         {pages}
       </Route >
     </Router>

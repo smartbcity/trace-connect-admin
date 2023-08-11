@@ -64,7 +64,7 @@ export const useMenu = (t: TFunction) => {
      {
         key: "users",
         to: users(),
-        label: service.is_super_admin() ? t("users") : t("manageUsers"),
+        label: service.is_super_admin() || service.is_tr_orchestrator_admin() ? t("users") : t("manageUsers"),
         icon: <SupervisedUserCircleIcon />,
         isVisible: service.hasUserRouteAuth({route: "users"})
     },{
