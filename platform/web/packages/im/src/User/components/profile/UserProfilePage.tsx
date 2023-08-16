@@ -144,7 +144,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
                 validator: validators.requiredField(t)
             },
             memberOf: {
-                readOnly: isUpdate,
+                readOnly: isUpdate || !policies.user.canUpdateOrganization,
                 params: {
                     options: organizationOptions
                 }

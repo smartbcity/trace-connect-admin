@@ -32,10 +32,11 @@ export const usePolicies = (
       canVerify: hasSuperAdminRights,
     },
     user: {
-      canCreate: ( hasSuperAdminRights || props?.myProfil ),
-      canUpdate: ( hasSuperAdminRights|| props?.myProfil ),
+      canCreate: ( hasSuperAdminRights || isAdmin || props?.myProfil ),
+      canUpdate: ( hasSuperAdminRights || isAdmin || props?.myProfil ),
       canUpdateRole: ( hasSuperAdminRights && !props?.myProfil ),
-      canDelete: hasSuperAdminRights,
+      canUpdateOrganization: hasSuperAdminRights,
+      canDelete: hasSuperAdminRights || isAdmin,
       canSetSuperAdminRole: isSuperAdmin,
       canListAllUser: hasSuperAdminRights
     }
