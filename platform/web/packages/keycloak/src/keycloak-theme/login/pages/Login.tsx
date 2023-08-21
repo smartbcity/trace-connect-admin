@@ -1,5 +1,5 @@
 // ejected using 'npx eject-keycloak-page'
-import { useMemo, useCallback } from "react";
+import {useMemo, useCallback, useState} from "react";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
@@ -12,10 +12,12 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
     const { social, realm, url, usernameEditDisabled, login, registrationDisabled, auth } = kcContext;
 
     const { msg, msgStr } = i18n;
-
+    const [isAuthenticating, setAuthenticating] = useState(true)
     const submitForm = useCallback(
         (values: any) => {
+            setAuthenticating(true)
             postForm(url.loginAction, { username: values.email, ...values })
+            setAuthenticating(false)
         },
         [url.loginAction],
     )
@@ -32,7 +34,6 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
             initialValues
         }
     })
-
     const fields = useMemo((): FormComposableField[] => {
         const loginName = !realm.loginWithEmailAllowed
             ? "username"
@@ -65,7 +66,8 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
         return [{
             key: "logIn",
             label: msgStr("doLogIn"),
-            onClick: formState.submitForm
+            onClick: formState.submitForm,
+            isLoading: isAuthenticating
         }]
     }, [])
 

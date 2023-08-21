@@ -1,20 +1,17 @@
-import { request } from "@smartb/g2"
-
 
 export const postForm = async (url: string, body: any) => {
-    const data = new URLSearchParams();
+    const requestForm = document.createElement("form");
+    requestForm.action = url;
+    requestForm.method = "post";
+    requestForm.style.display = "none";
+
     Object.keys(body).forEach((key) => {
-        data.append(key, body[key]);
+        var product = document.createElement("input");
+        product.value = body[key];
+        product.name = key;
+        requestForm.appendChild(product)
     });
-    const res = await request({
-        url,
-        method: "POST",
-        body: data,
-        //@ts-ignore
-        contentType: "application/x-www-form-urlencoded",
-        returnType: "text"
-    })
-    document.open();
-    document.write(res);
-    document.close()
+
+    document.body.appendChild(requestForm)
+    requestForm.submit();
 }
