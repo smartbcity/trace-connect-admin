@@ -1,5 +1,5 @@
 export * from "./TableCellAdmin"
-
+export * from "./TableCellFileName"
 export * from "./types"
 export * from "./auth"
 export * from "./roles"
