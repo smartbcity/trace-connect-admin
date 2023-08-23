@@ -4,6 +4,9 @@ window._env_ = {
       orgUrl: "https://dev.connect.smart-b.io/im", //localhost, //set this if you want to have the organization module appearing in your app
       userUrl: "https://dev.connect.smart-b.io/im", //set this if you want to have the organization module appearing in your app
     },
+    fs: {
+      url: "https://dev.trace.smart-b.io/fs"
+    },
     keycloak: {
       realm: "sb-dev",
       clientId: "sb-platform-web",
