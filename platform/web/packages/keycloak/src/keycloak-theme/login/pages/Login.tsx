@@ -12,7 +12,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
     const { social, realm, url, usernameEditDisabled, login, registrationDisabled, auth } = kcContext;
 
     const { msg, msgStr } = i18n;
-    const [isAuthenticating, setAuthenticating] = useState(true)
+    const [isAuthenticating, setAuthenticating] = useState(false)
     const submitForm = useCallback(
         (values: any) => {
             setAuthenticating(true)
