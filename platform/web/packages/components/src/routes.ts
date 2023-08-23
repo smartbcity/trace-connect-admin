@@ -19,6 +19,7 @@ const IMRoutesAuthorizations = {
     "myProfil/edit": "open",
     "apiKeys": [["hasOrganization", "isAdmin"], "super_admin", "tr_orchestrator_admin"],
     "apiKeys/add": [["hasOrganization", "isAdmin"], "super_admin", "tr_orchestrator_admin"],
+    "fileList": ["tr_orchestrator_admin"]
 } as const
 
 const strictRoutesAuthorizations = {

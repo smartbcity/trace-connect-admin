@@ -11,6 +11,7 @@ import {
 import {useMemo} from "react"
 import {ApikeyListPage} from "im/src/Apikeys/page/list";
 import {ApiKeyAddPage} from "im/src/Apikeys/page/add";
+import {FileListPage} from "im/src/ManageFiles/page/list"
 import { usePolicies } from "im/src/Policies/usePolicies";
 
 
@@ -57,7 +58,11 @@ const imPages: PageRoute[] = [{
 {
   path: "apiKeys/add",
   element: <ApiKeyAddPage readOnly={false} />
-},]
+},
+{
+  path: "fileList",
+  element: <FileListPage />
+}]
 
 const allPages: PageRoute[] = [...imPages]
 
