@@ -1,27 +1,25 @@
 import { Typography } from "@mui/material"
-import { CheckBox, ColumnFactory, useTable,  } from "@smartb/g2"
+import { ColumnFactory, useTable, } from "@smartb/g2"
 import { useMemo } from "react"
 import { useTranslation } from "react-i18next"
-import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template"
+import { OffsetPagination, OffsetTable, PageQueryResult } from "template"
 import { FileDTO } from "../../api"
-import { Row } from '@tanstack/react-table';
-import { Folder, PictureAsPdf } from "@mui/icons-material"
+import { Row, OnChangeFn, RowSelectionState } from '@tanstack/react-table';
 import { TableCellFileName } from "components"
+import { getFolderName, formatFileSize, getFileIcon, getFileExtension } from "./FileOperations"
 
-
-const useFileListColumn = (onFileSelected?: (file: Row<FileDTO>) => void) => {
+const useFileListColumn = () => {
     const { t } = useTranslation()
-    
+
     return useMemo(() => ColumnFactory<FileDTO>({
         generateColumns: (generators) => ({
             name: ({
                 header: t("name"),
-                cell: ({row}) => {
-
-                    return row.original.isDirectory
-                        ? <TableCellFileName icon={<Folder fontSize="small" />} text={row.original.path.directory} />
-                        : <TableCellFileName icon={<PictureAsPdf fontSize="small" />} text={row.original.path.name} />
-                        
+                cell: ({ row }) => {
+                    const file = row.original
+                    const extension = !file.isDirectory ? getFileExtension(file.path.name) : undefined
+                    const icon = getFileIcon(extension)
+                    return <TableCellFileName icon={icon} text={file.isDirectory ? getFolderName(file) : file.path.name} />
                 }
             }),
             lastModification: generators.date({
@@ -30,10 +28,10 @@ const useFileListColumn = (onFileSelected?: (file: Row<FileDTO>) => void) => {
                     date: file.lastModificationDate
                 })
             }),
-            size: generators.number({
+            size: generators.text({
                 header: t("size"),
                 getCellProps: (file) => ({
-                    value: file.size
+                    value: !file.isDirectory ? formatFileSize(file.size) : ""
                 })
             }),
             vectorized: generators.text({
@@ -41,51 +39,45 @@ const useFileListColumn = (onFileSelected?: (file: Row<FileDTO>) => void) => {
                 getCellProps: (file) => ({
                     value: file.vectorized ? t("yes") : t("no")
                 })
-            }),
-            // @ts-ignore
-            action: ({
-                cell: ({row}) => {
-                    return <CheckBox checked={false} onChange={() => onFileSelected && onFileSelected(row)} />
-                }
             })
         })
-    }), [])
+    }), [t])
 }
 
-export interface FileListTableProps extends Partial<OffsetTableProps<FileDTO>> {
+export interface FileListTableProps {
     page?: PageQueryResult<FileDTO>
     isLoading?: boolean
     pagination: OffsetPagination
     onRowClicked: (row: Row<FileDTO>) => void
-    selectedFile?: FileDTO | undefined
-    fileSelected?: (file: Row<FileDTO>) => void
+    rowSelection?: RowSelectionState,
+    onRowSelectionChange?: OnChangeFn<RowSelectionState>
 }
 
-
-
 export const FileListTable = (props: FileListTableProps) => {
-    const {page, isLoading, pagination, onRowClicked, selectedFile, fileSelected, sx, header, ...other} = props
+    const { page, isLoading, pagination, onRowClicked, rowSelection, onRowSelectionChange } = props
     const { t } = useTranslation()
 
-    const columns = useFileListColumn(fileSelected)
+    const columns = useFileListColumn()
 
-    const tableState= useTable({
+    const tableState = useTable({
         data: page?.items ?? [],
-        columns: columns
+        columns: columns,
+        state: {
+            rowSelection
+        },
+        enableRowSelection: true,
+        onRowSelectionChange: onRowSelectionChange
     })
 
-    const additionalRowsProp = useMemo(() => selectedFile ? ({ [selectedFile.id]: { className: "selectedRow" } }) : undefined, [selectedFile])
 
     return (
         (isLoading || page?.items) ? <OffsetTable<FileDTO>
-            {...other} 
-            tableState={tableState} 
+            tableState={tableState}
             pagination={pagination}
             page={page}
             isLoading={isLoading}
             onRowClicked={onRowClicked}
-            additionalRowsProps={additionalRowsProp}
-        /> : <Typography align="center">{t("fileList.noFiles")}</Typography> 
+        /> : <Typography align="center">{t("fileList.noFiles")}</Typography>
     )
 
 }
