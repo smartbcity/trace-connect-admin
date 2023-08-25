@@ -9,7 +9,8 @@ export interface PathDTO {
 export interface FileDTO {
     id: string,
     size: number,
-    path: PathDTO
+    path: PathDTO,
+    url: string,
     lastModificationDate: number,
     vectorized: boolean,
     isDirectory: boolean
