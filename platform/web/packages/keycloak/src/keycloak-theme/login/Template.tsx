@@ -48,7 +48,8 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
             >
                 <Stack
                     spacing={4}
-                    maxWidth="500px"
+                    maxWidth="450px"
+                    width="100%"
                 >
                     {displayMessage && message !== undefined && (message.type !== "warning" || !isAppInitiatedAction) && (
                         <Alert

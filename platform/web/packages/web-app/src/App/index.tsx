@@ -6,7 +6,8 @@ import { Outlet } from "react-router-dom";
 import { StandAloneAppLayout } from "@smartb/g2";
 
 export const App = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  console.log(i18n)
   const menu = useMenu(t)
   const { service, keycloak } = useExtendedAuth()
   const user = useMemo(() => service.getUser(), [service.getUser])
