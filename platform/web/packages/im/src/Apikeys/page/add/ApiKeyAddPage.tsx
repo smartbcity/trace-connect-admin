@@ -4,10 +4,11 @@ import { useCallback, useMemo } from "react";
 import { Action, Page, Section, useFormComposable, useGetOrganizationRefs } from "@smartb/g2";
 import { Typography } from "@mui/material";
 import { useCreatedConfirmationPopUp } from "../../hooks";
-import { ApiKeyAddCommand, useApiKeyAddFunction, useApiKeyPageQueryFunction } from "../../api/";
+import { ApiKeyAddCommand, useApiKeyAddFunction } from "../../api/";
 import { useNavigate } from "react-router-dom";
 import { APIKeyForm } from "../../components";
 import { usePolicies } from "../../../Policies/usePolicies";
+import { useQueryClient } from "@tanstack/react-query";
 
 export interface APIKeyProfilePageProps {
     readOnly: boolean
@@ -19,11 +20,7 @@ export const ApiKeyAddPage = (props: APIKeyProfilePageProps) => {
     const { service, keycloak } = useExtendedAuth()
     const policies = usePolicies()
     const organizationId = service.getUser()!!.memberOf ?? ""
-    const apiKeyPageQuery = useApiKeyPageQueryFunction({
-        query: {
-            organizationId: organizationId
-        }
-    })
+   const queryClient = useQueryClient()
     const apiKeyAddFunction = useApiKeyAddFunction()
     const createdConfirmation = useCreatedConfirmationPopUp();
     const getOrganizationRefs = useGetOrganizationRefs({ jwt: keycloak.token })
@@ -33,8 +30,10 @@ export const ApiKeyAddPage = (props: APIKeyProfilePageProps) => {
             organizationId: command.organizationId ?? organizationId,
             name: command.name
         });
-        apiKeyPageQuery.refetch()
-        result && createdConfirmation.open(result)
+        if (result) {
+            queryClient.invalidateQueries({queryKey: ["apiKeyPage"]})
+            createdConfirmation.open(result)
+        }
     }, [organizationId]);
 
     const formState = useFormComposable({
