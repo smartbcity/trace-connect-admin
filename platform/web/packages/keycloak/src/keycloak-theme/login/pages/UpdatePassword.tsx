@@ -46,7 +46,7 @@ export default function UpdatePassword(props: PageProps<Extract<KcContext, { pag
     }, [realm, msgStr, t])
 
     const actions = useMemo((): Action[] => {
-        return [...(true ? [{
+        return [...(isAppInitiatedAction ? [{
             key: "cancel",
             label: msgStr("doCancel"),
             type: "submit",
