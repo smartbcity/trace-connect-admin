@@ -68,7 +68,7 @@ export default function LoginTemplate(props: TemplateProps<KcContext, I18n>) {
                             {message.summary}
                         </Alert>
                     )}
-                    <TraceIcon style={{ height: "50px" }} />
+                    <TraceIcon style={{ height: "60px" }} />
                     {children}
                 </Stack>
             </Stack>

@@ -25,6 +25,13 @@ export const { getKcContext } = createGetKcContext<KcContextExtension>({
 			//message: { type: "error", summary: "This is an error" }
 		},
 		{
+			pageId: "login-reset-password.ftl",
+			locale: {
+				//When we test the login page we do it in french
+				currentLanguageTag: "fr",
+			},
+		},
+		{
 			//NOTE: You will either use register.ftl (legacy) or register-user-profile.ftl, not both
 			pageId: "register-user-profile.ftl",
 			locale: {
@@ -85,7 +92,7 @@ export const { getKcContext } = createGetKcContext<KcContextExtension>({
 
 export const { kcContext } = getKcContext({
 	// Uncomment to test the login page for development.
-	mockPageId: "register-user-profile.ftl",
+	mockPageId: "login-reset-password.ftl",
 });
 
 
