@@ -18,6 +18,7 @@ const RegisterUserProfile = lazy(() => import("./pages/RegisterUserProfile"));
 const Terms = lazy(() => import("./pages/Terms"));
 const Info = lazy(() => import("keycloakify/login/pages/Info"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const UpdatePassword = lazy(() => import("./pages/UpdatePassword"));
 
 // This is like adding classes to theme.properties 
 // https://github.com/keycloak/keycloak/blob/11.0.3/themes/src/main/resources/theme/keycloak/login/theme.properties
@@ -51,6 +52,7 @@ export default function KcApp(props: { kcContext: KcContext; }) {
                 switch (kcContext.pageId) {
                     case "login.ftl": return <Login {...{ kcContext, i18n, classes }} Template={LoginTemplate} doUseDefaultCss={true} />;
                     case "login-reset-password.ftl": return <ResetPassword {...{ kcContext, i18n, Template, classes }} doUseDefaultCss={true} />;
+                    case "login-update-password.ftl": return <UpdatePassword {...{ kcContext, i18n, Template, classes }} doUseDefaultCss={true} />;
                     case "register.ftl": return <Register {...{ kcContext, i18n, classes }} Template={DefaultTemplate} doUseDefaultCss={true} />;
                     case "register-user-profile.ftl": return <RegisterUserProfile {...{ kcContext, i18n, classes }} Template={DefaultTemplate} doUseDefaultCss={true} />
                     case "terms.ftl": return <Terms {...{ kcContext, i18n, Template, classes }} Template={DefaultTemplate} doUseDefaultCss={true} />;

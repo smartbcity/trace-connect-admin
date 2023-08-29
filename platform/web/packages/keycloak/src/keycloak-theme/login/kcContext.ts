@@ -27,7 +27,12 @@ export const { getKcContext } = createGetKcContext<KcContextExtension>({
 		{
 			pageId: "login-reset-password.ftl",
 			locale: {
-				//When we test the login page we do it in french
+				currentLanguageTag: "fr",
+			},
+		},
+		{
+			pageId: "login-update-password.ftl",
+			locale: {
 				currentLanguageTag: "fr",
 			},
 		},
@@ -92,7 +97,7 @@ export const { getKcContext } = createGetKcContext<KcContextExtension>({
 
 export const { kcContext } = getKcContext({
 	// Uncomment to test the login page for development.
-	mockPageId: "login-reset-password.ftl",
+	mockPageId: "login-update-password.ftl",
 });
 
 
