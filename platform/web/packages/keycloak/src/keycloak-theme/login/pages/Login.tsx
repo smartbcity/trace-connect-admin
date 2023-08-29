@@ -29,20 +29,20 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
     })
 
     const fields = useMemo((): FormComposableField[] => {
-        const loginName = !realm.loginWithEmailAllowed
-            ? "username"
-            : realm.registrationEmailAsUsername
-                ? "email"
-                : "usernameOrEmail";
+        // const loginName = !realm.loginWithEmailAllowed
+        //     ? "username"
+        //     : realm.registrationEmailAsUsername
+        //         ? "email"
+        //         : "usernameOrEmail";
         return [{
-            name: loginName === "usernameOrEmail" ? "username" : loginName,
+            name: "email",
             type: "textField",
-            label: msgStr(loginName),
+            label: msgStr("email"),
             params: {
-                textFieldType: loginName === "email" ? "email" : undefined,
+                textFieldType: "email",
                 disabled: usernameEditDisabled,
             },
-            validator: validators.requiredField(t)
+            validator: validators.email(t)
         },{
             name: "credentialId",
             type: "hidden"
