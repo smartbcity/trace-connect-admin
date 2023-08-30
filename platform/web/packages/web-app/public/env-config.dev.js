@@ -1,16 +1,13 @@
 window._env_ = {
   config: {
     i2: {
-      orgUrl: "https://dev.connect.smart-b.io/im", //localhost, //set this if you want to have the organization module appearing in your app
-      userUrl: "https://dev.connect.smart-b.io/im", //set this if you want to have the organization module appearing in your app
-    },
-    fs: {
-      url: "https://dev.trace.smart-b.io/fs"
+      orgUrl: "http://localhost:8009", //localhost, //set this if you want to have the organization module appearing in your app
+      userUrl: "http://localhost:8009", //set this if you want to have the organization module appearing in your app
     },
     keycloak: {
-      realm: "sb-dev",
-      clientId: "sb-platform-web",
-      url: "https://auth.dev.connect.smart-b.io/"
+      realm: "im-test",
+      clientId: "im-test-web",
+      url: "http://keycloak-it:8080"
     }
   }
 };
