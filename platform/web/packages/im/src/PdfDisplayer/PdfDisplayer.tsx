@@ -1,4 +1,4 @@
-import {Box, CircularProgress} from "@mui/material";
+import {Box} from "@mui/material";
 import {Document, Page, pdfjs} from "react-pdf";
 import {useCallback, useEffect, useState} from "react";
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
