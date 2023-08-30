@@ -1,0 +1,8 @@
+{
+  "resetPassword": {
+    "instructions": "Veuillez entrer l'adresse email associé à votre compte. Nous allons vous envoyer un lien pour renouveller votre mot de passe.",
+    "noEmailInstructions": "Si vous ne recevez pas un email dans les prochaines minutes, n'oubliez pas de regarder vos spams.",
+    "note": "Note: Assurez vous de renseigner l'adresse mail que vous avez utilisé pour créer votre compte.",
+    "send": "Envoyer les instructions de renouvellement"
+  }
+}

@@ -10,9 +10,9 @@ import {Stack} from "@mui/material"
 export default function Login(props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, Template, classes, } = props;
 
-    const { social, realm, url, usernameEditDisabled, login, registrationDisabled, auth } = kcContext;
+    const { realm, url, usernameEditDisabled, login, auth } = kcContext;
 
-    const { msg, msgStr } = i18n;
+    const { msgStr } = i18n;
     const [isAuthenticating, setAuthenticating] = useState(false)
     const {t} = useTranslation()
 
@@ -29,20 +29,20 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
     })
 
     const fields = useMemo((): FormComposableField[] => {
-        const loginName = !realm.loginWithEmailAllowed
-            ? "username"
-            : realm.registrationEmailAsUsername
-                ? "email"
-                : "usernameOrEmail";
+        // const loginName = !realm.loginWithEmailAllowed
+        //     ? "username"
+        //     : realm.registrationEmailAsUsername
+        //         ? "email"
+        //         : "usernameOrEmail";
         return [{
-            name: loginName === "usernameOrEmail" ? "username" : loginName,
+            name: "email",
             type: "textField",
-            label: msgStr(loginName),
+            label: msgStr("email"),
             params: {
-                textFieldType: loginName === "email" ? "email" : undefined,
+                textFieldType: "email",
                 disabled: usernameEditDisabled,
             },
-            validator: validators.requiredField(t)
+            validator: validators.email(t)
         },{
             name: "credentialId",
             type: "hidden"
@@ -57,7 +57,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
             >
             {msgStr("password")}
             {realm.resetPasswordAllowed &&
-                <Link sx={{ alignSelf: "center" }} variant="caption" href={url.loginResetCredentialsUrl}>{msg("doForgotPassword")}</Link>
+                <Link sx={{ alignSelf: "center" }} variant="caption" href={url.loginResetCredentialsUrl}>{msgStr("doForgotPassword")}</Link>
             }
             </Stack>,
             params: {
@@ -81,7 +81,6 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
     }, [isAuthenticating, msgStr])
 
     const onSubmit = useCallback<FormEventHandler<HTMLFormElement>>(async (e) => {
-        console.log("submit")
         e.preventDefault();
         setAuthenticating(true);
 
@@ -103,23 +102,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
     return (
         <Template
             {...{ kcContext, i18n, doUseDefaultCss, classes }}
-            displayInfo={social.displayInfo}
-            displayWide={realm.password && social.providers !== undefined}
-            headerNode={msg("doLogIn")}
-            infoNode={
-                realm.password &&
-                realm.registrationAllowed &&
-                !registrationDisabled && (
-                    <div id="kc-registration">
-                        <span>
-                            {msg("noAccount")}
-                            <a tabIndex={6} href={url.registrationUrl}>
-                                {msg("doRegister")}
-                            </a>
-                        </span>
-                    </div>
-                )
-            }
+            headerNode={msgStr("doLogIn")}
         >
             <FormComposable
                 fields={fields}

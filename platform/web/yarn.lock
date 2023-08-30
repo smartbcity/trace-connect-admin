@@ -2972,8 +2972,8 @@
 
 "@smartb/g2-composable@1.0.0-alpha.171":
   version "1.0.0-alpha.171"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-composable/-/@smartb/g2-composable-1.0.0-alpha.171.tgz#ef920eef30690b9c1a4c13689bfa7b4bae70f758"
-  integrity sha1-75IO7zBpC5waTBNom/p7S65w91g=
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-composable/-/@smartb/g2-composable-1.0.0-alpha.171.tgz#a294a5dbe7b04b1335d60cec32c9862bc4d0816c"
+  integrity sha1-opSl2+ewSxM11gzsMsmGK8TQgWw=
   dependencies:
     "@mui/icons-material" "^5.11.11"
     "@smartb/g2-components" "1.0.0-alpha.171"
