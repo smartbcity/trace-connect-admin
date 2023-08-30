@@ -39,10 +39,10 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
             type: "textField",
             label: msgStr("email"),
             params: {
-                textFieldType: "email",
+                textFieldType: "text",
                 disabled: usernameEditDisabled,
             },
-            validator: validators.email(t)
+            validator: validators.requiredField(t)
         },{
             name: "credentialId",
             type: "hidden"
