@@ -4,7 +4,7 @@ import { MenuItems } from '@smartb/g2-components'
 import { useLocation } from "react-router";
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import BusinessIcon from '@mui/icons-material/Business';
-import {AccountCircle, Login, Logout, VpnKeyRounded} from "@mui/icons-material";
+import {AccountCircle, Login, Logout, VpnKeyRounded, Folder} from "@mui/icons-material";
 import { TFunction } from "i18next";
 import { useExtendedAuth, useRoutesDefinition } from "components";
 
@@ -44,7 +44,7 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps
 export const useMenu = (t: TFunction) => {
     const location = useLocation()
     const {service} = useExtendedAuth()
-    const {organizations, users, myOrganization, apiKeys} = useRoutesDefinition()
+    const {organizations, users, myOrganization, apiKeys, fileList} = useRoutesDefinition()
     const menu: MenuItem[] = useMemo(() => [
     ...(service.is_super_admin() || service.is_tr_orchestrator_admin() ? [{
         key: "organizations",
@@ -74,6 +74,12 @@ export const useMenu = (t: TFunction) => {
         icon: <VpnKeyRounded />,
         isVisible: service.hasUserRouteAuth({route: "apiKeys"})
 
+    }, {
+        key: "manageFiles",
+        to: fileList(),
+        label: t("manageFiles"),
+        icon: <Folder />,
+        isVisible: service.hasUserRouteAuth({route: "fileList"})
     }], [t, service.hasUserRouteAuth, location.pathname])
     return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }
