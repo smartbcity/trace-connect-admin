@@ -2,6 +2,7 @@ import { getOrgRolesOptions, useCustomFilters } from 'components'
 import { FilterComposableField } from '@smartb/g2'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { OrgStatus } from '../profile/OrganizationForm'
 
 export const useOrganizationFilters = () => {
     const {t} = useTranslation()
@@ -25,7 +26,20 @@ export const useOrganizationFilters = () => {
                 options: rolesOptions,
                 multiple: true
             }
+        },
+        {
+            name: 'status',
+            label: t("status"),
+            type: 'select',
+            params: {
+                options: OrgStatus.map((status) => ({
+                    key: status,
+                    label: t("organizationStatus." + status)
+                })),
+                multiple: true
+            }
         }
     ], [t])
+
     return useCustomFilters({filters: filters})
 }

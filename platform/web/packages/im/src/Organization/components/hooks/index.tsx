@@ -9,7 +9,7 @@ import {G2ColumnDef} from "@smartb/g2-layout";
 import {i2Config} from "@smartb/g2-providers";
 import {useDeleteOrganizationPopUp} from "./useDeleteOrganizationPopUp";
 import { useOrganizationColumns } from "@smartb/g2-i2-v2";
-import { InputForm } from "@smartb/g2";
+import { Chip, InputForm, useTheme } from "@smartb/g2";
 
 
 export const useOrganizationListPage = () => {
@@ -19,6 +19,7 @@ export const useOrganizationListPage = () => {
     const {service, keycloak} = useExtendedAuth()
 
     const { organizationsOrganizationIdView, organizationsOrganizationIdEdit} = useRoutesDefinition()
+    const theme = useTheme()
 
     const orgDisable = useOrganizationDisable2({
         apiUrl : i2Config().orgUrl,
@@ -59,6 +60,19 @@ export const useOrganizationListPage = () => {
                 },
             },
             base.columns.address,
+            {
+                header: t("status"),
+                id: "status",
+                cell: ({row}) => {
+                    //@ts-ignore
+                    const status = row.original.status
+                    if (!status) return <></>
+                    return <Chip
+                    label={t("organizationStatus." + status)}
+                    color={status === "VERIFIED" ? theme.colors.success : status === "WAITING" ? theme.colors.warning : theme.colors.error}
+                    />
+                },
+            },
             {
             header: t("actions"),
             id: "delete",
