@@ -1,7 +1,110 @@
-import { Option } from "@smartb/g2"
+import { Option, QueryParams, i2Config, useQueryRequest } from "@smartb/g2"
+import { city } from "@smartb/privilege-domain"
+import { useMemo } from "react"
+import { useOidcAccessToken } from '@axa-fr/react-oidc'
 import { TFunction } from "i18next"
 
-export const userAdminRoles = [
+
+export interface Role extends city.smartb.im.f2.privilege.domain.role.model.RoleDTO { }
+
+export interface Permission extends city.smartb.im.f2.privilege.domain.permission.model.PermissionDTO { }
+
+export const RoleTargetValues = city.smartb.im.f2.privilege.domain.role.model.RoleTargetValues
+
+export interface RoleListQuery extends city.smartb.im.f2.privilege.domain.role.query.RoleListQueryDTO { }
+
+export interface RoleListResult extends city.smartb.im.f2.privilege.domain.role.query.RoleListResultDTO { }
+
+export const useRoleListQuery = (params: QueryParams<RoleListQuery, RoleListResult>) => {
+    const { accessToken } = useOidcAccessToken()
+    const requestProps = useMemo(() => ({
+        url: i2Config().orgUrl,
+        jwt: accessToken
+    }), [accessToken])
+    return useQueryRequest<RoleListQuery, RoleListResult>(
+        "roleList", requestProps, params
+    )
+}
+
+export interface PermissionListQuery extends city.smartb.im.f2.privilege.domain.permission.query.PermissionListQueryDTO { }
+
+export interface PermissionListResult extends city.smartb.im.f2.privilege.domain.permission.query.PermissionListResultDTO { }
+
+export const usePermissionListQuery = (params: QueryParams<PermissionListQuery, PermissionListResult>) => {
+    const { accessToken } = useOidcAccessToken()
+    const requestProps = useMemo(() => ({
+        url: i2Config().orgUrl,
+        jwt: accessToken
+    }), [accessToken])
+    return useQueryRequest<PermissionListQuery, PermissionListResult>(
+        "permissionList", requestProps, params
+    )
+}
+
+export const getUserRolesOptions = (lang: string, t: TFunction, orgRole?: Role, roles?: Role[], withSuperAdmin: boolean = false) => {
+    if (!roles || !orgRole) return []
+
+    const options: Option[] = []
+
+    const targetedUserRoles: string[] = orgRole.bindings.user
+
+    roles.forEach((role) => {
+        if (targetedUserRoles.includes(role.identifier)) {
+            options.push({
+                key: role.identifier,
+                label: role.locale[lang],
+                color: role.identifier.includes("user") ? "#3041DC" : "#E56643"
+            })
+        }
+    })
+
+    if (withSuperAdmin) {
+        options.push({
+            key: "super_admin",
+            label: t(`roles.super_admin`) as string,
+            color: "#d1b00a"
+        })
+    }
+
+    return options
+}
+
+export const getOrgRolesOptions = (lang: string, roles?: Role[]) => {
+    if (!roles) return []
+    const options: Option[] = []
+    roles.forEach(role => {
+        if (role.targets.includes(RoleTargetValues.organization())) {
+            options.push({
+                key: role.identifier,
+                label: role.locale[lang],
+                color: "#27848f"
+            })
+        }
+    }
+    )
+}
+
+export const permissions = [
+    "im_read_user",
+    "im_write_user",
+    "im_read_organization",
+    "im_write_organization",
+    "im_read_role",
+    "im_write_role",
+    "im_write_my_organization",
+    "im_read_apikey",
+    "im_write_apikey",
+    "super_admin"
+] as const
+
+export type Permissions = typeof permissions[number]
+
+export const mutablePermissions: Permissions[] = [...permissions]
+
+
+
+
+/* export const userAdminRoles = [
     "tr_orchestrator_admin",
     "tr_project_manager_admin",
     "tr_stakeholder_admin"
@@ -87,4 +190,4 @@ export const getOrgRolesOptions = (t: TFunction) => {
 
 export const userEffectiveRoles = [...userRoles, ...orgRoles]
 
-export type Roles = typeof userEffectiveRoles[number]
+export type Roles = typeof userEffectiveRoles[number] */
