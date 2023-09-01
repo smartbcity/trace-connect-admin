@@ -41,6 +41,24 @@ export const usePermissionListQuery = (params: QueryParams<PermissionListQuery, 
     )
 }
 
+export const getUserRoleColor = (role: string) => role === "super_admin" ? "#d1b00a" : role.includes("user") ? "#3041DC" : "#E56643"
+
+export const getUserRolesFilterOptions = (t: TFunction) => {
+
+    const roles: Option[] = []
+    roles.push({
+        key: "admin",
+        label: t(`roles.admin`) as string,
+        color: getUserRoleColor("admin")
+    })
+    roles.push({
+        key: "user",
+        label: t(`roles.user`) as string,
+        color: getUserRoleColor("user")
+    })
+    return roles
+}
+
 export const getUserRolesOptions = (lang: string, t: TFunction, orgRole?: Role, roles?: Role[], withSuperAdmin: boolean = false) => {
     if (!roles || !orgRole) return []
 
@@ -53,7 +71,7 @@ export const getUserRolesOptions = (lang: string, t: TFunction, orgRole?: Role, 
             options.push({
                 key: role.identifier,
                 label: role.locale[lang],
-                color: role.identifier.includes("user") ? "#3041DC" : "#E56643"
+                color: getUserRoleColor(role.identifier)
             })
         }
     })
@@ -69,6 +87,8 @@ export const getUserRolesOptions = (lang: string, t: TFunction, orgRole?: Role, 
     return options
 }
 
+export const getOrgRoleColor = () => "#27848f"
+
 export const getOrgRolesOptions = (lang: string, roles?: Role[]) => {
     if (!roles) return []
     const options: Option[] = []
@@ -77,7 +97,21 @@ export const getOrgRolesOptions = (lang: string, roles?: Role[]) => {
             options.push({
                 key: role.identifier,
                 label: role.locale[lang],
-                color: "#27848f"
+                color: getOrgRoleColor()
+            })
+        }
+    }
+    )
+}
+
+export const getApiKeysRolesOptions = (lang: string, roles?: Role[]) => {
+    if (!roles) return []
+    const options: Option[] = []
+    roles.forEach(role => {
+        if (role.targets.includes(RoleTargetValues.apiKey())) {
+            options.push({
+                key: role.identifier,
+                label: role.locale[lang],
             })
         }
     }
@@ -103,8 +137,8 @@ export const mutablePermissions: Permissions[] = [...permissions]
 
 
 
-
-/* export const userAdminRoles = [
+/* 
+export const userAdminRoles = [
     "tr_orchestrator_admin",
     "tr_project_manager_admin",
     "tr_stakeholder_admin"
@@ -171,7 +205,6 @@ export const orgRoles = [
 
 export type OrgRoles = typeof orgRoles[number]
 
-const mutableOrgRoles: OrgRoles[] = [...orgRoles]
 
 export const orgRolesColors: { [roles in OrgRoles]: string } = {
     "tr_orchestrator": "#27848f",

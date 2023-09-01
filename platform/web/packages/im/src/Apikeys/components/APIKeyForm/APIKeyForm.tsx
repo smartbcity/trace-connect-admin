@@ -2,6 +2,7 @@ import { FormComposable, FormComposableField, FormComposableState, OrganizationR
 import { useTranslation } from "react-i18next";
 import { useMemo } from "react";
 import { ApiKeyAddCommand } from "../../api";
+import { getApiKeysRolesOptions, useExtendedAuth } from "components";
 
 export interface APIKeyFormProps {
     readOnly: boolean
@@ -12,9 +13,8 @@ export interface APIKeyFormProps {
 
 export const APIKeyForm = (props: APIKeyFormProps) => {
     const { readOnly, formState, orgSelect = false, orgRefs } = props
-    const { t } = useTranslation();
-
-    console.log(orgSelect)
+    const { t, i18n } = useTranslation();
+    const {roles} = useExtendedAuth()
 
     const fields = useMemo((): FormComposableField<keyof ApiKeyAddCommand>[] => [{
         name: "name",
@@ -33,9 +33,15 @@ export const APIKeyForm = (props: APIKeyFormProps) => {
             }))
         },
         validator: validators.requiredField(t)
-    } as FormComposableField<keyof ApiKeyAddCommand>] : [])], [t, orgSelect, orgRefs])
-
-    console.log(fields)
+    } as FormComposableField<keyof ApiKeyAddCommand>,{
+        name: 'role',
+        type: 'select',
+        label: t("role"),
+        params: {
+            options: getApiKeysRolesOptions(i18n.language, roles)
+        },
+        validator: validators.requiredField(t)
+    } as FormComposableField<keyof ApiKeyAddCommand>] : [])], [t, orgSelect, orgRefs, i18n.language, roles])
 
     return (
         <FormComposable

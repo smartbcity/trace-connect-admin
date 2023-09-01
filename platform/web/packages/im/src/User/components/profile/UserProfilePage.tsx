@@ -1,6 +1,6 @@
 import { Action, i2Config, Page, Section, LinkButton, validators, Button } from '@smartb/g2';
 import { UserFactory, useGetOrganizationRefs, userExistsByEmail, useUserFormState, UserFactoryFieldsOverride, useUserDisable2, User } from '@smartb/g2-i2-v2';
-import { LanguageSelector, OrgRoles, PageHeaderObject, getUserRolesOptions, useExtendedAuth, useRoutesDefinition } from "components";
+import { LanguageSelector, PageHeaderObject, getUserRolesOptions, useExtendedAuth, useRoutesDefinition } from "components";
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
@@ -16,15 +16,15 @@ export interface UserProfilePageProps {
 
 export const UserProfilePage = (props: UserProfilePageProps) => {
     const { readOnly, myProfil = false } = props
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [searchParams] = useSearchParams()
     const { userId } = useParams();
     const navigate = useNavigate()
-    const { keycloak, service } = useExtendedAuth()
+    const { keycloak, service, roles } = useExtendedAuth()
     const getOrganizationRefs = useGetOrganizationRefs({ jwt: keycloak.token })
     const isUpdate = !!userId || myProfil
     const policies = usePolicies({ myProfil: myProfil })
-    const isAdmin = service.isAdmin()
+    const isAdmin = service.is_im_write_user()
     const queryClient = useQueryClient()
     const { usersUserIdView, usersUserIdEdit, organizationsOrganizationIdView, users } = useRoutesDefinition()
 
@@ -95,11 +95,12 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
 
     const rolesOptions = useMemo(() => {
         const org = getOrganizationRefs.query.data?.items.find((org) => org.id === formState.values.memberOf)
+        const orgRole = roles.map((role: any) => role.identifier === org?.roles[0])
         return {
-            withSuperAdmin: getUserRolesOptions(t, org?.roles[0] as OrgRoles, true),
-            rolesBasic: getUserRolesOptions(t, org?.roles[0] as OrgRoles),
+            withSuperAdmin: getUserRolesOptions(i18n.language, t, orgRole, roles, true),
+            rolesBasic: getUserRolesOptions(i18n.language, t, orgRole, roles),
         }
-    }, [t, getOrganizationRefs.query.data?.items, formState.values.memberOf])
+    }, [i18n.language, t, getOrganizationRefs.query.data?.items, formState.values.memberOf, roles])
 
     const getOrganizationUrl = useCallback(
         (organizationId: string) => organizationsOrganizationIdView(organizationId),

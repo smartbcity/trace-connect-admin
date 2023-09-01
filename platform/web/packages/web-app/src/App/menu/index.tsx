@@ -46,7 +46,7 @@ export const useMenu = (t: TFunction) => {
     const {service} = useExtendedAuth()
     const {organizations, users, myOrganization, apiKeys, fileList} = useRoutesDefinition()
     const menu: MenuItem[] = useMemo(() => [
-    ...(service.is_super_admin() || service.is_tr_orchestrator_admin() ? [{
+    ...(service.is_im_write_organization() ? [{
         key: "organizations",
         to: "/",
         label: t("organizations"),
@@ -64,7 +64,7 @@ export const useMenu = (t: TFunction) => {
      {
         key: "users",
         to: users(),
-        label: service.is_super_admin() || service.is_tr_orchestrator_admin() ? t("users") : t("manageUsers"),
+        label: service.is_im_write_organization() ? t("users") : t("manageUsers"),
         icon: <SupervisedUserCircleIcon />,
         isVisible: service.hasUserRouteAuth({route: "users"})
     },{

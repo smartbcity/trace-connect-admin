@@ -1,7 +1,7 @@
 import { Page, LinkButton } from "@smartb/g2"
 import { AutomatedUserTable } from "@smartb/g2-i2-v2"
 import { Typography } from "@mui/material";
-import { PageHeaderObject, useExtendedAuth, useRoutesDefinition, userAdminRoles, userBaseRoles } from "components";
+import { PageHeaderObject, useExtendedAuth, useRoutesDefinition } from "components";
 import { useTranslation } from "react-i18next";
 import { useUserFilters } from "./useUserFilters";
 import { useUserListPage } from "../../hooks";
@@ -10,7 +10,7 @@ import { usePolicies } from "../../../Policies/usePolicies";
 
 export const UserListPage = () => {
   const { t } = useTranslation();
-  const { service } = useExtendedAuth()
+  const { service, roles } = useExtendedAuth()
 
   const { getRowLink, columns } = useUserListPage()
   const { usersAdd } = useRoutesDefinition()
@@ -25,8 +25,10 @@ export const UserListPage = () => {
     {
       ...submittedFilters,
       roles: submittedFilters.roles ? [
-        ...(submittedFilters.roles.includes("user") ? userBaseRoles : []),
-        ...(submittedFilters.roles.includes("admin") ? userAdminRoles : [])
+        //@ts-ignore
+        ...(submittedFilters.roles.includes("user") ? roles.filter((role) => role.indentifier.includes("user")) : []),
+         //@ts-ignore
+        ...(submittedFilters.roles.includes("admin") ? roles.filter((role) => role.indentifier.includes("admin")) : [])
       ] : undefined,
       organizationId: !policies.user.canListAllUser ? service.getUser()?.memberOf : undefined
     }

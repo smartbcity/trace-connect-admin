@@ -1,12 +1,13 @@
-import { getOrgRolesOptions, useCustomFilters } from 'components'
+import { getOrgRolesOptions, useCustomFilters, useExtendedAuth } from 'components'
 import { FilterComposableField } from '@smartb/g2'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { OrgStatus } from '../profile/OrganizationForm'
 
 export const useOrganizationFilters = () => {
-    const {t} = useTranslation()
-    const rolesOptions = useMemo(() => getOrgRolesOptions(t), [t])
+    const {t, i18n} = useTranslation()
+    const {roles} = useExtendedAuth()
+    const rolesOptions = useMemo(() => getOrgRolesOptions(i18n.language, roles), [i18n.language, roles])
 
     const filters = useMemo((): FilterComposableField[] => [
         {

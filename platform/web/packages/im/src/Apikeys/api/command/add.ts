@@ -11,6 +11,8 @@ interface ApiKeyAddCommandDTO {
      * Name of the key.
      */
     name: string
+
+    role: string
 }
 
 interface ApiKeyAddedEventDTO {

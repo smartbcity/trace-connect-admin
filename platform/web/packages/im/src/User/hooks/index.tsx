@@ -7,9 +7,8 @@ import { Row } from '@tanstack/react-table'
 import {
   useExtendedAuth,
   useRoutesDefinition,
-  UserRoles,
-  userRolesColors,
-  TableCellAdmin
+  TableCellAdmin,
+  getUserRoleColor
 } from "components";
 import { User, useUserColumns, useUserDisable2 } from "@smartb/g2-i2-v2";
 import { i2Config } from "@smartb/g2-providers";
@@ -71,8 +70,8 @@ export const useUserListPage = () => {
         header: t("role"),
         id: "role",
         cell: ({ row }) => {
-          const role = service.getPrincipalRole((row.original.roles ?? []) as UserRoles[]) as UserRoles
-          return <Chip label={t("roles." + role)} color={userRolesColors[role]} />;
+          if (!row.original.roles) return
+          return <Chip label={t("roles." + row.original.roles[0])} color={getUserRoleColor(row.original.roles[0])} />;
         },
       },
       ...(policies.user.canListAllUser ? [
@@ -81,7 +80,7 @@ export const useUserListPage = () => {
       base.columns.email
     ]
 
-    if (service.isAdmin()) {
+    if (service.is_im_write_user()) {
       columns.push({
         header: t("actions"),
         id: "actions",

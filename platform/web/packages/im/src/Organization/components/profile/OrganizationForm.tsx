@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { FormComposable, FormComposableField, FormComposableState, useTheme } from "@smartb/g2";
 import { useOrganizationFormFields } from "@smartb/g2-i2-v2";
-import { getOrgRolesOptions } from "components";
+import { getOrgRolesOptions, useExtendedAuth } from "components";
 import { usePolicies } from "../../../Policies/usePolicies";
 
 export interface OrganizationFormProps {
@@ -18,8 +18,9 @@ export const OrgStatus = ["VERIFIED" , "WAITING" , "REFUSED"] as const
 
 export const OrganizationForm = (props: OrganizationFormProps) => {
     const { isLoading, formState, readOnly, isUpdate = false, policies} = props
-    const { t } = useTranslation();
-    const rolesOptions = useMemo(() => getOrgRolesOptions(t), [t])
+    const { t, i18n } = useTranslation();
+    const { roles } = useExtendedAuth()
+    const rolesOptions = useMemo(() => getOrgRolesOptions(i18n.language, roles), [i18n.language, roles])
     const theme = useTheme()
     const fieldsOverride = useMemo(() => {
         return {

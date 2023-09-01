@@ -10,11 +10,10 @@ export const usePolicies = (
   props?: UsePoliciesProps,
 ) => {
   const { service } = useExtendedAuth()
-  const isAdmin = service.isAdmin()
+  const isAdmin = service.is_im_write_user()
   const isSuperAdmin = service.is_super_admin()
-  const isOrchestratorAdmin = service.is_tr_orchestrator_admin()
 
-  const hasSuperAdminRights = isSuperAdmin || isOrchestratorAdmin
+  const hasSuperAdminRights = service.is_im_write_organization()
 
   return useMemo(() => ({
     apiKeys: {

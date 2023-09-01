@@ -1,4 +1,4 @@
-import { getUserRolesOptions, useCustomFilters } from 'components'
+import { getUserRolesFilterOptions, useCustomFilters } from 'components'
 import { Action, FilterComposableField } from '@smartb/g2'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -12,7 +12,7 @@ export const useUserFilters = (params?: useUserFiltersParams) => {
     const {searchOrg = false, actions} = params ?? {}
     const {t} = useTranslation()
   
-    const rolesOptions = useMemo(() => getUserRolesOptions(t), [t])
+    const rolesOptions = useMemo(() => getUserRolesFilterOptions(t), [t])
 
     const filters = useMemo((): FilterComposableField[] => [
       {
