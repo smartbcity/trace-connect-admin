@@ -6,7 +6,6 @@ import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 import {OrganizationForm} from "./OrganizationForm";
-import {usePolicies} from "../../../Policies/usePolicies";
 import { useQueryClient } from "@tanstack/react-query"
 import { useDeleteOrganizationPopUp } from "../hooks/useDeleteOrganizationPopUp"
 
@@ -20,8 +19,7 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
     const { t } = useTranslation();
     const { organizationId } = useParams();
     const navigate = useNavigate()
-    const { service, keycloak } = useExtendedAuth()
-    const policies = usePolicies({myOrganization: myOrganization})
+    const { service, keycloak, policies } = useExtendedAuth()
     const { organizationsOrganizationIdView, organizationsOrganizationIdEdit, organizations } = useRoutesDefinition()
 
     const orgId = myOrganization ? service.getUser()?.memberOf : organizationId
@@ -82,11 +80,10 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
     const headerRightPart = useMemo(() => {
         if (readOnly && organization) {
             return [
-                policies.organization.canDelete ? <Button onClick={() => {
-                    console.log("open")
+                policies.organization.canDelete(orgId!) ? <Button onClick={() => {
                     open(organization)
                 }} color="error" key="deleteButton">{t("closeOrganization")}</Button> : undefined,
-                policies.organization.canUpdate ? <LinkButton to={organizationsOrganizationIdEdit(orgId!)} key="pageEditButton">{t("update")}</LinkButton> : undefined,
+                policies.organization.canUpdate(orgId!) ? <LinkButton to={organizationsOrganizationIdEdit(orgId!)} key="pageEditButton">{t("update")}</LinkButton> : undefined,
             ]
         }
         return []
@@ -120,7 +117,7 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
         >
                 <Section flexContent>
                     <Typography color="secondary" variant="h5">{t('organizationSummary')}</Typography>
-                    <OrganizationForm policies={policies} isUpdate={isUpdate} isLoading={isLoading} formState={formState} readOnly={readOnly}/>
+                    <OrganizationForm myOrganization={myOrganization} isUpdate={isUpdate} isLoading={isLoading} formState={formState} readOnly={readOnly}/>
                 </Section>
                 {popup}
         </Page>

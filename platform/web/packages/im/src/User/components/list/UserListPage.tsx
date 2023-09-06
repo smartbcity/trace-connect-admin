@@ -10,14 +10,14 @@ import { usePolicies } from "../../../Policies/usePolicies";
 
 export const UserListPage = () => {
   const { t } = useTranslation();
-  const { service, roles } = useExtendedAuth()
+  const { service, roles, policies } = useExtendedAuth()
 
   const { getRowLink, columns } = useUserListPage()
   const { usersAdd } = useRoutesDefinition()
 
-  const policies = usePolicies()
+  const frontPolicies = usePolicies()
 
-  const { component, submittedFilters, setPage } = useUserFilters({ searchOrg: policies.user.canListAllUser })
+  const { component, submittedFilters, setPage } = useUserFilters({ searchOrg: frontPolicies.user.canListAllUser })
 
   
 
@@ -30,11 +30,11 @@ export const UserListPage = () => {
          //@ts-ignore
         ...(submittedFilters.roles.includes("admin") ? roles.filter((role) => role.indentifier.includes("admin")) : [])
       ] : undefined,
-      organizationId: !policies.user.canListAllUser ? service.getUser()?.memberOf : undefined
+      organizationId: !frontPolicies.user.canListAllUser ? service.getUser()?.memberOf : undefined
     }
-  ), [policies.user.canListAllUser, submittedFilters, service.getUser])
+  ), [frontPolicies.user.canListAllUser, submittedFilters, service.getUser, roles])
 
-  const actions = policies.user.canCreate
+  const actions = policies.user.canCreate()
     ? [(<LinkButton to={usersAdd()} key="pageAddButton">{t("userList.create")}</LinkButton>)]
     : []
 

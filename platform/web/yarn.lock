@@ -3197,10 +3197,30 @@
     "@smartb/g2-themes" "1.0.0-alpha.172"
     "@smartb/g2-utils" "1.0.0-alpha.172"
 
+"@smartb/organization-domain@0.15.0-1693469731651":
+  version "0.15.0-1693469731651"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/organization-domain/-/@smartb/organization-domain-0.15.0-1693469731651.tgz#2bc3e57a5363a9c891db1c0217e932b210b40aaa"
+  integrity sha1-K8PlelNjqciR2xwCF+kyshC0Cqo=
+  dependencies:
+    "@js-joda/core" "3.2.0"
+    abort-controller "3.0.0"
+    node-fetch "2.6.7"
+    ws "8.5.0"
+
 "@smartb/privilege-domain@0.15.0-1693404895741":
   version "0.15.0-1693404895741"
   resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/privilege-domain/-/@smartb/privilege-domain-0.15.0-1693404895741.tgz#e4748c0a2c036a25713af00d0d4f71c48beaf2ec"
   integrity sha1-5HSMCiwDaiVxOvANDU9xxIvq8uw=
+  dependencies:
+    "@js-joda/core" "3.2.0"
+    abort-controller "3.0.0"
+    node-fetch "2.6.7"
+    ws "8.5.0"
+
+"@smartb/user-domain@0.15.0-1693469731651":
+  version "0.15.0-1693469731651"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/user-domain/-/@smartb/user-domain-0.15.0-1693469731651.tgz#8fc00ec0e53c4b4d472201eb0c431e2e70c05943"
+  integrity sha1-j8AOwOU8S01HIgHrDEMeLnDAWUM=
   dependencies:
     "@js-joda/core" "3.2.0"
     abort-controller "3.0.0"

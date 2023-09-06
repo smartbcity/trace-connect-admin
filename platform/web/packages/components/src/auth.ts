@@ -2,6 +2,8 @@ import {useAuth, KeycloackService, AuthedUser} from "@smartb/g2"
 import {Permissions, mutablePermissions, usePermissionListQuery, useRoleListQuery,} from "./roles";
 import { Routes, routesAuthorizations, RoutesRoles } from "./routes";
 import { city as apiKey } from "@smartb/apikey-domain"
+import { city as organization } from "@smartb/organization-domain"
+import { city as user } from "@smartb/user-domain"
 
 type StaticServices = {
     hasUserRouteAuth: {
@@ -15,7 +17,9 @@ type StaticServices = {
 }
 
 const policies = {
-    apiKeyPolicies: apiKey.smartb.im.apikey.domain.policies.ApiKeyPolicies
+    apiKey: apiKey.smartb.im.apikey.domain.policies.ApiKeyPolicies,
+    organization: organization.smartb.im.organization.domain.policies.OrganizationPolicies,
+    user: user.smartb.im.user.domain.policies.UserPolicies
 }
 
 const staticServices: KeycloackService<StaticServices, Permissions> = {

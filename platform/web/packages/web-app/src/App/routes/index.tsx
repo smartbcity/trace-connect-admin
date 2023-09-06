@@ -12,7 +12,6 @@ import {useMemo} from "react"
 import {ApikeyListPage} from "im/src/Apikeys/page/list";
 import {ApiKeyAddPage} from "im/src/Apikeys/page/add";
 import {FileListPage} from "im/src/ManageFiles/page/list"
-import { usePolicies } from "im/src/Policies/usePolicies";
 
 
 const imPages: PageRoute[] = [{
@@ -69,12 +68,12 @@ const allPages: PageRoute[] = [...imPages]
 export const AppRouter = () => {
   const pages = useMemo(() => allPages.map((page) => GenerateRoute(page)), [])
 
-  const policies = usePolicies()
+  const {policies} = useExtendedAuth()
 
   return (
     <Router>
       <Route path="/" element={<App />} >
-        <Route path="" element={policies.organization.canViewlist ? <OrganizationListPage /> : <OrganizationProfilePage myOrganization readOnly />} />
+        <Route path="" element={policies.organization.canList() ? <OrganizationListPage /> : <OrganizationProfilePage myOrganization readOnly />} />
         {pages}
       </Route >
     </Router>

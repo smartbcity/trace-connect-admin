@@ -11,16 +11,17 @@ export interface OrganizationFormProps {
     readOnly: boolean
     isUpdate?: boolean
     canVerify?: boolean
-    policies: ReturnType<typeof usePolicies>
+    myOrganization?: boolean
 }
 
 export const OrgStatus = ["VERIFIED" , "WAITING" , "REFUSED"] as const
 
 export const OrganizationForm = (props: OrganizationFormProps) => {
-    const { isLoading, formState, readOnly, isUpdate = false, policies} = props
+    const { isLoading, formState, readOnly, isUpdate = false, myOrganization} = props
     const { t, i18n } = useTranslation();
     const { roles } = useExtendedAuth()
     const rolesOptions = useMemo(() => getOrgRolesOptions(i18n.language, roles), [i18n.language, roles])
+    const policies = usePolicies({myOrganization: myOrganization})
     const theme = useTheme()
     const fieldsOverride = useMemo(() => {
         return {

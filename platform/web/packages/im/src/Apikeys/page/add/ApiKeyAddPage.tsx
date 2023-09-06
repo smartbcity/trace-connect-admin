@@ -57,8 +57,6 @@ export const ApiKeyAddPage = (props: APIKeyProfilePageProps) => {
         }
     }, [readOnly, formState.submitForm])
 
-    console.log(policies.apiKeys.canCreateForAllOrg)
-
     return (
         <Page
             headerProps={PageHeaderObject({

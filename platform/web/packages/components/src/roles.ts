@@ -63,11 +63,10 @@ export const getUserRolesOptions = (lang: string, t: TFunction, orgRole?: Role, 
     if (!roles || !orgRole) return []
 
     const options: Option[] = []
-
-    const targetedUserRoles: string[] = orgRole.bindings.user
+    const targetedUserRoles: Role[] = orgRole.bindings["USER"]
 
     roles.forEach((role) => {
-        if (targetedUserRoles.includes(role.identifier)) {
+        if (targetedUserRoles.find((target) => target.identifier === role.identifier)) {
             options.push({
                 key: role.identifier,
                 label: role.locale[lang],
@@ -104,14 +103,16 @@ export const getOrgRolesOptions = (lang: string, roles?: Role[]) => {
     )
 }
 
-export const getApiKeysRolesOptions = (lang: string, roles?: Role[]) => {
-    if (!roles) return []
+export const getApiKeysRolesOptions = (lang: string, orgRole?: Role, roles?: Role[]) => {
+    if (!roles || !orgRole) return []
+    const targetedRoles: Role[] = orgRole.bindings["API_KEY"]
     const options: Option[] = []
     roles.forEach(role => {
-        if (role.targets.includes(RoleTargetValues.apiKey())) {
+        if (targetedRoles.find((target) => target.identifier === role.identifier)) {
             options.push({
                 key: role.identifier,
                 label: role.locale[lang],
+                color: getUserRoleColor(role.identifier)
             })
         }
     }

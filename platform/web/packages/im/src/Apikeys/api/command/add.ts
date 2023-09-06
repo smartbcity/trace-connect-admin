@@ -1,17 +1,8 @@
 import {CommandParams, OrganizationId, useCommandRequest} from "@smartb/g2";
 import {useAuthenticatedRequest} from "../../config";
+import { city } from "@smartb/apikey-domain"
 
-interface ApiKeyAddCommandDTO {
-    /**
-     * Id of the organization.
-     */
-    organizationId  : OrganizationId
-
-    /**
-     * Name of the key.
-     */
-    name: string
-
+interface ApiKeyAddCommandDTO extends city.smartb.im.apikey.domain.features.command.ApiKeyOrganizationAddCommandDTO {
     role: string
 }
 

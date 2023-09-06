@@ -53,7 +53,7 @@ export const ApikeyListPage = (props: APIKeysListPageProps) => {
         <Page
             headerProps={PageHeaderObject({
                 title: t("manageAPIKeys"),
-                rightPart: [policies.apiKeyPolicies.canCreate() ? <LinkButton to={apiKeysAdd()} key="pageAddButton">{t("apiKeysList.create")}</LinkButton> : undefined]
+                rightPart: [policies.apiKey.canCreate() ? <LinkButton to={apiKeysAdd()} key="pageAddButton">{t("apiKeysList.create")}</LinkButton> : undefined]
             })}
             sx={{
                 marginBottom: "50px"
