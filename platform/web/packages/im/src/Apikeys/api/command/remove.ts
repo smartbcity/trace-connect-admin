@@ -4,7 +4,6 @@ import {ApiKeyId} from "../model";
 
 interface ApikeyRemoveCommandDTO {
     id: ApiKeyId
-    organizationId: OrganizationId
 }
 
 interface ApikeyRemovedEventDTO {

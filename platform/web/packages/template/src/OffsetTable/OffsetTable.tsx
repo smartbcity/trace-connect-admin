@@ -89,7 +89,14 @@ export const OffsetTable = <Data extends {}>(props: OffsetTableProps<Data>) => {
           )}
           {total.page && (
             <>
-              <Typography color="text.secondary" variant="caption">{t("totalItem", { start: pagination.offset + 1, end: pagination.offset + pagination.limit, total: total.items })}</Typography>
+              <Typography color="text.secondary" variant="caption">{
+                t("totalItem", { 
+                  start: pagination.offset + 1,
+                  end: Math.min(pagination.offset + pagination.limit, total.items ?? pagination.offset + pagination.limit),
+                  total: total.items 
+                })
+              }
+              </Typography>
               <Pagination
                 onPageChange={handlePageChange}
                 page={currentPage}

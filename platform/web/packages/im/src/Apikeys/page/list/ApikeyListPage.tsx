@@ -15,7 +15,7 @@ interface APIKeysListPageProps {
 export const ApikeyListPage = (props: APIKeysListPageProps) => {
     const { } = props;
     const { t } = useTranslation();
-    const { service, keycloak} = useExtendedAuth()
+    const { service, keycloak } = useExtendedAuth()
     const organizationId = service.getUser()?.memberOf
     const { apiKeysAdd } = useRoutesDefinition()
     const policies = usePolicies()
@@ -33,17 +33,18 @@ export const ApikeyListPage = (props: APIKeysListPageProps) => {
     })
     const apiKeysPage : PageQueryResult<ApiKeyDTO> = useMemo(() => {
         const apiKeys = apiKeyPageQuery?.data?.items ?? []
+        const total = apiKeyPageQuery?.data?.total ?? 0
         return {
             items: apiKeys,
-            total: apiKeys.length}
+            total: total
+        }
     }, [apiKeyPageQuery?.data])
 
-    const useOrganizationRemoveAPIKey= useApikeyRemoveFunction()
+    const useOrganizationRemoveAPIKey = useApikeyRemoveFunction()
 
     const onDelete = useCallback(async (apiKey : ApiKeyDTO)=>{
         if(organizationId){
             await useOrganizationRemoveAPIKey.mutateAsync({
-                organizationId: organizationId,
                 id: apiKey.id
             })
             await apiKeyPageQuery.refetch()
