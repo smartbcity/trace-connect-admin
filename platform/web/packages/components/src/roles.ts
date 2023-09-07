@@ -59,7 +59,7 @@ export const getUserRolesFilterOptions = (t: TFunction) => {
     return roles
 }
 
-export const getUserRolesOptions = (lang: string, t: TFunction, orgRole?: Role, roles?: Role[]) => {
+export const getUserRolesOptions = (lang: string, orgRole?: Role, roles?: Role[]) => {
     if (!roles || !orgRole) return []
 
     const options: Option[] = []

@@ -96,7 +96,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
     const rolesOptions = useMemo(() => {
         const org = getOrganizationRefs.query.data?.items.find((org) => org.id === formState.values.memberOf)
         const orgRole = roles?.find((role: any) => role.identifier === org?.roles[0])
-        return getUserRolesOptions(i18n.language, t, orgRole, roles)
+        return getUserRolesOptions(i18n.language, orgRole, roles)
     }, [i18n.language, t, getOrganizationRefs.query.data?.items, formState.values.memberOf, roles])
 
     const getOrganizationUrl = useCallback(
