@@ -24,7 +24,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
     const getOrganizationRefs = useGetOrganizationRefs({ jwt: keycloak.token })
     const isUpdate = !!userId || myProfil
     const frontPolicies = usePolicies({ myProfil: myProfil })
-    const isAdmin = service.is_im_write_user()
+    const isAdmin = service.is_im_user_write()
     const queryClient = useQueryClient()
     const { usersUserIdView, usersUserIdEdit, organizationsOrganizationIdView, users } = useRoutesDefinition()
 
@@ -96,10 +96,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
     const rolesOptions = useMemo(() => {
         const org = getOrganizationRefs.query.data?.items.find((org) => org.id === formState.values.memberOf)
         const orgRole = roles?.find((role: any) => role.identifier === org?.roles[0])
-        return {
-            withSuperAdmin: getUserRolesOptions(i18n.language, t, orgRole, roles, true),
-            rolesBasic: getUserRolesOptions(i18n.language, t, orgRole, roles),
-        }
+        return getUserRolesOptions(i18n.language, t, orgRole, roles)
     }, [i18n.language, t, getOrganizationRefs.query.data?.items, formState.values.memberOf, roles])
 
     const getOrganizationUrl = useCallback(
@@ -138,7 +135,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
         return {
             roles: {
                 params: {
-                    options: frontPolicies.user.canSetSuperAdminRole ? rolesOptions.withSuperAdmin : rolesOptions.rolesBasic,
+                    options: rolesOptions,
                     disabled: !isUpdate && !formState.values.memberOf
                 },
                 readOnly: isUpdate && !frontPolicies.user.canUpdateRole,
@@ -188,7 +185,6 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
                     userId={userId}
                     resetPasswordType={myProfil ? 'email' : isAdmin ? "forced" : undefined}
                     multipleRoles={false}
-                    readOnlyRolesOptions={rolesOptions.withSuperAdmin}
                     getOrganizationUrl={getOrganizationUrl}
                     fieldsOverride={fieldsOverride}
                     checkEmailValidity={checkEmailValidity}

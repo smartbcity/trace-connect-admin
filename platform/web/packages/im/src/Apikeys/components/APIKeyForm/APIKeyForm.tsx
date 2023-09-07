@@ -14,34 +14,40 @@ export interface APIKeyFormProps {
 export const APIKeyForm = (props: APIKeyFormProps) => {
     const { readOnly, formState, orgSelect = false, orgRefs } = props
     const { t, i18n } = useTranslation();
-    const {roles} = useExtendedAuth()
+    const { roles } = useExtendedAuth()
 
-    const fields = useMemo((): FormComposableField<keyof ApiKeyAddCommand>[] => [{
-        name: "name",
-        type: "textField",
-        label: t('name'),
-        validator: validators.requiredField(t)
-    },
-    ...(orgSelect ? [{
-        name: 'organizationId',
-        type: 'autoComplete',
-        label: t("organization"),
-        params: {
-            options: orgRefs?.map((ref) => ({
-                key: ref.id,
-                label: ref.name
-            }))
+    const fields = useMemo((): FormComposableField<keyof ApiKeyAddCommand>[] => {
+        const orgRole = formState.values.organizationId ? roles.find(
+            (role) => role.identifier === orgRefs?.find((ref) => ref.id === formState.values.organizationId)?.roles[0] 
+            ) : undefined
+        return [{
+            name: "name",
+            type: "textField",
+            label: t('name'),
+            validator: validators.requiredField(t)
         },
-        validator: validators.requiredField(t)
-    } as FormComposableField<keyof ApiKeyAddCommand>,{
-        name: 'role',
-        type: 'select',
-        label: t("role"),
-        params: {
-            options: getApiKeysRolesOptions(i18n.language, roles)
-        },
-        validator: validators.requiredField(t)
-    } as FormComposableField<keyof ApiKeyAddCommand>] : [])], [t, orgSelect, orgRefs, i18n.language, roles])
+        ...(orgSelect ? [{
+            name: 'organizationId',
+            type: 'autoComplete',
+            label: t("organization"),
+            params: {
+                options: orgRefs?.map((ref) => ({
+                    key: ref.id,
+                    label: ref.name
+                }))
+            },
+            validator: validators.requiredField(t)
+        } as FormComposableField<keyof ApiKeyAddCommand>, {
+            name: 'role',
+            type: 'select',
+            label: t("role"),
+            params: {
+                options: getApiKeysRolesOptions(i18n.language, orgRole, roles),
+                disabled: !formState.values.organizationId
+            },
+            validator: validators.requiredField(t)
+        } as FormComposableField<keyof ApiKeyAddCommand>] : [])]
+    }, [t, orgSelect, orgRefs, i18n.language, roles, formState.values.organizationId])
 
     return (
         <FormComposable

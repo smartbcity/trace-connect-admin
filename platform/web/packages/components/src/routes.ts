@@ -4,21 +4,21 @@ import {useExtendedAuth} from "./auth"
 import { Permissions } from "./roles"
 
 const IMRoutesAuthorizations = {
-    "organizations": ["im_read_organization"],
-    "organizations/add": ["im_write_organization"],
-    "organizations/:organizationId/view": ["im_read_organization"],
-    "organizations/:organizationId/edit": ["im_write_organization"],
+    "organizations": ["im_organization_read"],
+    "organizations/add": ["im_organization_write"],
+    "organizations/:organizationId/view": ["im_organization_read"],
+    "organizations/:organizationId/edit": ["im_organization_write"],
     "myOrganization": "open",
-    "myOrganization/edit": ["im_write_my_organization"],
+    "myOrganization/edit": ["im_organization_write_own"],
     "users": "open",
-    "users/add": [["memberOf", "im_write_user"], ["im_write_user", "im_write_organization"]],
+    "users/add": [["memberOf", "im_user_write"], ["im_user_write", "im_organization_write"]],
     "users/:userId/view": "open",
-    "users/:userId/edit": ["im_write_user"],
+    "users/:userId/edit": ["im_user_write"],
     "myProfil": "open",
     "myProfil/edit": "open",
-    "apiKeys": ["im_read_apikey"],
-    "apiKeys/add": ["im_write_apikey"],
-    "fileList": ["im_write_organization"]
+    "apiKeys": ["im_apikey_read"],
+    "apiKeys/add": ["im_apikey_write"],
+    "fileList": ["im_organization_write"]
 } as const
 
 const strictRoutesAuthorizations = {

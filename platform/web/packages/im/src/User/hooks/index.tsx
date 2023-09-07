@@ -80,7 +80,7 @@ export const useUserListPage = () => {
       base.columns.email
     ]
 
-    if (service.is_im_write_user()) {
+    if (service.is_im_user_write()) {
       columns.push({
         header: t("actions"),
         id: "actions",
