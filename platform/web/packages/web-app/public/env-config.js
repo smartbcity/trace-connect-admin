@@ -9,7 +9,7 @@ window._env_ = {
     },
     keycloak: {
       realm: "sb-dev",
-      clientId: "sb-platform-web",
+      clientId: "tr-connect-admin-web",
       url: "https://auth.dev.connect.smart-b.io/"
     }
   }
