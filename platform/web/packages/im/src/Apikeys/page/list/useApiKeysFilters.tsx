@@ -28,5 +28,5 @@ export const useApiKeysFilters = (params?: useApiKeysFiltersParams) => {
       } as FilterComposableField] : [])
     ], [t, canFilterOrg, orgRef])
 
-    return useCustomFilters({filters: filters})
+    return useCustomFilters({filters: filters, withOffset: true})
 }

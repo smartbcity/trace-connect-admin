@@ -1,8 +1,5 @@
 import {useMemo} from "react";
-import {
-    ColumnFactory,
-    useTable
-} from "@smartb/g2";
+import {ColumnFactory, useTable} from "@smartb/g2";
 import {TableCellAdmin} from "components";
 import {useTranslation} from "react-i18next";
 import {Typography} from "@mui/material";
@@ -52,7 +49,7 @@ export interface APIKeysTableProps{
 }
 
 export const APIKeysTable = (props: APIKeysTableProps) => {
-    const {  page, isLoading, pagination, onDeleteClick, onOffsetChange} = props
+    const { page, isLoading, pagination, onDeleteClick, onOffsetChange } = props
     const { t } = useTranslation()
     const columns = useAPIKeyColumn(onDeleteClick)
     const tableState = useTable({
