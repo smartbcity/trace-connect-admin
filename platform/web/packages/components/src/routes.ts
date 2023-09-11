@@ -18,7 +18,8 @@ const IMRoutesAuthorizations = {
     "myProfil/edit": "open",
     "apiKeys": ["im_apikey_read"],
     "apiKeys/add": ["im_apikey_write"],
-    "fileList": ["im_organization_write"]
+    "fileList": ["im_organization_write"],
+    "files/*": ["im_organization_write"],
 } as const
 
 const strictRoutesAuthorizations = {

@@ -44,7 +44,7 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps
 export const useMenu = (t: TFunction) => {
     const location = useLocation()
     const {service} = useExtendedAuth()
-    const {organizations, users, myOrganization, apiKeys, fileList} = useRoutesDefinition()
+    const {organizations, users, myOrganization, apiKeys, files} = useRoutesDefinition()
     const menu: MenuItem[] = useMemo(() => [
     ...(service.is_im_organization_write() ? [{
         key: "organizations",
@@ -76,10 +76,10 @@ export const useMenu = (t: TFunction) => {
 
     }, {
         key: "manageFiles",
-        to: fileList(),
+        to: files(),
         label: t("manageFiles"),
         icon: <Folder />,
-        isVisible: service.hasUserRouteAuth({route: "fileList"})
+        isVisible: service.hasUserRouteAuth({route: "files"})
     }], [t, service.hasUserRouteAuth, location.pathname])
     return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }
