@@ -18,8 +18,8 @@ type StaticServices = {
 
 const policies = {
     apiKey: apiKey.smartb.im.apikey.domain.policies.ApiKeyPolicies,
-    organization: organization.smartb.im.organization.domain.policies.OrganizationPolicies,
-    user: user.smartb.im.user.domain.policies.UserPolicies
+    organization: organization.smartb.im.f2.organization.domain.policies.OrganizationPolicies,
+    user: user.smartb.im.f2.user.domain.policies.UserPolicies
 }
 
 const staticServices: KeycloackService<StaticServices, Permissions> = {
@@ -35,12 +35,8 @@ const staticServices: KeycloackService<StaticServices, Permissions> = {
 }
 
 export const useExtendedAuth = () =>  {
-    //@ts-ignore
     const auth = useAuth<StaticServices, Permissions, typeof policies>(mutablePermissions, staticServices, policies)
-
-    //@ts-ignore
     const permissionsQuery = usePermissionListQuery({query:{}})
-    //@ts-ignore
     const rolesQuery = useRoleListQuery({query:{}})
     return {
         ...auth,

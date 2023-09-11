@@ -1,25 +1,17 @@
-import {CommandParams, OrganizationId, useCommandRequest} from "@smartb/g2";
+import {CommandParams, useCommandRequest} from "@smartb/g2";
 import {useAuthenticatedRequest} from "../../config";
-import {ApiKeyId} from "../model";
+import { city } from "@smartb/apikey-domain"
 
-interface ApikeyRemoveCommandDTO {
-    id: ApiKeyId
-}
+export interface ApikeyRemoveCommand extends city.smartb.im.apikey.domain.command.ApikeyRemoveCommandDTO {}
 
-interface ApikeyRemovedEventDTO {
-    id: OrganizationId
-    keyId: string
-}
+export interface ApikeyRemoveEvent extends city.smartb.im.apikey.domain.command.ApikeyRemoveEventDTO {}
 
-export interface ApikeyRemoveCommand extends ApikeyRemoveCommandDTO{ }
-export interface ApikeyRemovedEvent extends ApikeyRemovedEventDTO{ }
-
-export type ApikeyRemoveFunctionOptions = Omit<CommandParams<ApikeyRemoveCommand, ApikeyRemovedEvent>,
+export type ApikeyRemoveFunctionOptions = Omit<CommandParams<ApikeyRemoveCommand, ApikeyRemoveEvent>,
     'jwt' | 'apiUrl'
 >
 export const useApikeyRemoveFunction = (params?: ApikeyRemoveFunctionOptions) => {
     const requestProps = useAuthenticatedRequest()
-    return useCommandRequest<ApikeyRemoveCommand, ApikeyRemovedEvent>(
+    return useCommandRequest<ApikeyRemoveCommand, ApikeyRemoveEvent>(
         "apiKeyRemove", requestProps, params
     )
 }

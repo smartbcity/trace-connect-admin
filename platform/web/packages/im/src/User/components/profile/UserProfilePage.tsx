@@ -88,8 +88,10 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
         }
 
         return [
-            policies.user.canDelete(userId!) ? <Button onClick={() => open(user)} color="error" key="deleteButton">{t("delete")}</Button> : undefined,
-            policies.user.canUpdate(userId!) ? <LinkButton to={usersUserIdEdit(user.id)} key="pageEditButton">{t("update")}</LinkButton> : undefined,
+             //@ts-ignore
+            policies.user.canDelete(user) ? <Button onClick={() => open(user)} color="error" key="deleteButton">{t("delete")}</Button> : undefined,
+             //@ts-ignore
+            policies.user.canUpdate(user) ? <LinkButton to={usersUserIdEdit(user.id)} key="pageEditButton">{t("update")}</LinkButton> : undefined,
         ]
     }, [readOnly, user, myProfil, usersUserIdEdit, open, userId, policies.user])
 
@@ -105,7 +107,8 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
     )
 
     const actions = useMemo((): Action[] | undefined => {
-        if (!readOnly && policies.user.canUpdate(userId!)) {
+        //@ts-ignore
+        if (!readOnly && user &&  policies.user.canUpdate(user)) {
             return [{
                 key: "cancel",
                 label: t("cancel"),

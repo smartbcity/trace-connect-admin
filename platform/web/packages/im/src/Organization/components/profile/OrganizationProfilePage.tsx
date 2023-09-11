@@ -80,7 +80,7 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
     const headerRightPart = useMemo(() => {
         if (readOnly && organization) {
             return [
-                policies.organization.canDelete(orgId!) ? <Button onClick={() => {
+                policies.organization.canDelete() ? <Button onClick={() => {
                     open(organization)
                 }} color="error" key="deleteButton">{t("closeOrganization")}</Button> : undefined,
                 policies.organization.canUpdate(orgId!) ? <LinkButton to={organizationsOrganizationIdEdit(orgId!)} key="pageEditButton">{t("update")}</LinkButton> : undefined,

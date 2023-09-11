@@ -17,7 +17,7 @@ export const APIKeyForm = (props: APIKeyFormProps) => {
     const { roles } = useExtendedAuth()
 
     const fields = useMemo((): FormComposableField<keyof ApiKeyAddCommand>[] => {
-        const orgRole = formState.values.organizationId ? roles.find(
+        const orgRole = formState.values.organizationId ? roles?.find(
             (role) => role.identifier === orgRefs?.find((ref) => ref.id === formState.values.organizationId)?.roles[0] 
             ) : undefined
         return [{
@@ -38,11 +38,12 @@ export const APIKeyForm = (props: APIKeyFormProps) => {
             },
             validator: validators.requiredField(t)
         } as FormComposableField<keyof ApiKeyAddCommand>, {
-            name: 'role',
+            name: 'roles',
             type: 'select',
             label: t("role"),
             params: {
                 options: getApiKeysRolesOptions(i18n.language, orgRole, roles),
+                multiple: true,
                 disabled: !formState.values.organizationId
             },
             validator: validators.requiredField(t)

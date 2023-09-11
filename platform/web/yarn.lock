@@ -2973,13 +2973,14 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@smartb/apikey-domain@0.15.0-1693469731651":
-  version "0.15.0-1693469731651"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/apikey-domain/-/@smartb/apikey-domain-0.15.0-1693469731651.tgz#60e0ed05dc971ecf14cdc111d2246799b8829ed9"
-  integrity sha1-YODtBdyXHs8UzcER0iRnmbiCntk=
+"@smartb/apikey-domain@0.15.0-experimental.1694441779280":
+  version "0.15.0-experimental.1694441779280"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/apikey-domain/-/@smartb/apikey-domain-0.15.0-experimental.1694441779280.tgz#26f4ded0e2ea148401573c4c757240396836112d"
+  integrity sha1-JvTe0OLqFIQBVzxMdXJAOWg2ES0=
   dependencies:
     "@js-joda/core" "3.2.0"
     abort-controller "3.0.0"
+    format-util "^1.0.5"
     node-fetch "2.6.7"
     ws "8.5.0"
 
@@ -3197,33 +3198,36 @@
     "@smartb/g2-themes" "1.0.0-alpha.172"
     "@smartb/g2-utils" "1.0.0-alpha.172"
 
-"@smartb/organization-domain@0.15.0-1693469731651":
-  version "0.15.0-1693469731651"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/organization-domain/-/@smartb/organization-domain-0.15.0-1693469731651.tgz#2bc3e57a5363a9c891db1c0217e932b210b40aaa"
-  integrity sha1-K8PlelNjqciR2xwCF+kyshC0Cqo=
+"@smartb/organization-domain@0.15.0-experimental.1694441779280":
+  version "0.15.0-experimental.1694441779280"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/organization-domain/-/@smartb/organization-domain-0.15.0-experimental.1694441779280.tgz#9e311550062c6733590a7f88171afafe9d900ece"
+  integrity sha1-njEVUAYsZzNZCn+IFxr6/p2QDs4=
   dependencies:
     "@js-joda/core" "3.2.0"
     abort-controller "3.0.0"
+    format-util "^1.0.5"
     node-fetch "2.6.7"
     ws "8.5.0"
 
-"@smartb/privilege-domain@0.15.0-1693404895741":
-  version "0.15.0-1693404895741"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/privilege-domain/-/@smartb/privilege-domain-0.15.0-1693404895741.tgz#e4748c0a2c036a25713af00d0d4f71c48beaf2ec"
-  integrity sha1-5HSMCiwDaiVxOvANDU9xxIvq8uw=
+"@smartb/privilege-domain@0.15.0-experimental.1694441779280":
+  version "0.15.0-experimental.1694441779280"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/privilege-domain/-/@smartb/privilege-domain-0.15.0-experimental.1694441779280.tgz#d95a7f5502769419d40655d0b090e17483fbdd0a"
+  integrity sha1-2Vp/VQJ2lBnUBlXQsJDhdIP73Qo=
   dependencies:
     "@js-joda/core" "3.2.0"
     abort-controller "3.0.0"
+    format-util "^1.0.5"
     node-fetch "2.6.7"
     ws "8.5.0"
 
-"@smartb/user-domain@0.15.0-1693469731651":
-  version "0.15.0-1693469731651"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/user-domain/-/@smartb/user-domain-0.15.0-1693469731651.tgz#8fc00ec0e53c4b4d472201eb0c431e2e70c05943"
-  integrity sha1-j8AOwOU8S01HIgHrDEMeLnDAWUM=
+"@smartb/user-domain@0.15.0-experimental.1694441779280":
+  version "0.15.0-experimental.1694441779280"
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/user-domain/-/@smartb/user-domain-0.15.0-experimental.1694441779280.tgz#438f14361cfdca05ca183c8d0f304cd13a03e9b6"
+  integrity sha1-Q48UNhz9ygXKGDyNDzBM0ToD6bY=
   dependencies:
     "@js-joda/core" "3.2.0"
     abort-controller "3.0.0"
+    format-util "^1.0.5"
     node-fetch "2.6.7"
     ws "8.5.0"
 
@@ -9680,6 +9684,11 @@ form-data@^3.0.0:
     asynckit "^0.4.0"
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
+
+format-util@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/format-util/-/format-util-1.0.5.tgz#1ffb450c8a03e7bccffe40643180918cc297d271"
+  integrity sha512-varLbTj0e0yVyRpqQhuWV+8hlePAgaoFRhNFj50BNjEIrw1/DphHSObtqwskVCPWNgzwPoQrZAbfa/SBiicNeg==
 
 format@^0.2.0:
   version "0.2.2"

@@ -1,8 +1,3 @@
+import { city } from "@smartb/apikey-domain"
 
-export type ApiKeyId = string
-export interface ApiKeyDTO {
-  id: string
-  name: string
-  identifier: string
-  creationDate: number
-}
+export interface ApiKeyDTO extends city.smartb.im.apikey.domain.model.ApiKeyDTO {}

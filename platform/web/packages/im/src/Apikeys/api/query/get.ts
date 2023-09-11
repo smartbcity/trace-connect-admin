@@ -1,19 +1,11 @@
-import {OrganizationId, QueryParams, useQueryRequest} from "@smartb/g2";
-import {ApiKeyDTO, ApiKeyId} from "../model";
+import { QueryParams, useQueryRequest} from "@smartb/g2";
 import {useAuthenticatedRequest} from "../../config";
+import { city } from "@smartb/apikey-domain"
 
+export interface ApiKeyGetQuery extends city.smartb.im.apikey.domain.query.ApiKeyGetQueryDTO {}
 
-export interface ApiKeyGetQuery {
-    id: ApiKeyId,
-    /**
-     * Identifier of the organizationId.
-     */
-    organizationId: OrganizationId
-}
+export interface ApiKeyGetResult extends city.smartb.im.apikey.domain.query.ApiKeyGetResultDTO {}
 
-export interface ApiKeyGetResult {
-    item?: ApiKeyDTO
-}
 
 export const useApiKeyGetQuery = (params: QueryParams<ApiKeyGetQuery, ApiKeyGetResult>) => {
     const requestProps = useAuthenticatedRequest()
