@@ -1,6 +1,6 @@
 import { Action, i2Config, Page, Section, LinkButton, validators, Button } from '@smartb/g2';
 import { UserFactory, useGetOrganizationRefs, userExistsByEmail, useUserFormState, UserFactoryFieldsOverride, useUserDisable2, User } from '@smartb/g2-i2-v2';
-import { LanguageSelector, OrgRoles, PageHeaderObject, getUserRolesOptions, useExtendedAuth, useRoutesDefinition } from "components";
+import { LanguageSelector, PageHeaderObject, getUserRolesOptions, useExtendedAuth, useRoutesDefinition } from "components";
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
@@ -16,15 +16,15 @@ export interface UserProfilePageProps {
 
 export const UserProfilePage = (props: UserProfilePageProps) => {
     const { readOnly, myProfil = false } = props
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [searchParams] = useSearchParams()
     const { userId } = useParams();
     const navigate = useNavigate()
-    const { keycloak, service } = useExtendedAuth()
+    const { keycloak, service, roles, policies } = useExtendedAuth()
     const getOrganizationRefs = useGetOrganizationRefs({ jwt: keycloak.token })
     const isUpdate = !!userId || myProfil
-    const policies = usePolicies({ myProfil: myProfil })
-    const isAdmin = service.isAdmin()
+    const frontPolicies = usePolicies({ myProfil: myProfil })
+    const isAdmin = service.is_im_user_write()
     const queryClient = useQueryClient()
     const { usersUserIdView, usersUserIdEdit, organizationsOrganizationIdView, users } = useRoutesDefinition()
 
@@ -88,18 +88,18 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
         }
 
         return [
-            policies.user.canDelete ? <Button onClick={() => open(user)} color="error" key="deleteButton">{t("delete")}</Button> : undefined,
-            policies.user.canUpdate ? <LinkButton to={usersUserIdEdit(user.id)} key="pageEditButton">{t("update")}</LinkButton> : undefined,
+             //@ts-ignore
+            policies.user.canDelete(user) ? <Button onClick={() => open(user)} color="error" key="deleteButton">{t("delete")}</Button> : undefined,
+             //@ts-ignore
+            policies.user.canUpdate(user) ? <LinkButton to={usersUserIdEdit(user.id)} key="pageEditButton">{t("update")}</LinkButton> : undefined,
         ]
-    }, [readOnly, user, myProfil, usersUserIdEdit, open, user, policies.user])
+    }, [readOnly, user, myProfil, usersUserIdEdit, open, userId, policies.user])
 
     const rolesOptions = useMemo(() => {
         const org = getOrganizationRefs.query.data?.items.find((org) => org.id === formState.values.memberOf)
-        return {
-            withSuperAdmin: getUserRolesOptions(t, org?.roles[0] as OrgRoles, true),
-            rolesBasic: getUserRolesOptions(t, org?.roles[0] as OrgRoles),
-        }
-    }, [t, getOrganizationRefs.query.data?.items, formState.values.memberOf])
+        const orgRole = roles?.find((role: any) => role.identifier === org?.roles[0])
+        return getUserRolesOptions(i18n.language, orgRole, roles)
+    }, [i18n.language, t, getOrganizationRefs.query.data?.items, formState.values.memberOf, roles])
 
     const getOrganizationUrl = useCallback(
         (organizationId: string) => organizationsOrganizationIdView(organizationId),
@@ -107,7 +107,8 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
     )
 
     const actions = useMemo((): Action[] | undefined => {
-        if (!readOnly && policies.user.canUpdate) {
+        //@ts-ignore
+        if (!readOnly && user &&  policies.user.canUpdate(user)) {
             return [{
                 key: "cancel",
                 label: t("cancel"),
@@ -137,20 +138,20 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
         return {
             roles: {
                 params: {
-                    options: policies.user.canSetSuperAdminRole ? rolesOptions.withSuperAdmin : rolesOptions.rolesBasic,
+                    options: rolesOptions,
                     disabled: !isUpdate && !formState.values.memberOf
                 },
-                readOnly: isUpdate && !policies.user.canUpdateRole,
+                readOnly: isUpdate && !frontPolicies.user.canUpdateRole,
                 validator: validators.requiredField(t)
             },
             memberOf: {
-                readOnly: isUpdate || !policies.user.canUpdateOrganization,
+                readOnly: isUpdate || !frontPolicies.user.canUpdateOrganization,
                 params: {
                     options: organizationOptions
                 }
             }
         }
-    }, [t, rolesOptions, isUpdate, organizationOptions, policies.user, formState.values.memberOf])
+    }, [t, rolesOptions, isUpdate, organizationOptions, frontPolicies.user, formState.values.memberOf])
 
     return (
         <Page
@@ -187,7 +188,6 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
                     userId={userId}
                     resetPasswordType={myProfil ? 'email' : isAdmin ? "forced" : undefined}
                     multipleRoles={false}
-                    readOnlyRolesOptions={rolesOptions.withSuperAdmin}
                     getOrganizationUrl={getOrganizationUrl}
                     fieldsOverride={fieldsOverride}
                     checkEmailValidity={checkEmailValidity}

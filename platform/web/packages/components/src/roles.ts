@@ -1,90 +1,131 @@
-import { Option } from "@smartb/g2"
+import { Option, QueryParams, i2Config, useQueryRequest } from "@smartb/g2"
+import { city } from "@smartb/privilege-domain"
+import { useMemo } from "react"
+import { useOidcAccessToken } from '@axa-fr/react-oidc'
 import { TFunction } from "i18next"
 
-export const userAdminRoles = [
-    "tr_orchestrator_admin",
-    "tr_project_manager_admin",
-    "tr_stakeholder_admin"
-] as const
 
-export const userBaseRoles = [
-    "tr_orchestrator_user",
-    "tr_project_manager_user",
-    "tr_stakeholder_user",
-] as const
+export interface Role extends city.smartb.im.f2.privilege.domain.role.model.RoleDTO { }
 
-export const userRoles = [
-    "super_admin",
-    ...userAdminRoles,
-    ...userBaseRoles
-] as const
+export interface Permission extends city.smartb.im.f2.privilege.domain.permission.model.PermissionDTO { }
 
+export const RoleTargetValues = city.smartb.im.f2.privilege.domain.role.model.RoleTargetValues
 
+export interface RoleListQuery extends city.smartb.im.f2.privilege.domain.role.query.RoleListQueryDTO { }
 
-export type UserRoles = typeof userRoles[number]
+export interface RoleListResult extends city.smartb.im.f2.privilege.domain.role.query.RoleListResultDTO { }
 
-export const mutableUserRoles: UserRoles[] = [...userRoles]
-
-export const userRolesColors: { [roles in UserRoles]: string } = {
-    "super_admin": "#d1b00a",
-    "tr_orchestrator_admin": "#E56643",
-    'tr_orchestrator_user': "#3041DC",
-    "tr_project_manager_admin": "#E56643",
-    "tr_project_manager_user": "#3041DC",
-    "tr_stakeholder_admin": "#E56643",
-    "tr_stakeholder_user": "#3041DC",
+export const useRoleListQuery = (params: QueryParams<RoleListQuery, RoleListResult>) => {
+    const { accessToken } = useOidcAccessToken()
+    const requestProps = useMemo(() => ({
+        url: i2Config().orgUrl,
+        jwt: accessToken
+    }), [accessToken])
+    return useQueryRequest<RoleListQuery, RoleListResult>(
+        "roleList", requestProps, params
+    )
 }
 
-export const getUserRolesOptions = (t: TFunction, orgRole?: OrgRoles, withSuperAdmin: boolean = false) => {
+export interface PermissionListQuery extends city.smartb.im.f2.privilege.domain.permission.query.PermissionListQueryDTO { }
+
+export interface PermissionListResult extends city.smartb.im.f2.privilege.domain.permission.query.PermissionListResultDTO { }
+
+export const usePermissionListQuery = (params: QueryParams<PermissionListQuery, PermissionListResult>) => {
+    const { accessToken } = useOidcAccessToken()
+    const requestProps = useMemo(() => ({
+        url: i2Config().orgUrl,
+        jwt: accessToken
+    }), [accessToken])
+    return useQueryRequest<PermissionListQuery, PermissionListResult>(
+        "permissionList", requestProps, params
+    )
+}
+
+export const getUserRoleColor = (role?: string) => role === "super_admin" ? "#d1b00a" : role?.includes("user") ? "#3041DC" : "#E56643"
+
+export const getUserRolesFilterOptions = (t: TFunction) => {
 
     const roles: Option[] = []
-    if (withSuperAdmin) {
-        roles.push({
-            key: "super_admin",
-            label: t(`roles.super_admin`) as string,
-            color: userRolesColors["super_admin"]
-        })
-    }
-    const admin = orgRole ? orgRole + "_admin" as UserRoles : "admin" as UserRoles
     roles.push({
-        key: admin,
+        key: "admin",
         label: t(`roles.admin`) as string,
-        color: userRolesColors[admin]
+        color: getUserRoleColor("admin")
     })
-    const user =  orgRole ? orgRole + "_user" as UserRoles: "user" as UserRoles
     roles.push({
-        key: user,
+        key: "user",
         label: t(`roles.user`) as string,
-        color: userRolesColors[user]
+        color: getUserRoleColor("user")
     })
     return roles
 }
 
-export const orgRoles = [
-    "tr_orchestrator",
-    "tr_project_manager",
-    "tr_stakeholder"
+export const getUserRolesOptions = (lang: string, orgRole?: Role, roles?: Role[]) => {
+    if (!roles || !orgRole) return []
+
+    const options: Option[] = []
+    const targetedUserRoles: Role[] = orgRole.bindings["USER"]
+    if (Object.keys(targetedUserRoles).length === 0) return []
+    roles.forEach((role) => {
+        if (targetedUserRoles.find((target) => target.identifier === role.identifier)) {
+            options.push({
+                key: role.identifier,
+                label: role.locale[lang],
+                color: getUserRoleColor(role.identifier)
+            })
+        }
+    })
+
+    return options
+}
+
+export const getOrgRoleColor = () => "#27848f"
+
+export const getOrgRolesOptions = (lang: string, roles?: Role[]) => {
+    if (!roles) return []
+    const options: Option[] = []
+    roles.forEach(role => {
+        if (role.targets.includes(RoleTargetValues.organization())) {
+            options.push({
+                key: role.identifier,
+                label: role.locale[lang],
+                color: getOrgRoleColor()
+            })
+        }
+    }
+    )
+    return options
+}
+
+export const getApiKeysRolesOptions = (lang: string, orgRole?: Role, roles?: Role[]) => {
+    if (!roles || !orgRole) return []
+    const targetedRoles: Role[] = orgRole.bindings["API_KEY"]
+    if (Object.keys(targetedRoles).length === 0) return []
+    const options: Option[] = []
+    roles.forEach(role => {
+        if (targetedRoles.find((target) => target.identifier === role.identifier)) {
+            options.push({
+                key: role.identifier,
+                label: role.locale[lang],
+                color: getUserRoleColor(role.identifier)
+            })
+        }
+    }
+    )
+    return options
+}
+
+export const permissions = [
+    "im_user_read",
+    "im_user_write",
+    "im_organization_read",
+    "im_organization_write_own",
+    "im_organization_write",
+    "im_role_read",
+    "im_role_write",
+    "im_apikey_read",
+    "im_apikey_write"
 ] as const
 
-export type OrgRoles = typeof orgRoles[number]
+export type Permissions = typeof permissions[number]
 
-const mutableOrgRoles: OrgRoles[] = [...orgRoles]
-
-export const orgRolesColors: { [roles in OrgRoles]: string } = {
-    "tr_orchestrator": "#27848f",
-    "tr_project_manager": "#27848f",
-    "tr_stakeholder": "#27848f"
-}
-
-export const getOrgRolesOptions = (t: TFunction) => {
-    return mutableOrgRoles.map(role => ({
-        key: role,
-        label: t("organizationRoles." + role),
-        color: orgRolesColors[role]
-    })
-    )
-}
-
-export const userEffectiveRoles = [...userRoles, ...orgRoles]
-
-export type Roles = typeof userEffectiveRoles[number]
+export const mutablePermissions: Permissions[] = [...permissions]

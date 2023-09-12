@@ -14,9 +14,9 @@ import { Chip, InputForm, useTheme } from "@smartb/g2";
 
 export const useOrganizationListPage = () => {
 
-    const { t } = useTranslation();
+    const { t , i18n} = useTranslation();
     const navigate = useNavigate()
-    const {service, keycloak} = useExtendedAuth()
+    const {service, keycloak, roles} = useExtendedAuth()
 
     const { organizationsOrganizationIdView, organizationsOrganizationIdEdit} = useRoutesDefinition()
     const theme = useTheme()
@@ -56,7 +56,7 @@ export const useOrganizationListPage = () => {
                 header: t("role"),
                 id: "roles",
                 cell: ({row}) => {
-                    return <InputForm inputType="select" value={(row.original.roles ?? [])[0]} readOnly readOnlyType="chip" options={getOrgRolesOptions(t)} />
+                    return <InputForm inputType="select" value={(row.original.roles ?? [])[0]} readOnly readOnlyType="chip" options={getOrgRolesOptions(i18n.language, roles)} />
                 },
             },
             base.columns.address,
@@ -89,7 +89,7 @@ export const useOrganizationListPage = () => {
             },
         },
         ]
-    }, [service.getPrincipalRole, base.columns])
+    }, [service.getPrincipalRole, base.columns, i18n.language, t, roles])
 
     return {
         getRowLink: getRowLink,

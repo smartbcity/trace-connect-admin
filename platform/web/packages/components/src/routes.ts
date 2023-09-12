@@ -1,25 +1,24 @@
 import { useCallback, useMemo } from "react"
-import {Roles, userAdminRoles} from "./roles"
 import { insertObjectIdsInsideRoutes, RecordCamelCase } from "@smartb/g2"
 import {useExtendedAuth} from "./auth"
+import { Permissions } from "./roles"
 
 const IMRoutesAuthorizations = {
-    "organizations": ["tr_orchestrator_admin", "super_admin"],
-    "organizations/add": ["tr_orchestrator_admin", "super_admin"],
-    "organizations/:organizationId/view": "open",
-    "organizations/:organizationId/edit": ["tr_orchestrator_admin", "super_admin"],
+    "organizations": ["im_organization_read"],
+    "organizations/add": ["im_organization_write"],
+    "organizations/:organizationId/view": ["im_organization_read"],
+    "organizations/:organizationId/edit": ["im_organization_write"],
     "myOrganization": "open",
-    "myOrganization/edit": userAdminRoles,
+    "myOrganization/edit": ["im_organization_write_own"],
     "users": "open",
-    // "users/add": [["isAdmin", "memberOf"], "super_admin", "tr_orchestrator_admin"],
-    "users/add": ["isAdmin", "super_admin", "tr_orchestrator_admin"],
+    "users/add": [["memberOf", "im_user_write"], ["im_user_write", "im_organization_write"]],
     "users/:userId/view": "open",
-    "users/:userId/edit": ["isAdmin", "super_admin", "tr_orchestrator_admin"],
+    "users/:userId/edit": ["im_user_write"],
     "myProfil": "open",
     "myProfil/edit": "open",
-    "apiKeys": [["hasOrganization", "isAdmin"], "super_admin", "tr_orchestrator_admin"],
-    "apiKeys/add": [["hasOrganization", "isAdmin"], "super_admin", "tr_orchestrator_admin"],
-    "fileList": ["tr_orchestrator_admin"]
+    "apiKeys": ["im_apikey_read"],
+    "apiKeys/add": ["im_apikey_write"],
+    "fileList": ["im_organization_write"]
 } as const
 
 const strictRoutesAuthorizations = {
@@ -29,7 +28,7 @@ const strictRoutesAuthorizations = {
 
 export type Routes = keyof typeof strictRoutesAuthorizations
 
-export type RoutesRoles = Roles | "hasOrganization" | "isAdmin" | "memberOf" | "currentUser"
+export type RoutesRoles = Permissions | "hasOrganization" | "memberOf" | "currentUser"
 export type RoutesAuthorizations = { [route: string]: RoutesRoles[] | RoutesRoles[][] | "open" }
 //@ts-ignore
 export const routesAuthorizations: RoutesAuthorizations = { ...strictRoutesAuthorizations }

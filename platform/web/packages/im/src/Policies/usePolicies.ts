@@ -10,11 +10,9 @@ export const usePolicies = (
   props?: UsePoliciesProps,
 ) => {
   const { service } = useExtendedAuth()
-  const isAdmin = service.isAdmin()
-  const isSuperAdmin = service.is_super_admin()
-  const isOrchestratorAdmin = service.is_tr_orchestrator_admin()
+  const isAdmin = service.is_im_user_write()
 
-  const hasSuperAdminRights = isSuperAdmin || isOrchestratorAdmin
+  const hasSuperAdminRights = service.is_im_organization_write()
 
   return useMemo(() => ({
     apiKeys: {
@@ -37,7 +35,6 @@ export const usePolicies = (
       canUpdateRole: ( hasSuperAdminRights && !props?.myProfil ),
       canUpdateOrganization: hasSuperAdminRights,
       canDelete: hasSuperAdminRights || isAdmin,
-      canSetSuperAdminRole: isSuperAdmin,
       canListAllUser: hasSuperAdminRights
     }
   }), [service])

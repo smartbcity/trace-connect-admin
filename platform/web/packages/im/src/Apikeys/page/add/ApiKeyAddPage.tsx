@@ -25,10 +25,11 @@ export const ApiKeyAddPage = (props: APIKeyProfilePageProps) => {
     const createdConfirmation = useCreatedConfirmationPopUp();
     const getOrganizationRefs = useGetOrganizationRefs({ jwt: keycloak.token })
 
-    const createAPIKey = useCallback(async (command: Partial<ApiKeyAddCommand>) => {
+    const createAPIKey = useCallback(async (command: ApiKeyAddCommand) => {
         const result = command.name && await apiKeyAddFunction.mutateAsync({
             organizationId: command.organizationId ?? organizationId,
-            name: command.name
+            name: command.name,
+            roles: command.roles
         });
         if (result) {
             queryClient.invalidateQueries({queryKey: ["apiKeyPage"]})
@@ -56,8 +57,6 @@ export const ApiKeyAddPage = (props: APIKeyProfilePageProps) => {
             }]
         }
     }, [readOnly, formState.submitForm])
-
-    console.log(policies.apiKeys.canCreateForAllOrg)
 
     return (
         <Page
