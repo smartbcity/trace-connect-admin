@@ -71,7 +71,8 @@ export const useUserListPage = () => {
         id: "role",
         cell: ({ row }) => {
           if (!row.original.roles) return
-          return <Chip label={t("roles." + row.original.roles[0])} color={getUserRoleColor(row.original.roles[0])} />;
+          //@ts-ignore
+          return <Chip label={t("roles." + row.original.roles[0]?.identifier)} color={getUserRoleColor(row.original.roles[0])} />;
         },
       },
       ...(policies.user.canListAllUser ? [

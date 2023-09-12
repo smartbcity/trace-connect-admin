@@ -41,11 +41,11 @@ export default function ResetPassword(props: PageProps<Extract<KcContext, { page
     const actions = useMemo((): Action[] => {
         return [{
             key: "logIn",
-            label: t("resetPassword.send"),
+            label: msg("resetPasswordSend"),
             type: "submit",
             isLoading: isLoading
         }]
-    }, [isLoading, t])
+    }, [isLoading, msg])
 
     const onSubmit = useCallback<FormEventHandler<HTMLFormElement>>(async (e) => {
         e.preventDefault();
@@ -74,12 +74,12 @@ export default function ResetPassword(props: PageProps<Extract<KcContext, { page
             <Typography
                 variant="body2"
             >
-                {t("resetPassword.instructions")}
+                {msg("resetPasswordInstructions")}
             </Typography>
             <Typography
                 variant="body2"
             >
-                {t("resetPassword.noEmailInstructions")}
+                {msg("resetPasswordNoEmailInstructions")}
             </Typography>
             <FormComposable
                 fields={fields}
@@ -92,7 +92,7 @@ export default function ResetPassword(props: PageProps<Extract<KcContext, { page
                 <Typography
                     variant="caption"
                 >
-                    {t("resetPassword.note")}
+                    {msg("resetPasswordNote")}
                 </Typography>
             </FormComposable>
             <Link sx={{ alignSelf: "flex-end" }} variant="body2" href={url.loginUrl}>{msgStr("backToLogin")}</Link>
