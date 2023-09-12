@@ -41,7 +41,7 @@ export const usePermissionListQuery = (params: QueryParams<PermissionListQuery, 
     )
 }
 
-export const getUserRoleColor = (role?: string) => role === "super_admin" ? "#d1b00a" : role?.includes("user") ? "#3041DC" : "#E56643"
+export const getUserRoleColor = (role?: string) => role === "super_admin" ? "#d1b00a" : role === "user" ? "#3041DC" : "#E56643"
 
 export const getUserRolesFilterOptions = (t: TFunction) => {
 
