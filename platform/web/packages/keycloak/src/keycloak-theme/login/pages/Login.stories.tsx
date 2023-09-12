@@ -64,6 +64,7 @@ export const WithImmutablePresetUsername: ComponentStory<typeof PageStory> = () 
     <PageStory
         kcContext={{
             login: { username: 'max.mustermann@mail.com' },
+            usernameEditDisabled: true
         }}
     />
 );
