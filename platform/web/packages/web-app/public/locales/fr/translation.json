@@ -55,9 +55,9 @@
     "tr_orchestrator": "Orchestrateur"
   },
   "organizationStatus": {
-    "VERIFIED": "Vérifié",
-    "WAITING": "En attente",
-    "REFUSED": "Refusé"
+    "VALIDATED": "Validé",
+    "PENDING": "En attente",
+    "REJECTED": "Rejeté"
   },
   "userList": {
     "create": "Ajouter un utilisateur",

@@ -2,8 +2,9 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { FormComposable, FormComposableField, FormComposableState, useTheme } from "@smartb/g2";
 import { useOrganizationFormFields } from "@smartb/g2-i2-v2";
-import { getOrgRolesOptions, useExtendedAuth } from "components";
+import { getOptionsOfStatusValues, getOrgRolesOptions, useExtendedAuth } from "components";
 import { usePolicies } from "../../../Policies/usePolicies";
+import { city } from "@smartb/organization-domain"
 
 export interface OrganizationFormProps {
     isLoading: boolean
@@ -14,7 +15,7 @@ export interface OrganizationFormProps {
     myOrganization?: boolean
 }
 
-export const OrgStatus = ["VERIFIED" , "WAITING" , "REFUSED"] as const
+export const OrgStatusValues = city.smartb.im.f2.organization.domain.model.OrganizationStatusValues
 
 export const OrganizationForm = (props: OrganizationFormProps) => {
     const { isLoading, formState, readOnly, isUpdate = false, myOrganization} = props
@@ -51,11 +52,11 @@ export const OrganizationForm = (props: OrganizationFormProps) => {
                 type: "select",
                 label: t("status"),
                 params: {
-                    options: OrgStatus.map((status) => ({
-                        key: status,
-                        label: t("organizationStatus." + status),
-                        color: status === "VERIFIED" ? theme.colors.success : status === "WAITING" ? theme.colors.warning : theme.colors.error
-                    })),
+                    options: getOptionsOfStatusValues({
+                        statusValues: OrgStatusValues,
+                        getLabel: (status) => t("organizationStatus." + status),
+                        getColor: (status) => status === OrgStatusValues.validated() ? theme.colors.success : status === OrgStatusValues.pending() ? theme.colors.warning : theme.colors.error
+                    }),
                     readOnlyType: 'chip'
                 }
             } as FormComposableField

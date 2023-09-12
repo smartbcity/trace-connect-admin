@@ -1,8 +1,8 @@
-import { getOrgRolesOptions, useCustomFilters, useExtendedAuth } from 'components'
+import { getOptionsOfStatusValues, getOrgRolesOptions, useCustomFilters, useExtendedAuth } from 'components'
 import { FilterComposableField } from '@smartb/g2'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { OrgStatus } from '../profile/OrganizationForm'
+import { OrgStatusValues } from '../profile/OrganizationForm'
 
 export const useOrganizationFilters = () => {
     const {t, i18n} = useTranslation()
@@ -33,10 +33,10 @@ export const useOrganizationFilters = () => {
             label: t("status"),
             type: 'select',
             params: {
-                options: OrgStatus.map((status) => ({
-                    key: status,
-                    label: t("organizationStatus." + status)
-                })),
+                options: getOptionsOfStatusValues({
+                    statusValues: OrgStatusValues,
+                    getLabel: (status) => t("organizationStatus." + status),
+                }),
                 multiple: true
             }
         }
