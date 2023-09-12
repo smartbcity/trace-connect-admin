@@ -36,8 +36,7 @@ export const useOrganizationFilters = () => {
                 options: getOptionsOfStatusValues({
                     statusValues: OrgStatusValues,
                     getLabel: (status) => t("organizationStatus." + status),
-                }),
-                multiple: true
+                })
             }
         }
     ], [t])
