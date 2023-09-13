@@ -12,7 +12,6 @@ import { useFileDeleteCommand } from "../../api/command/delete";
 import { Breadcrumbs, Link, Stack } from "@mui/material";
 import { NavigateNext } from "@mui/icons-material"
 import { PdfDisplayer } from "../../../PdfDisplayer";
-import { getFileExtension } from "../../components/FileListTable/FileOperations";
 import { useGoto } from '../../../../../web-app/src/App/routes/goto'
 import { useParams } from "react-router-dom";
 
@@ -120,7 +119,6 @@ export const FileListPage = () => {
         offset: Offset.default.offset, limit: Offset.default.limit
     }), [])
 
-    const isClickedFileAPdf = clickedRow && !clickedRow.isDirectory && getFileExtension(clickedRow.path.name) == "pdf"
     return(
         <Page
             headerProps={PageHeaderObject({
