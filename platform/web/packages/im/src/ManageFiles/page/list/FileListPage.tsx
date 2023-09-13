@@ -12,9 +12,8 @@ import { useFileDeleteCommand } from "../../api/command/delete";
 import { Breadcrumbs, Link, Stack } from "@mui/material";
 import { NavigateNext } from "@mui/icons-material"
 import { PdfDisplayer } from "../../../PdfDisplayer";
-import { getFileExtension } from "../../components/FileListTable/FileOperations";
-import { isEqual } from "lodash";
-
+import { useGoto } from '../../../../../web-app/src/App/routes/goto'
+import { useParams } from "react-router-dom";
 
 export const FileListPage = () => {
     const [clickedRow, setClickedRow] = useState<FileDTO | undefined>(undefined)
@@ -22,15 +21,13 @@ export const FileListPage = () => {
     const { t } = useTranslation()
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
     const [pdfFileUrl, setPdfFileUrl] = useState<string | undefined>(undefined)
-    const [browsedFilesStack, setBrowsedFilesStack] = useState<FileDTO[]>([])
+
+    const goto = useGoto()
+    const {'*': params} = useParams()
+    const [objectType, objectId, directory, name] = (params || '').split('/')
 
     const fileListPageQuery = useFileListPageQueryFunction({
-        query: {
-            objectType: clickedRow?.path.objectType!,
-            objectId: clickedRow?.path.objectId!,
-            directory: clickedRow?.path.directory!,
-            recursive: "false",
-        }
+        query: { objectType, objectId, directory, recursive: "false", }
     })
     
     const downloadFile = useFileDownloadQuery()
@@ -38,10 +35,9 @@ export const FileListPage = () => {
     
     const handleFileAction = useCallback(async (actionType: string) => {
         const isFileSelected = !!selectedFiles.length && !selectedFiles[0].isDirectory
-        const isFileOpened = !clickedRow?.isDirectory
 
-        if(isFileOpened || isFileSelected) {
-            const filePath = isFileOpened ? clickedRow?.path : selectedFiles[0].path
+        if(name || isFileSelected) {
+            const filePath = name ? {objectType, objectId, directory, name: `${name}.pdf`} : selectedFiles[0].path
 
             if(actionType === 'download') {
                 const url = await downloadFile(filePath!)
@@ -67,21 +63,23 @@ export const FileListPage = () => {
    
     
     const getFileUrl = async () => {
-        const url = await downloadFile(clickedRow?.path!)
+        const url = await downloadFile({ objectType, objectId, directory, name: `${name}.pdf`, })
         if(url) {
             setPdfFileUrl(url)
         }
     }
 
-    useEffect(() => { if(clickedRow && !clickedRow.isDirectory) { getFileUrl() } }, [clickedRow])
+    useEffect(() => { if(name) { getFileUrl() } }, [name])
     
     const onRowClicked = useCallback(
         (row: Row<FileDTO>) => {
             setClickedRow(row.original);
-            const updatedBrowsedFiles = [...browsedFilesStack, row.original]
-            setBrowsedFilesStack(updatedBrowsedFiles)
+            if(row.original.path.name) {
+                // prevent the browser to fetch the file directly from the server
+                goto.fileView(row.original.pathStr.slice(0, -4)) 
+            }else goto.fileView(row.original.pathStr)
         }, 
-        [browsedFilesStack]
+        []
     )
     
     const fileListPage: PageQueryResult<FileDTO> = useMemo(() => {
@@ -90,7 +88,7 @@ export const FileListPage = () => {
             total: 0, // Hide the pagination bar
             items: fileList
         } 
-    }, [fileListPageQuery?.data?.items, clickedRow])
+    }, [fileListPageQuery?.data?.items])
     
     useEffect(() => {
         const selectedRows = Object.keys(rowSelection).filter(key => rowSelection[key]).map(key => parseInt(key));
@@ -101,28 +99,26 @@ export const FileListPage = () => {
 
     
     const handleBreadcrumbClick = (index: number) => {
-        if(clickedRow && !isEqual(clickedRow, browsedFilesStack[index])) {
-            setClickedRow(browsedFilesStack[index])
+        if(index + 1 !== params?.split('/').length) {
             setPdfFileUrl(undefined)
-            const updatedBrowsedFiles = browsedFilesStack
-            updatedBrowsedFiles.splice(index + 1)
-            setBrowsedFilesStack(updatedBrowsedFiles)
+            const _pathStr = params?.split('/')
+            _pathStr?.splice(index + 1)
+            goto.fileView(_pathStr?.join('/')!)
         }
     }
       
     const breadcrumbs = useMemo(() => {
-        if(clickedRow) {
-            return Object.values(clickedRow?.path!).filter(el => el).map((el, index )=> (
+        if(true) {
+            return params?.split('/').map((el, index )=> (
                 <Link key={index} sx={{ cursor: 'pointer', fontSize: 12 }} color="secondary"  onClick={() => handleBreadcrumbClick(index)} >{el}</Link>    
             ))
         }
-    }, [clickedRow])
+    }, [params])
 
     const pagination = useMemo(() => ({
         offset: Offset.default.offset, limit: Offset.default.limit
     }), [])
 
-    const isClickedFileAPdf = clickedRow && !clickedRow.isDirectory && getFileExtension(clickedRow.path.name) == "pdf"
     return(
         <Page
             headerProps={PageHeaderObject({
@@ -153,7 +149,7 @@ export const FileListPage = () => {
                 <Stack
                     height="calc(100vh - 220px)"
                 >
-                {isClickedFileAPdf ? <PdfDisplayer file={pdfFileUrl} /> :
+                {name ? <PdfDisplayer file={pdfFileUrl} /> :
                     <FileListTable
                         isLoading={fileListPageQuery.isLoading}
                         page={fileListPage}

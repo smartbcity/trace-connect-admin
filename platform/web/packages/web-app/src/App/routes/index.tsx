@@ -59,7 +59,11 @@ const imPages: PageRoute[] = [{
   element: <ApiKeyAddPage readOnly={false} />
 },
 {
-  path: "fileList",
+  path: "files",
+  element: <FileListPage />
+},
+{
+  path: "files/*",
   element: <FileListPage />
 }]
 
