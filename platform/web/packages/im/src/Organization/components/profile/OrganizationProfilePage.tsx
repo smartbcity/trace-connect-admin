@@ -36,9 +36,9 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
                 id: organization.id,
                 anonymize: true
             })
-            queryClient.invalidateQueries({ queryKey: ["organizationRefList"] })
-            queryClient.invalidateQueries({ queryKey: ["organizations"] })
-            queryClient.invalidateQueries({ queryKey: ["organization"] })
+            queryClient.invalidateQueries({ queryKey: ["organizationRefs"] })
+            queryClient.invalidateQueries({ queryKey: ["organizationPage"] })
+            queryClient.invalidateQueries({ queryKey: ["organizationGet"] })
             if (res) navigate(organizations())
         }, [organizations]
     )

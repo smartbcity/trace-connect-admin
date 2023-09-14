@@ -108,7 +108,7 @@ export const useUserFormState = <T extends User = User>(
       //@ts-ignore
       onSuccess: (data, variables, context) => {
         getUser.refetch()
-        queryClient.invalidateQueries({ queryKey: ['users'] })
+        queryClient.invalidateQueries({ queryKey: ['userPage'] })
         updateUserOptions?.onSuccess &&
           updateUserOptions.onSuccess(data, variables, context)
       }
@@ -121,7 +121,7 @@ export const useUserFormState = <T extends User = User>(
       ...createUserOptions,
       //@ts-ignore
       onSuccess: (data, variables, context) => {
-        queryClient.invalidateQueries({ queryKey: ['users'] })
+        queryClient.invalidateQueries({ queryKey: ['userPage'] })
         createUserOptions?.onSuccess &&
           createUserOptions.onSuccess(data, variables, context)
       }

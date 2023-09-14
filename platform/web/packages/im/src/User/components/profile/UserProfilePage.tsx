@@ -38,16 +38,16 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
                 id: user.id,
                 anonymize: true
             })
-            queryClient.invalidateQueries({ queryKey: ["userRefList"] })
-            queryClient.invalidateQueries({ queryKey: ["users"] })
-            queryClient.invalidateQueries({ queryKey: ["user"] })
+
+            queryClient.invalidateQueries({ queryKey: ["userPage"] })
+            queryClient.invalidateQueries({ queryKey: ["userGet"] })
             if (result) {
                 navigate(users())
             }
         }, [queryClient.invalidateQueries, users]
     )
 
-    const {popup, open } = useDeleteUserPopUp({
+    const { popup, open } = useDeleteUserPopUp({
         onDeleteClick
     })
 
@@ -55,7 +55,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
         return searchParams.get('organizationId') ?? service.getUser()?.memberOf
     }, [searchParams, service.getUser])
 
-    
+
 
     const onSave = useCallback(
         (data?: {
@@ -86,9 +86,9 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
         }
 
         return [
-             //@ts-ignore
+            //@ts-ignore
             policies.user.canDelete(user) ? <Button onClick={() => open(user)} color="error" key="deleteButton">{t("delete")}</Button> : undefined,
-             //@ts-ignore
+            //@ts-ignore
             policies.user.canUpdate(user) ? <LinkButton to={usersUserIdEdit(user.id)} key="pageEditButton">{t("update")}</LinkButton> : undefined,
         ]
     }, [readOnly, user, myProfil, usersUserIdEdit, open, userId, policies.user])
@@ -106,7 +106,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
 
     const actions = useMemo((): Action[] | undefined => {
         //@ts-ignore
-        if (!readOnly && ((isUpdate && user &&  policies.user.canUpdate(user)) || (!isUpdate && policies.user.canCreate(organizationId)))) {
+        if (!readOnly && ((isUpdate && user && policies.user.canUpdate(user)) || (!isUpdate && policies.user.canCreate(organizationId)))) {
             return [{
                 key: "cancel",
                 label: t("cancel"),
@@ -191,7 +191,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
                     checkEmailValidity={checkEmailValidity}
                 />
             </Section>
-           {popup}
+            {popup}
         </Page>
     )
 }

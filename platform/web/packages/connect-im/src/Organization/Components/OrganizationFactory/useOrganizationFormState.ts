@@ -114,7 +114,7 @@ export const useOrganizationFormState = <T extends Organization = Organization>(
       onSuccess: (data, variables, context) => {
         getOrganization.refetch()
         queryClient.invalidateQueries({ queryKey: ['organizationRefs'] })
-        queryClient.invalidateQueries({ queryKey: ['organizations'] })
+        queryClient.invalidateQueries({ queryKey: ['organizationPage'] })
         updateOrganizationOptions?.onSuccess &&
           updateOrganizationOptions.onSuccess(data, variables, context)
       }
@@ -128,7 +128,7 @@ export const useOrganizationFormState = <T extends Organization = Organization>(
       //@ts-ignore
       onSuccess: (data, variables, context) => {
         queryClient.invalidateQueries({ queryKey: ['organizationRefs'] })
-        queryClient.invalidateQueries({ queryKey: ['organizations'] })
+        queryClient.invalidateQueries({ queryKey: ['organizationPage'] })
         createOrganizationOptions?.onSuccess &&
           createOrganizationOptions.onSuccess(data, variables, context)
       }
