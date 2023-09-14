@@ -1,16 +1,21 @@
 import { useExtendedAuth } from "components";
 import { useMenu, useUserMenu } from "./menu";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Outlet } from "react-router-dom";
 import { StandAloneAppLayout } from "@smartb/g2";
 
 export const App = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const menu = useMenu(t)
   const { service, keycloak } = useExtendedAuth()
   const user = useMemo(() => service.getUser(), [service.getUser])
   const { loggedMenu, notLoggedMenu } = useUserMenu(keycloak.logout, keycloak.login, t)
+
+  useEffect(() => {
+    i18n.language.includes("fr") ? i18n.changeLanguage("fr") : i18n.changeLanguage("en")
+  }, [i18n.language])
+  
 
   return (
     <StandAloneAppLayout
