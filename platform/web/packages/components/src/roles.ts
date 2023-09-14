@@ -18,7 +18,7 @@ export interface RoleListResult extends city.smartb.im.f2.privilege.domain.role.
 export const useRoleListQuery = (params: QueryParams<RoleListQuery, RoleListResult>) => {
     const { accessToken } = useOidcAccessToken()
     const requestProps = useMemo(() => ({
-        url: i2Config().orgUrl,
+        url: i2Config().url,
         jwt: accessToken
     }), [accessToken])
     return useQueryRequest<RoleListQuery, RoleListResult>(
@@ -33,7 +33,7 @@ export interface PermissionListResult extends city.smartb.im.f2.privilege.domain
 export const usePermissionListQuery = (params: QueryParams<PermissionListQuery, PermissionListResult>) => {
     const { accessToken } = useOidcAccessToken()
     const requestProps = useMemo(() => ({
-        url: i2Config().orgUrl,
+        url: i2Config().url,
         jwt: accessToken
     }), [accessToken])
     return useQueryRequest<PermissionListQuery, PermissionListResult>(

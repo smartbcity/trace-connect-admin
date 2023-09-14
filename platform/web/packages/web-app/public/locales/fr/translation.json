@@ -84,5 +84,17 @@
     "deleteMessage": "Êtes-vous sûr de vouloir supprimer cette clé d'API ? Cette action est irréversible et toute application utilisant cette clé ne pourra plus s'authentifier.",
     "created": "Clé d'API créée avec succès",
     "createdMessage": "Une fois que vous aurez fermé cette interface, vous ne pourrez plus afficher cette clé d'API. Assurez-vous de copier et de sauvegarder la clé d'API dans un endroit sûr. Si vous ne sauvegardez pas la clé, vous devrez en créer une nouvelle."
+  },
+  "http": {
+    "600": "{{errorMessage}} à cause d'un problème de connexion",
+    "401": "The name is already used",
+    "500": "{{errorMessage}} à cause d'un problème technique, si ce problème persiste contactez un administrateur",
+    "backendErrors": {
+      "409": "The name is already used"
+    },
+    "errors": {
+    },
+    "success": {
+    }
   }
 }

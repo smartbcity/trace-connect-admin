@@ -10,8 +10,7 @@ import {
   TableCellAdmin,
   getUserRoleColor
 } from "components";
-import { User, useUserColumns, useUserDisable2 } from "connect-im";
-import { i2Config } from "@smartb/g2-providers";
+import { User, useUserColumns, useUserDisable } from "connect-im";
 import { useDeleteUserPopUp } from "./useDeleteUserPopUp";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePolicies } from "../../Policies/usePolicies";
@@ -21,15 +20,13 @@ export const useUserListPage = () => {
 
   const { t } = useTranslation();
   const navigate = useNavigate()
-  const { service, keycloak } = useExtendedAuth()
+  const { service } = useExtendedAuth()
 
   const policies = usePolicies()
 
   const { usersUserIdEdit, usersUserIdView, organizationsOrganizationIdView } = useRoutesDefinition()
 
-  const userDisable = useUserDisable2({
-    apiUrl: i2Config().userUrl,
-    jwt: keycloak.token
+  const userDisable = useUserDisable({
   })
 
   const getRowLink = useCallback(

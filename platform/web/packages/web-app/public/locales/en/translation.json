@@ -94,5 +94,17 @@
   },
   "fileList": {
     "noFiles": "No files found"
+  },
+  "http": {
+    "600": "{{errorMessage}} due to a network issue",
+    "401": "The name is already used",
+    "500": "{{errorMessage}} due to a technical issue, if this error occurs again please contact an administrator",
+    "backendErrors": {
+      "409": "The name is already used"
+    },
+    "errors": {
+    },
+    "success": {
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { Action, i2Config, Page, Section, LinkButton, validators, Button } from '@smartb/g2';
-import { UserFactory, useGetOrganizationRefs, userExistsByEmail, useUserFormState, UserFactoryFieldsOverride, useUserDisable2, User } from 'connect-im';
+import { UserFactory, useGetOrganizationRefs, userExistsByEmail, useUserFormState, UserFactoryFieldsOverride, useUserDisable, User } from 'connect-im';
 import { LanguageSelector, PageHeaderObject, getUserRolesOptions, useExtendedAuth, useRoutesDefinition } from "components";
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next';
@@ -29,9 +29,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
     const { usersUserIdView, usersUserIdEdit, organizationsOrganizationIdView, users } = useRoutesDefinition()
 
 
-    const userDisable = useUserDisable2({
-        apiUrl: i2Config().userUrl,
-        jwt: keycloak.token
+    const userDisable = useUserDisable({
     })
 
     const onDeleteClick = useCallback(
@@ -108,7 +106,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
 
     const actions = useMemo((): Action[] | undefined => {
         //@ts-ignore
-        if (!readOnly && user &&  policies.user.canUpdate(user)) {
+        if (!readOnly && ((isUpdate && user &&  policies.user.canUpdate(user)) || (!isUpdate && policies.user.canCreate(organizationId)))) {
             return [{
                 key: "cancel",
                 label: t("cancel"),
@@ -120,7 +118,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
                 onClick: formState.submitForm
             }]
         }
-    }, [readOnly, formState.submitForm])
+    }, [readOnly, formState.submitForm, user, isUpdate, organizationId])
 
     const organizationOptions = useMemo(() =>
         getOrganizationRefs.query.data?.items.map(
@@ -129,7 +127,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
 
     const checkEmailValidity = useCallback(
         async (email: string) => {
-            return userExistsByEmail(email, i2Config().userUrl, keycloak.token)
+            return userExistsByEmail(email, i2Config().url, keycloak.token)
         },
         [keycloak.token]
     )

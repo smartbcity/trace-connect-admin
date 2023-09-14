@@ -4,35 +4,32 @@ import { useCallback, useMemo } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { OrganizationId } from '../../../Organization'
 import {
-  CreateUserOptions,
-  GetUsersOptions,
-  UpdateUserOptions,
   useCreateUser,
   useGetUser,
   userExistsByEmail,
-  UserUpdateEmailOptions,
   useUpdateUser,
   useUserUpdateEmail
 } from '../../Api'
-import { FlatUser, flatUserToUser, User, userToFlatUser } from '../../Domain'
+import { FlatUser, flatUserToUser, User, userToFlatUser, UserUpdatedEmailEvent, UserUpdateEmailCommand } from '../../Domain'
+import { CommandOptions, QueryOptions } from '@smartb/g2-utils'
 
 export interface UseUserFormStateProps<T extends User = User> {
   /**
    * The getUser hook options
    */
-  getUserOptions?: GetUsersOptions<T>
+  getUserOptions?: QueryOptions<{id: string}, {item: T}>
   /**
    * The updateUser hook options
    */
-  updateUserOptions?: UpdateUserOptions<T>
+  updateUserOptions?: CommandOptions<T, { id: string }>
   /**
    * The createUser hook options
    */
-  createUserOptions?: CreateUserOptions<T>
+  createUserOptions?: CommandOptions<T, { id: string }>
   /**
    * The userUpdateEmail hook options
    */
-  userUpdateEmailOptions?: UserUpdateEmailOptions
+  userUpdateEmailOptions?: CommandOptions<UserUpdateEmailCommand, UserUpdatedEmailEvent>
   /**
    * The organizationId of the user.⚠️ You have to provide it if `update` is false and the organization module is activated
    */
@@ -97,14 +94,13 @@ export const useUserFormState = <T extends User = User>(
   }, [service.getUser])
 
   const getUser = useGetUser<T>({
-    apiUrl: i2Config().userUrl,
-    jwt: keycloak.token,
-    userId: myProfile && keycloakUser ? keycloakUser.id : userId,
-    //@ts-ignore
+    query: {
+      id:( myProfile && keycloakUser ? keycloakUser.id : userId) ?? ""
+    },
     options: getUserOptions
   })
 
-  const user = useMemo(() => getUser.data, [getUser.data])
+  const user = useMemo(() => getUser.data?.item, [getUser.data])
 
   const updateUserOptionsMemo = useMemo(
     () => ({
@@ -134,29 +130,23 @@ export const useUserFormState = <T extends User = User>(
   )
 
   const updateUser = useUpdateUser({
-    apiUrl: i2Config().userUrl,
-    jwt: keycloak.token,
     options: updateUserOptionsMemo
   })
 
   const createUser = useCreateUser({
-    apiUrl: i2Config().userUrl,
-    jwt: keycloak.token,
-    options: createUserOptionsMemo,
-    organizationId: organizationId
+    options: createUserOptionsMemo
   })
 
   const updateEmail = useUserUpdateEmail({
-    apiUrl: i2Config().userUrl,
-    jwt: keycloak.token,
     options: userUpdateEmailOptions
   })
 
   const updateUserMemoized = useCallback(
-    async (user: T) => {
+    async (user: User) => {
       const results: Promise<any>[] = []
-      results.push(updateUser.mutateAsync({ ...user }))
-      if (getUser.data?.email !== user.email) {
+      //@ts-ignore
+      results.push(updateUser.mutateAsync({ ...user, memberOf: user.memberOf?.id }))
+      if (getUser.data?.item.email !== user.email) {
         results.push(
           updateEmail.mutateAsync({
             email: user.email,
@@ -171,12 +161,13 @@ export const useUserFormState = <T extends User = User>(
       }
       return true
     },
-    [updateUser.mutateAsync, updateEmail.mutateAsync, getUser.data?.email]
+    [updateUser.mutateAsync, updateEmail.mutateAsync, getUser.data?.item.email]
   )
 
   const createUserMemoized = useCallback(
-    async (user: T) => {
-      const res = await createUser.mutateAsync({ ...user })
+    async (user: User) => {
+      //@ts-ignore
+      const res = await createUser.mutateAsync({ ...user, memberOf: user.memberOf?.id ?? organizationId })
       if (res) {
         return true
       } else {
@@ -188,7 +179,7 @@ export const useUserFormState = <T extends User = User>(
 
   const checkEmailValidity = useCallback(
     async (email: string) => {
-      return userExistsByEmail(email, i2Config().userUrl, keycloak.token)
+      return userExistsByEmail(email, i2Config().url, keycloak.token)
     },
     [keycloak.token]
   )

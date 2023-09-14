@@ -1,12 +1,11 @@
 import { useTranslation } from "react-i18next";
 import {LinkProps, useNavigate} from "react-router-dom";
 import {TableCellAdmin, getOrgRolesOptions, useExtendedAuth, useRoutesDefinition} from "components";
-import {Organization, useOrganizationDisable2} from "connect-im";
+import {Organization, useOrganizationDisable} from "connect-im";
 import {useCallback, useMemo} from "react";
 import {Row} from "@tanstack/react-table";
 import {useQueryClient} from "@tanstack/react-query";
 import {G2ColumnDef} from "@smartb/g2-layout";
-import {i2Config} from "@smartb/g2-providers";
 import {useDeleteOrganizationPopUp} from "./useDeleteOrganizationPopUp";
 import { useOrganizationColumns } from "connect-im";
 import { Chip, InputForm, useTheme } from "@smartb/g2";
@@ -16,14 +15,12 @@ export const useOrganizationListPage = () => {
 
     const { t , i18n} = useTranslation();
     const navigate = useNavigate()
-    const {service, keycloak, roles} = useExtendedAuth()
+    const {service, roles} = useExtendedAuth()
 
     const { organizationsOrganizationIdView, organizationsOrganizationIdEdit} = useRoutesDefinition()
     const theme = useTheme()
 
-    const orgDisable = useOrganizationDisable2({
-        apiUrl : i2Config().orgUrl,
-        jwt : keycloak.token
+    const orgDisable = useOrganizationDisable({
     })
 
     const getRowLink = useCallback(

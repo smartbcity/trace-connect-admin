@@ -12,6 +12,7 @@ import { QueryClient } from "@tanstack/react-query"
 import { createRoot } from 'react-dom/client'
 import { AppRouter } from "App/routes";
 import { OidcConfiguration } from "@axa-fr/oidc-client";
+import { AlertHub } from "@smartb/g2";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,9 +34,9 @@ const oidcConfiguration: OidcConfiguration = {
     window.location.origin + '/authentication/silent-callback',
   scope: 'openid',
   authority: g2Config().keycloak.url + '/realms/' + g2Config().keycloak.realm,
-  service_worker_relative_url:'/OidcServiceWorker.js',
+  service_worker_relative_url: '/OidcServiceWorker.js',
   storage: localStorage,
-  service_worker_only:false,
+  service_worker_only: false,
 }
 
 root.render(
@@ -43,17 +44,25 @@ root.render(
   >
     {/* @ts-ignore */}
     <ThemeContextProvider theme={theme}>
-      <KeycloakProvider 
-      configuration={oidcConfiguration}
+      <KeycloakProvider
+        configuration={oidcConfiguration}
       >
         <OidcSecure>
           <AppProvider
             languages={languages}
             queryClient={queryClient}
           >
-            <AppRouter />
+            <AlertHub
+              autoHideDuration={3000}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center'
+              }}
+            >
+              <AppRouter />
+            </AlertHub>
           </AppProvider>
-          </OidcSecure>
+        </OidcSecure>
       </KeycloakProvider>
     </ThemeContextProvider>
   </React.StrictMode>
