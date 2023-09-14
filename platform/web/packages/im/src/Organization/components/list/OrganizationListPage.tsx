@@ -1,7 +1,7 @@
 import { PageHeaderObject, useExtendedAuth, useRoutesDefinition } from "components"
 import { Typography } from "@mui/material"
 import { Page, LinkButton } from "@smartb/g2"
-import { AutomatedOrganizationTable } from "@smartb/g2-i2-v2"
+import { AutomatedOrganizationTable } from "connect-im"
 import { useTranslation } from "react-i18next"
 import { useOrganizationFilters } from "./useOrganizationFilters"
 import { useOrganizationListPage } from "../hooks";

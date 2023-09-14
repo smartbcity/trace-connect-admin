@@ -1,5 +1,5 @@
 import { Action, i2Config, Page, Section, LinkButton, validators, Button } from '@smartb/g2';
-import { UserFactory, useGetOrganizationRefs, userExistsByEmail, useUserFormState, UserFactoryFieldsOverride, useUserDisable2, User } from '@smartb/g2-i2-v2';
+import { UserFactory, useGetOrganizationRefs, userExistsByEmail, useUserFormState, UserFactoryFieldsOverride, useUserDisable2, User } from 'connect-im';
 import { LanguageSelector, PageHeaderObject, getUserRolesOptions, useExtendedAuth, useRoutesDefinition } from "components";
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next';

@@ -6,7 +6,7 @@ import {Offset, OffsetPagination, PageQueryResult} from "template";
 import {PageHeaderObject, useExtendedAuth, useRoutesDefinition} from "components";
 import {ApiKeyDTO, useApiKeyPageQueryFunction, useApikeyRemoveFunction} from "../../api";
 import {APIKeysTable} from "../../components";
-import { useGetOrganizationRefs } from "@smartb/g2-i2-v2";
+import { useGetOrganizationRefs } from "connect-im";
 import { useApiKeysFilters } from "./useApiKeysFilters";
 
 interface APIKeysListPageProps {

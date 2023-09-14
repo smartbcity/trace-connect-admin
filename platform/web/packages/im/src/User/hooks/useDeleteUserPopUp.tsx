@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useDeletedConfirmationPopUp } from "components";
 import { Typography } from "@mui/material";
-import { User } from "@smartb/g2-i2-v2";
+import { User } from "connect-im";
 import { useCallback, useState } from "react";
 
 interface UseDeleteUserPopUpProps {

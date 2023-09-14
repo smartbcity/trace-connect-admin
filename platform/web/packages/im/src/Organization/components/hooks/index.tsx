@@ -1,14 +1,14 @@
 import { useTranslation } from "react-i18next";
 import {LinkProps, useNavigate} from "react-router-dom";
 import {TableCellAdmin, getOrgRolesOptions, useExtendedAuth, useRoutesDefinition} from "components";
-import {Organization, useOrganizationDisable2} from "@smartb/g2-i2-v2";
+import {Organization, useOrganizationDisable2} from "connect-im";
 import {useCallback, useMemo} from "react";
 import {Row} from "@tanstack/react-table";
 import {useQueryClient} from "@tanstack/react-query";
 import {G2ColumnDef} from "@smartb/g2-layout";
 import {i2Config} from "@smartb/g2-providers";
 import {useDeleteOrganizationPopUp} from "./useDeleteOrganizationPopUp";
-import { useOrganizationColumns } from "@smartb/g2-i2-v2";
+import { useOrganizationColumns } from "connect-im";
 import { Chip, InputForm, useTheme } from "@smartb/g2";
 
 
