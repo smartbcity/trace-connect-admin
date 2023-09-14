@@ -25,10 +25,8 @@ export const UserListPage = () => {
     {
       ...submittedFilters,
       roles: submittedFilters.roles ? [
-        //@ts-ignore
-        ...(submittedFilters.roles.includes("user") ? roles.filter((role) => role.indentifier.includes("user")) : []),
-         //@ts-ignore
-        ...(submittedFilters.roles.includes("admin") ? roles.filter((role) => role.indentifier.includes("admin")) : [])
+        ...(submittedFilters.roles?.includes("user") ? (roles ?? [])?.map((role) => role.identifier).filter((role) => role.includes("user")) : []),
+        ...(submittedFilters.roles?.includes("admin") ? (roles ?? [])?.map((role) => role.identifier).filter((role) => role.includes("admin")) : [])
       ] : undefined,
       organizationId: !frontPolicies.user.canListAllUser ? service.getUser()?.memberOf : undefined
     }
