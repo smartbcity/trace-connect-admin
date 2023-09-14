@@ -109,6 +109,8 @@ export const useOrganizationFormState = <T extends Organization = Organization>(
     [getOrganization.data?.item]
   )
 
+  console.log(organization)
+
   const updateOrganizationOptionsMemo = useMemo(
     () => ({
       ...updateOrganizationOptions,
@@ -200,7 +202,7 @@ export const useOrganizationFormState = <T extends Organization = Organization>(
   )
 
   const initialRoles = useMemo(() => {
-    const roles = organization?.roles ?? defaultRoles
+    const roles = organization?.roles.map((role) => role.identifier) ?? defaultRoles
     return multipleRoles ? roles : roles?.[0]
   }, [defaultRoles, organization?.roles, multipleRoles])
 
@@ -226,6 +228,8 @@ export const useOrganizationFormState = <T extends Organization = Organization>(
       initialValues: initialValues
     }
   })
+
+  console.log(formState.values)
 
   const getInseeOrganizationMemoized = useCallback(
     async (siret: string) => {

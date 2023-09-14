@@ -1,9 +1,12 @@
 export {
+  flatUserToUser,
+  userToFlatUser,
+} from './Domain'
+
+export type {
   User,
   UserPageQuery,
   UserPageResult,
-  flatUserToUser,
-  userToFlatUser,
   UserResetPasswordCommand,
   UserUpdateEmailCommand,
   UserUpdatePasswordCommand,
@@ -17,34 +20,44 @@ export * from './Api'
 
 export {
   UserFactory,
+  useUserFormFields,
+  useUserFormState
+} from './Components/UserFactory'
+
+export type {
   UserFactoryProps,
   userFieldsName,
   UseUserFormStateProps,
   UseUserFormFieldsProps,
   UserFactoryFieldsOverride,
-  useUserFormFields,
-  useUserFormState
 } from './Components/UserFactory'
 
 export {
   AutomatedUserTable,
-  AutomatedUserTableProps,
   UserTable,
-  UserTableProps,
   useUserTableState,
+  useUserColumns,
+} from './Components/UserTable'
+
+export type {
+  AutomatedUserTableProps,
+  UserTableProps,
   useUserTableStateParams,
   userTableColumns,
-  useUserColumns,
   useUserColumnsParams
 } from './Components/UserTable'
 
 export {
-  UserResetPasswordFormProps,
   UserResetPasswordForm,
   UserResetPasswordFormAutomated,
+} from './Components/UserResetPassword'
+
+export type {
+  UserResetPasswordFormProps,
   UserResetPasswordFormAutomatedProps,
   UserResetPasswordFormClasses,
   UserResetPasswordFormStyles
 } from './Components/UserResetPassword'
 
-export { UserSummary, UserSummaryProps } from './Components/UserSummary'
+export { UserSummary } from './Components/UserSummary'
+export type { UserSummaryProps } from './Components/UserSummary'

@@ -208,6 +208,11 @@ export const useUserFormState = <T extends User = User>(
     [user, multipleRoles, update, updateUserMemoized, createUserMemoized]
   )
 
+  const initialRoles = useMemo(() => {
+    const roles = user?.roles.map((role) => role.identifier) ?? defaultRoles
+    return multipleRoles ? roles : roles?.[0]
+  }, [defaultRoles, user?.roles, multipleRoles])
+
   const initialValues = useMemo(
     () => ({
       //@ts-ignore
@@ -216,15 +221,10 @@ export const useUserFormState = <T extends User = User>(
       sendResetPassword: true,
       //@ts-ignore
       ...(!!user ? userToFlatUser(user) : undefined),
-      roles: multipleRoles
-        ? user?.roles || defaultRoles
-        : // @ts-ignore
-        user?.roles && user?.roles?.length > 0
-        ? user?.roles[0]
-        : defaultRoles[0],
+      roles: initialRoles,
       ...(extendInitialValues && user ? extendInitialValues(user) : undefined)
     }),
-    [user, multipleRoles, defaultRoles, extendInitialValues]
+    [user, multipleRoles, initialRoles, extendInitialValues]
   )
 
   const formState = useFormComposable({
