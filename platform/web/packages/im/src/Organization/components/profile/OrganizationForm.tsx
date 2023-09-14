@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { FormComposable, FormComposableField, FormComposableState, useTheme } from "@smartb/g2";
-import { useOrganizationFormFields } from "@smartb/g2-i2-v2";
+import { useOrganizationFormFields } from "connect-im";
 import { getOptionsOfStatusValues, getOrgRolesOptions, useExtendedAuth } from "components";
 import { usePolicies } from "../../../Policies/usePolicies";
 import { city } from "@smartb/organization-domain"

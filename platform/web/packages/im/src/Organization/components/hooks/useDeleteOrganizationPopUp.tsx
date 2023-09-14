@@ -1,7 +1,7 @@
 import {useTranslation} from "react-i18next";
 import {useDeletedConfirmationPopUp} from "components";
 import {Typography} from "@mui/material";
-import {Organization} from "@smartb/g2-i2-v2";
+import {Organization} from "connect-im";
 import {useCallback, useState} from "react";
 
 interface useDeleteOrganizationPopUpProps{

@@ -1,5 +1,5 @@
 import { Page, LinkButton } from "@smartb/g2"
-import { AutomatedUserTable } from "@smartb/g2-i2-v2"
+import { AutomatedUserTable } from "connect-im"
 import { Typography } from "@mui/material";
 import { PageHeaderObject, useExtendedAuth, useRoutesDefinition } from "components";
 import { useTranslation } from "react-i18next";

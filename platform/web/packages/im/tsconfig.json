@@ -1,4 +1,4 @@
 {
   "extends": "../web-app/tsconfig.json",
-  "include": ["src", "../web-app/src/Themes.ts"]
+  "include": ["src"]
 }

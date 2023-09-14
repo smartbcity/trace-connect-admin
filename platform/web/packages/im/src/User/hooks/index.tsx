@@ -10,7 +10,7 @@ import {
   TableCellAdmin,
   getUserRoleColor
 } from "components";
-import { User, useUserColumns, useUserDisable2 } from "@smartb/g2-i2-v2";
+import { User, useUserColumns, useUserDisable2 } from "connect-im";
 import { i2Config } from "@smartb/g2-providers";
 import { useDeleteUserPopUp } from "./useDeleteUserPopUp";
 import { useQueryClient } from "@tanstack/react-query";

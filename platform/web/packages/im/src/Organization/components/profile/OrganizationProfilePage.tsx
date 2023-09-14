@@ -1,7 +1,7 @@
 import { PageHeaderObject, useExtendedAuth, useRoutesDefinition } from "components"
 import { Typography } from '@mui/material'
 import {Action, Page, Section, LinkButton, Button, i2Config} from '@smartb/g2'
-import {Organization, useOrganizationDisable2, useOrganizationFormState} from '@smartb/g2-i2-v2'
+import {Organization, useOrganizationDisable2, useOrganizationFormState} from 'connect-im'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
