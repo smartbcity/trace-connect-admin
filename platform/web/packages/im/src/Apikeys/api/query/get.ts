@@ -6,7 +6,6 @@ export interface ApiKeyGetQuery extends city.smartb.im.apikey.domain.query.ApiKe
 
 export interface ApiKeyGetResult extends city.smartb.im.apikey.domain.query.ApiKeyGetResultDTO {}
 
-
 export const useApiKeyGetQuery = (params: QueryParams<ApiKeyGetQuery, ApiKeyGetResult>) => {
     const requestProps = useAuthenticatedRequest()
     return useQueryRequest<ApiKeyGetQuery, ApiKeyGetResult>(
