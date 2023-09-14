@@ -99,7 +99,10 @@ export const useOrganizationFormState = <T extends Organization = Organization>(
     query: {
       id: (myOrganization ? user?.memberOf : organizationId) ?? ""
     },
-    options: getOrganizationOptions
+    options: {
+      ...getOrganizationOptions,
+      enabled: !!organizationId
+    }
   })
 
   const organization = useMemo(

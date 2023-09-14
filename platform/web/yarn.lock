@@ -2962,8 +2962,8 @@
 
 "@smartb/g2-providers@1.0.0-alpha.173":
   version "1.0.0-alpha.173"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-providers/-/@smartb/g2-providers-1.0.0-alpha.173.tgz#16d6116f8b98ad0ce8b2d21cd9997bca0b95a133"
-  integrity sha1-FtYRb4uYrQzostIc2Zl7yguVoTM=
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-providers/-/@smartb/g2-providers-1.0.0-alpha.173.tgz#3a3ffa8063025c0eeb888712d18ed48e0ed039e7"
+  integrity sha1-Oj/6gGMCXA7riIcS0Y7Ujg7QOec=
   dependencies:
     "@axa-fr/react-oidc" "^6.20.0"
     "@smartb/g2-components" "1.0.0-alpha.173"

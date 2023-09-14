@@ -97,7 +97,10 @@ export const useUserFormState = <T extends User = User>(
     query: {
       id:( myProfile && keycloakUser ? keycloakUser.id : userId) ?? ""
     },
-    options: getUserOptions
+    options: {
+      ...getUserOptions,
+      enabled: !!userId
+    }
   })
 
   const user = useMemo(() => getUser.data?.item, [getUser.data])
