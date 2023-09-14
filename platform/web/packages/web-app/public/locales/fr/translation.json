@@ -87,10 +87,10 @@
   },
   "http": {
     "600": "{{errorMessage}} à cause d'un problème de connexion",
-    "401": "The name is already used",
+    "401": "Le nom est déjà utilisé",
     "500": "{{errorMessage}} à cause d'un problème technique, si ce problème persiste contactez un administrateur",
     "backendErrors": {
-      "409": "The name is already used"
+      "409": "Le nom est déjà utilisé"
     },
     "errors": {
     },
