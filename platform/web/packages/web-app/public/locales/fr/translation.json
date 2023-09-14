@@ -87,7 +87,8 @@
   },
   "http": {
     "600": "{{errorMessage}} à cause d'un problème de connexion",
-    "401": "Le nom est déjà utilisé",
+    "401": "Vous essayez d'accéder à une ressource à laquelle vous n'êtes pas autorisé",
+    "409": "Le nom est déjà utilisé",
     "500": "{{errorMessage}} à cause d'un problème technique, si ce problème persiste contactez un administrateur",
     "backendErrors": {
       "409": "Le nom est déjà utilisé"
