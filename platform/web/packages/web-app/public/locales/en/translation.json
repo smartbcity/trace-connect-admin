@@ -104,8 +104,19 @@
       "409": "The name is already used"
     },
     "errors": {
+      "apiKeyPage": "The list of API keys could not be retrieved",
+      "apiKeyGet": "The API key could not be retrieved",
+      "apiKeyCreate": "The API key could not be created",
+      "apiKeyRemove": "The API key could not be deleted",
+      "fileList": "The list of files could not be retrieved",
+      "fileGet": "The file could not be retrieved",
+      "fileDownload": "The file could not be downloaded",
+      "fileDelete": "The file could not be deleted"
     },
     "success": {
+      "apiKeyCreate": "The API key has been created successfully",
+      "apiKeyRemove": "The API key has been deleted successfully",
+      "fileDelete": "The file has been deleted successfully"
     }
   }
 }
