@@ -39,7 +39,7 @@ export const useGetOrganizationRefs = (params?: OrganizationRefsAllParams) => {
   const { jwt, options, queryKey = 'organizationRefs' } = params ?? {}
 
   const getOrganizationRefs = useCallback(fetchOrganizationRefs(jwt), [jwt])
-//@ts-ignore
+  //@ts-ignore
   const query = useQuery([queryKey], getOrganizationRefs, options)
 
   const map = useMemo(() => {
@@ -67,7 +67,7 @@ export const usePrefetchOrganizationRefs = async (
 const fetchOrganizationRefs =
   (jwt?: string) => async (): Promise<OrganizationRefsAllResult> => {
     const res = await request<OrganizationRefsAllResult[]>({
-      url: `${i2Config().orgUrl}/organizationRefList`,
+      url: `${i2Config().url}/organizationRefList`,
       method: 'POST',
       body: '[{}]',
       jwt: jwt

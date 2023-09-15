@@ -1,20 +1,20 @@
 import { BasicProps, MergeMuiElementProps } from '@smartb/g2-themes'
 import { useState } from 'react'
 import { OrganizationTable, OrganizationTableProps } from './OrganizationTable'
-import { useGetOrganizations, GetOrganizationsOptions } from '../../Api'
-import { i2Config, useAuth } from '@smartb/g2-providers'
-import { Organization } from '../../Domain'
+import { useGetOrganizations } from '../../Api'
+import { Organization, OrganizationId } from '../../Domain'
 import {
   useOrganizationTableState,
   useOrganizationTableStateParams
 } from './useOrganizationTableState'
+import { QueryOptions } from '@smartb/g2-utils'
 
 export interface AutomatedOrganizationTableBasicProps<T extends Organization>
   extends BasicProps {
   /**
    * The getOrganizations hook options
    */
-  getOrganizationsOptions?: GetOrganizationsOptions<T>
+  getOrganizationsOptions?: QueryOptions<{id: OrganizationId}, {items: T[], total: number}>
   /**
    * Pass the current state of the filters
    */
@@ -63,17 +63,16 @@ export const AutomatedOrganizationTable = <
   } = props
 
   const [localPage, localSetPage] = useState<number>(1)
-  const { keycloak } = useAuth()
 
   const getOrganizations = useGetOrganizations<T>({
-    apiUrl: i2Config().orgUrl,
-    jwt: keycloak.token,
-    queryParams: {
+    query: {
       page: localPage - 1,
       ...filters
     },
     options: getOrganizationsOptions
   })
+
+  const total = getOrganizations.data?.total ? Math.ceil(getOrganizations.data?.total / 10) : 0
 
   const tableState = useOrganizationTableState<T>({
     organizations: getOrganizations.data?.items ?? [],
@@ -85,8 +84,8 @@ export const AutomatedOrganizationTable = <
       isLoading={!getOrganizations.isSuccess}
       tableState={tableState}
       totalPages={
-        getOrganizations.data?.total && getOrganizations.data?.total > 1
-          ? getOrganizations.data?.total
+        total && total > 1
+          ? total
           : undefined
       }
       page={page ?? localPage}

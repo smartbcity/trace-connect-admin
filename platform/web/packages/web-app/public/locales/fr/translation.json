@@ -84,5 +84,29 @@
     "deleteMessage": "Êtes-vous sûr de vouloir supprimer cette clé d'API ? Cette action est irréversible et toute application utilisant cette clé ne pourra plus s'authentifier.",
     "created": "Clé d'API créée avec succès",
     "createdMessage": "Une fois que vous aurez fermé cette interface, vous ne pourrez plus afficher cette clé d'API. Assurez-vous de copier et de sauvegarder la clé d'API dans un endroit sûr. Si vous ne sauvegardez pas la clé, vous devrez en créer une nouvelle."
+  },
+  "http": {
+    "600": "{{errorMessage}} à cause d'un problème de connexion",
+    "401": "Vous essayez d'accéder à une ressource à laquelle vous n'êtes pas autorisé",
+    "409": "Le nom est déjà utilisé",
+    "500": "{{errorMessage}} à cause d'un problème technique, si ce problème persiste contactez un administrateur",
+    "backendErrors": {
+      "409": "Le nom est déjà utilisé"
+    },
+    "errors": {
+      "apiKeyPage": "La liste des clés d'api n'a pas pu être récupérée",
+      "apiKeyGet": "La clé d'api n'a pas pu être récupérée",
+      "apiKeyCreate": "La clé d'api n'a pas pu être créée",
+      "apiKeyRemove": "La clé d'api n'a pas pu être supprimée",
+      "fileList": "La liste des fichiers n'a pas pu être récupérée",
+      "fileGet": "Le fichier n'a pas pu être récupéré",
+      "fileDownload": "Le fichier n'a pas pu être téléchargé",
+      "fileDelete": "Le fichier n'a pas pu être supprimé"
+    },
+    "success": {
+      "apiKeyCreate": "La clé d'api a bien été créée",
+      "apiKeyRemove": "La clé d'api a bien été supprimée",
+      "fileDelete": "Le fichier a bien été supprimé"
+    }
   }
 }

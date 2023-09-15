@@ -1,7 +1,6 @@
 import { Box, InputLabel, Typography } from '@mui/material'
 import { Action, Link } from '@smartb/g2-components'
 import { PopUp } from '@smartb/g2-layout'
-import { i2Config, useAuth } from '@smartb/g2-providers'
 import { BasicProps, MergeMuiElementProps } from '@smartb/g2-themes'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { useUserResetPassword } from '../../Api'
@@ -36,7 +35,6 @@ export const ChoicedResetPassword = (props: ChoicedResetPasswordProps) => {
   const [mutating, setMutating] = useState(false)
   const [error, setError] = useState(false)
   const submitRef = useRef<HTMLButtonElement>(null)
-  const { keycloak } = useAuth()
   const { t } = useTranslation()
 
   const onToggle = useCallback(() => {
@@ -44,7 +42,7 @@ export const ChoicedResetPassword = (props: ChoicedResetPasswordProps) => {
   }, [])
 
   const onSuccess = useCallback(
-     //@ts-ignore
+    //@ts-ignore
     (data, varaibles, context) => {
       setMutating(false)
       onToggle()
@@ -55,7 +53,7 @@ export const ChoicedResetPassword = (props: ChoicedResetPasswordProps) => {
   )
 
   const onMutate = useCallback(
-     //@ts-ignore
+    //@ts-ignore
     (varaibles) => {
       setMutating(true)
       userUpdatePasswordOptions?.onMutate &&
@@ -76,9 +74,6 @@ export const ChoicedResetPassword = (props: ChoicedResetPasswordProps) => {
   )
 
   const userResetPassword = useUserResetPassword({
-    apiUrl: i2Config().userUrl,
-    jwt: keycloak.token,
-     //@ts-ignore
     options: {
       ...userUpdatePasswordOptions,
       onMutate,

@@ -94,5 +94,29 @@
   },
   "fileList": {
     "noFiles": "No files found"
+  },
+  "http": {
+    "600": "{{errorMessage}} due to a network issue",
+    "401": "You are trying to access a ressource you are not authorized to",
+    "409": "The name is already used",
+    "500": "{{errorMessage}} due to a technical issue, if this error occurs again please contact an administrator",
+    "backendErrors": {
+      "409": "The name is already used"
+    },
+    "errors": {
+      "apiKeyPage": "The list of API keys could not be retrieved",
+      "apiKeyGet": "The API key could not be retrieved",
+      "apiKeyCreate": "The API key could not be created",
+      "apiKeyRemove": "The API key could not be deleted",
+      "fileList": "The list of files could not be retrieved",
+      "fileGet": "The file could not be retrieved",
+      "fileDownload": "The file could not be downloaded",
+      "fileDelete": "The file could not be deleted"
+    },
+    "success": {
+      "apiKeyCreate": "The API key has been created successfully",
+      "apiKeyRemove": "The API key has been deleted successfully",
+      "fileDelete": "The file has been deleted successfully"
+    }
   }
 }

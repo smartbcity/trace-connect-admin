@@ -1,12 +1,12 @@
 import { useCallback } from 'react'
 import { BasicProps, MergeMuiElementProps } from '@smartb/g2-themes'
-import { UserId, UserUpdatePasswordCommand } from '../../Domain'
+import { UserId, UserResetPasswordCommand, UserUpdatePasswordCommand, UserUpdatePasswordResult } from '../../Domain'
 import {
   UserResetPasswordForm,
   UserResetPasswordFormProps
 } from './UserResetPasswordForm'
-import { useUserUpdatePassword, UserUpdatePasswordOptions } from '../..'
-import { i2Config, useAuth } from '@smartb/g2-providers'
+import { useUserUpdatePassword } from '../..'
+import { CommandOptions } from '@smartb/g2-utils'
 
 export interface UserResetPasswordFormAutomatedBasicProps extends BasicProps {
   /**
@@ -16,7 +16,7 @@ export interface UserResetPasswordFormAutomatedBasicProps extends BasicProps {
   /**
    * The userUpdatePassword hook options
    */
-  userUpdatePasswordOptions?: UserUpdatePasswordOptions
+  userUpdatePasswordOptions?: CommandOptions<UserResetPasswordCommand, UserUpdatePasswordResult>
 }
 
 export type UserResetPasswordFormAutomatedProps = MergeMuiElementProps<
@@ -29,11 +29,7 @@ export const UserResetPasswordFormAutomated = (
 ) => {
   const { userId, userUpdatePasswordOptions, ...other } = props
 
-  const { keycloak } = useAuth()
-
   const userUpdatePassword = useUserUpdatePassword({
-    apiUrl: i2Config().userUrl,
-    jwt: keycloak.token,
     options: userUpdatePasswordOptions
   })
 

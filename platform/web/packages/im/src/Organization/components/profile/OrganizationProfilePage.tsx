@@ -1,7 +1,7 @@
 import { PageHeaderObject, useExtendedAuth, useRoutesDefinition } from "components"
 import { Typography } from '@mui/material'
-import {Action, Page, Section, LinkButton, Button, i2Config} from '@smartb/g2'
-import {Organization, useOrganizationDisable2, useOrganizationFormState} from 'connect-im'
+import {Action, Page, Section, LinkButton, Button} from '@smartb/g2'
+import {Organization, useOrganizationDisable, useOrganizationFormState} from 'connect-im'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -19,15 +19,14 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
     const { t } = useTranslation();
     const { organizationId } = useParams();
     const navigate = useNavigate()
-    const { service, keycloak, policies } = useExtendedAuth()
+    const { service, policies } = useExtendedAuth()
     const { organizationsOrganizationIdView, organizationsOrganizationIdEdit, organizations } = useRoutesDefinition()
 
     const orgId = myOrganization ? service.getUser()?.memberOf : organizationId
     const isUpdate = !!organizationId || myOrganization
 
-    const orgDisable = useOrganizationDisable2({
-        apiUrl : i2Config().orgUrl,
-        jwt : keycloak.token
+    const orgDisable = useOrganizationDisable({
+        
     })
     const queryClient = useQueryClient()
 
@@ -37,9 +36,9 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
                 id: organization.id,
                 anonymize: true
             })
-            queryClient.invalidateQueries({ queryKey: ["organizationRefList"] })
-            queryClient.invalidateQueries({ queryKey: ["organizations"] })
-            queryClient.invalidateQueries({ queryKey: ["organization"] })
+            queryClient.invalidateQueries({ queryKey: ["organizationRefs"] })
+            queryClient.invalidateQueries({ queryKey: ["organizationPage"] })
+            queryClient.invalidateQueries({ queryKey: ["organizationGet"] })
             if (res) navigate(organizations())
         }, [organizations]
     )

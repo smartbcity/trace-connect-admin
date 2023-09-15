@@ -4,14 +4,11 @@ import {
   FlatOrganization,
   flatOrganizationToOrganization,
   Organization,
+  OrganizationId,
   organizationToFlatOrganization
 } from '../../Domain'
 import { useQueryClient } from '@tanstack/react-query'
 import {
-  CreateOrganizationOptions,
-  GetOrganizationOptions,
-  OrganizationUploadLogoOptions,
-  UpdateOrganizationOptions,
   getInseeOrganization,
   useCreateOrganization,
   useGetOrganization,
@@ -19,6 +16,7 @@ import {
   useUpdateOrganization
 } from '../../Api'
 import { FormikFormParams, useFormComposable } from '@smartb/g2-composable'
+import { CommandOptions, CommandWithFile, QueryOptions } from '@smartb/g2-utils'
 
 export interface useOrganizationFormStateProps<
   T extends Organization = Organization
@@ -30,20 +28,20 @@ export interface useOrganizationFormStateProps<
   /**
    * The getOrganization hook options
    */
-  getOrganizationOptions?: GetOrganizationOptions<T>
+  getOrganizationOptions?: QueryOptions<{id: OrganizationId}, {item: T}>
   /**
    * The updateOrganization hook options
    */
-  updateOrganizationOptions?: UpdateOrganizationOptions<T>
+  updateOrganizationOptions?: CommandOptions<T, {id: OrganizationId}>
   /**
    * The uploadLogo hook options
    */
-  uploadLogoOptions?: OrganizationUploadLogoOptions
+  uploadLogoOptions?: CommandOptions<CommandWithFile<{id: OrganizationId}>, {id: OrganizationId}>
   /**
    * The createOrganization hook options
    */
-  createOrganizationOptions?: CreateOrganizationOptions<T>
-  /**
+  createOrganizationOptions?: CommandOptions<T, {id: OrganizationId}>
+  /**a
    * Define whether the object is updated or created
    * @default false
    */
@@ -98,18 +96,19 @@ export const useOrganizationFormState = <T extends Organization = Organization>(
   }, [service.getUser])
 
   const getOrganization = useGetOrganization<T>({
-    apiUrl: i2Config().orgUrl,
-    organizationId: myOrganization ? user?.memberOf : organizationId,
-    jwt: keycloak.token,
-    options: getOrganizationOptions
+    query: {
+      id: (myOrganization ? user?.memberOf : organizationId) ?? ""
+    },
+    options: {
+      ...getOrganizationOptions,
+      enabled: !!organizationId
+    }
   })
 
   const organization = useMemo(
     () => getOrganization.data?.item,
     [getOrganization.data?.item]
   )
-
-  console.log(organization)
 
   const updateOrganizationOptionsMemo = useMemo(
     () => ({
@@ -118,7 +117,7 @@ export const useOrganizationFormState = <T extends Organization = Organization>(
       onSuccess: (data, variables, context) => {
         getOrganization.refetch()
         queryClient.invalidateQueries({ queryKey: ['organizationRefs'] })
-        queryClient.invalidateQueries({ queryKey: ['organizations'] })
+        queryClient.invalidateQueries({ queryKey: ['organizationPage'] })
         updateOrganizationOptions?.onSuccess &&
           updateOrganizationOptions.onSuccess(data, variables, context)
       }
@@ -132,7 +131,7 @@ export const useOrganizationFormState = <T extends Organization = Organization>(
       //@ts-ignore
       onSuccess: (data, variables, context) => {
         queryClient.invalidateQueries({ queryKey: ['organizationRefs'] })
-        queryClient.invalidateQueries({ queryKey: ['organizations'] })
+        queryClient.invalidateQueries({ queryKey: ['organizationPage'] })
         createOrganizationOptions?.onSuccess &&
           createOrganizationOptions.onSuccess(data, variables, context)
       }
@@ -141,20 +140,14 @@ export const useOrganizationFormState = <T extends Organization = Organization>(
   )
 
   const updateOrganization = useUpdateOrganization({
-    apiUrl: i2Config().orgUrl,
-    jwt: keycloak.token,
     options: updateOrganizationOptionsMemo
   })
 
   const uploadLogo = useOrganizationUploadLogo({
-    apiUrl: i2Config().orgUrl,
-    jwt: keycloak.token,
     options: uploadLogoOptions
   })
 
   const createOrganization = useCreateOrganization({
-    apiUrl: i2Config().orgUrl,
-    jwt: keycloak.token,
     options: createOrganizationOptionsMemo
   })
 
@@ -229,11 +222,9 @@ export const useOrganizationFormState = <T extends Organization = Organization>(
     }
   })
 
-  console.log(formState.values)
-
   const getInseeOrganizationMemoized = useCallback(
     async (siret: string) => {
-      return getInseeOrganization(siret, i2Config().orgUrl, keycloak.token)
+      return getInseeOrganization(siret, i2Config().url, keycloak.token)
     },
     [keycloak.token]
   )
