@@ -10,10 +10,11 @@ import { Row, RowSelectionState } from '@tanstack/react-table';
 import { useFileDownloadQuery } from "../../api/query/get";
 import { useFileDeleteCommand } from "../../api/command/delete";
 import { Breadcrumbs, Link, Stack, Typography } from "@mui/material";
-import { NavigateNext } from "@mui/icons-material"
+import { Download, GridOn, NavigateNext, Upload } from "@mui/icons-material"
 import { PdfDisplayer } from "../../../PdfDisplayer";
 import { useGoto } from '../../../../../web-app/src/App/routes/goto'
 import { useParams } from "react-router-dom";
+import { useFileVectorizeCommand } from "../../api/command/vectorize";
 
 export const FileListPage = () => {
     const [selectedFiles, setSelectedFiles] = useState<FileDTO[]>([]);
@@ -25,12 +26,17 @@ export const FileListPage = () => {
     const {'*': params} = useParams()
     const [objectType, objectId, directory, name] = (params || '').split('/')
 
+    const canVectorize = useMemo(() => {
+        return selectedFiles.some(({ vectorized }) => !vectorized)
+    }, [selectedFiles])
+
     const fileListPageQuery = useFileListPageQueryFunction({
         query: { objectType, objectId, directory, recursive: "false", }
     })
     
     const downloadFile = useFileDownloadQuery()
     const fileDeleteCommand = useFileDeleteCommand()
+    const fileVectorizeCommand = useFileVectorizeCommand()
     
     const handleFileAction = useCallback(async (actionType: string) => {
         if(name || selectedFiles.length) {
@@ -55,9 +61,16 @@ export const FileListPage = () => {
                     fileListPageQuery.refetch()
                     setRowSelection({})
                 }
+            } else if(actionType === 'vectorize') {
+                const filePaths = name ? [{ path: filePath }] : selectedFiles.map(file => ({ path: file.path }))
+                const result = await fileVectorizeCommand.mutateAsync(filePaths)
+                if(result) {
+                    fileListPageQuery.refetch()
+                    setRowSelection({})
+                }
             }
         }
-    }, [selectedFiles, fileListPageQuery.refetch, fileDeleteCommand.mutateAsync, downloadFile, objectType, objectId, directory, name, goto.fileView])
+    }, [selectedFiles, fileListPageQuery.refetch, fileDeleteCommand.mutateAsync, downloadFile, objectType, objectId, directory, name, goto.fileView, fileVectorizeCommand.mutateAsync])
    
     
     const getFileUrl = async () => {
@@ -143,8 +156,10 @@ export const FileListPage = () => {
                         </Breadcrumbs>
                       ],
                       rightPart: [
-                        <Button key="downloadButton" onClick={() => handleFileAction('download')} disabled={!selectedFiles.length && !name}>{t("download")}</Button>,
-                        <Button key="deleteButton" onClick={() => setOpen(true)} disabled={!selectedFiles.length && !name}>{t("delete")}</Button>
+                        <Button key="uploadButton" sx={{color: "white"}} onClick={() => handleFileAction('upload')}  endIcon={<Upload />}> {t("uploadFile")} </Button>,
+                        <Button key="vectorizeButton" sx={{color: "white"}} onClick={() => handleFileAction('vectorize')} disabled={!canVectorize} endIcon={<GridOn />}> {t("vectorize")} </Button>,
+                        <Button key="downloadButton" sx={{color: "white"}} onClick={() => handleFileAction('download')} disabled={!selectedFiles.length && !name} endIcon={<Download />}> {t("download")} </Button>,
+                        <Button key="deleteButton" fail noDefaultIcon onClick={() => setOpen(true)} disabled={!selectedFiles.length && !name}>{t("delete")}</Button>
                       ]
                     }]
                   }}
