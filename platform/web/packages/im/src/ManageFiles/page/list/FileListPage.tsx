@@ -16,7 +16,6 @@ import { useGoto } from '../../../../../web-app/src/App/routes/goto'
 import { useParams } from "react-router-dom";
 
 export const FileListPage = () => {
-    const [clickedRow, setClickedRow] = useState<FileDTO | undefined>(undefined)
     const [selectedFiles, setSelectedFiles] = useState<FileDTO[]>([]);
     const { t } = useTranslation()
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
@@ -34,9 +33,7 @@ export const FileListPage = () => {
     const fileDeleteCommand = useFileDeleteCommand()
     
     const handleFileAction = useCallback(async (actionType: string) => {
-        const isFileSelected = !!selectedFiles.length && !selectedFiles[0].isDirectory
-
-        if(name || isFileSelected) {
+        if(name || selectedFiles.length) {
             const filePath = name ? {objectType, objectId, directory, name: `${name}.pdf`} : selectedFiles[0].path
 
             if(actionType === 'download') {
@@ -54,12 +51,13 @@ export const FileListPage = () => {
             } else if(actionType === 'delete') {
                 const result = await fileDeleteCommand.mutateAsync(filePath!)
                 if(result) {
+                    if(name) goto.fileView(params?.substring(0, params.lastIndexOf('/'))!)
                     fileListPageQuery.refetch()
                     setRowSelection({})
                 }
             }
         }
-    }, [selectedFiles, fileListPageQuery.refetch, fileDeleteCommand.mutateAsync, clickedRow, downloadFile])
+    }, [selectedFiles, fileListPageQuery.refetch, fileDeleteCommand.mutateAsync, downloadFile, objectType, objectId, directory, name, goto.fileView])
    
     
     const getFileUrl = async () => {
@@ -73,7 +71,6 @@ export const FileListPage = () => {
     
     const onRowClicked = useCallback(
         (row: Row<FileDTO>) => {
-            setClickedRow(row.original);
             if(row.original.path.name) {
                 // prevent the browser to fetch the file directly from the server
                 goto.fileView(row.original.pathStr.slice(0, -4)) 
@@ -140,8 +137,8 @@ export const FileListPage = () => {
                         </Breadcrumbs>
                       ],
                       rightPart: [
-                        <Button key="downloadButton" onClick={() => handleFileAction('download')} disabled={!selectedFiles.length && !pdfFileUrl}>{t("download")}</Button>,
-                        <Button key="deleteButton" onClick={() => handleFileAction('delete')} disabled={!selectedFiles.length && !pdfFileUrl}>{t("delete")}</Button>
+                        <Button key="downloadButton" onClick={() => handleFileAction('download')} disabled={!selectedFiles.length && !name}>{t("download")}</Button>,
+                        <Button key="deleteButton" onClick={() => handleFileAction('delete')} disabled={!selectedFiles.length && !name}>{t("delete")}</Button>
                       ]
                     }]
                   }}
