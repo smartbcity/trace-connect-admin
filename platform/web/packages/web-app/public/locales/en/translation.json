@@ -93,7 +93,9 @@
     "createdMessage": "Once you close this interface, you will not be able to view this API key again. Please ensure that you copy and save the API key in a safe location. If you do not save the key, you will need to create a new one."
   },
   "fileList": {
-    "noFiles": "No files found"
+    "noFiles": "No files found",
+    "delete": "Delete File",
+    "deleteMessage": "Are you sure you want to delete the selected files? This action is irreversible and will permanently remove the files."
   },
   "http": {
     "600": "{{errorMessage}} due to a network issue",

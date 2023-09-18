@@ -1,5 +1,5 @@
 import { Page, Section, Button } from "@smartb/g2";
-import { PageHeaderObject } from "components";
+import { PageHeaderObject, useDeletedConfirmationPopUp } from "components";
 import { useTranslation } from "react-i18next";
 import { FileListTable } from "../../components";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -9,7 +9,7 @@ import { FileDTO } from "../../api";
 import { Row, RowSelectionState } from '@tanstack/react-table';
 import { useFileDownloadQuery } from "../../api/query/get";
 import { useFileDeleteCommand } from "../../api/command/delete";
-import { Breadcrumbs, Link, Stack } from "@mui/material";
+import { Breadcrumbs, Link, Stack, Typography } from "@mui/material";
 import { NavigateNext } from "@mui/icons-material"
 import { PdfDisplayer } from "../../../PdfDisplayer";
 import { useGoto } from '../../../../../web-app/src/App/routes/goto'
@@ -79,6 +79,12 @@ export const FileListPage = () => {
         []
     )
     
+    const { popup, setOpen } = useDeletedConfirmationPopUp({
+        title: t("fileList.delete"),
+        component: <Typography sx={{ margin: (theme) => `${theme.spacing(4)} 0` }}>{t("fileList.deleteMessage")}</Typography>,
+        onDelete: async () => { await handleFileAction("delete") }
+    });
+
     const fileListPage: PageQueryResult<FileDTO> = useMemo(() => {
         const fileList = fileListPageQuery?.data?.items ?? []
         return {
@@ -138,7 +144,7 @@ export const FileListPage = () => {
                       ],
                       rightPart: [
                         <Button key="downloadButton" onClick={() => handleFileAction('download')} disabled={!selectedFiles.length && !name}>{t("download")}</Button>,
-                        <Button key="deleteButton" onClick={() => handleFileAction('delete')} disabled={!selectedFiles.length && !name}>{t("delete")}</Button>
+                        <Button key="deleteButton" onClick={() => setOpen(true)} disabled={!selectedFiles.length && !name}>{t("delete")}</Button>
                       ]
                     }]
                   }}
@@ -158,6 +164,7 @@ export const FileListPage = () => {
                 }
                 </Stack>
             </Section>
+            {popup}
         </Page>
     )
 }
