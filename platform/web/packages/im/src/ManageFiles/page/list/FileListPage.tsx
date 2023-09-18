@@ -16,6 +16,8 @@ import { useGoto } from '../../../../../web-app/src/App/routes/goto'
 import { useParams } from "react-router-dom";
 import { useFileVectorizeCommand } from "../../api/command/vectorize";
 
+type ActionType = 'download' | 'delete' | 'vectorize' | 'upload'
+
 export const FileListPage = () => {
     const [selectedFiles, setSelectedFiles] = useState<FileDTO[]>([]);
     const { t } = useTranslation()
@@ -38,7 +40,7 @@ export const FileListPage = () => {
     const fileDeleteCommand = useFileDeleteCommand()
     const fileVectorizeCommand = useFileVectorizeCommand()
     
-    const handleFileAction = useCallback(async (actionType: string) => {
+    const handleFileAction = useCallback(async (actionType: ActionType) => {
         if(name || selectedFiles.length) {
             const filePath = name ? {objectType, objectId, directory, name: `${name}.pdf`} : selectedFiles[0].path
 
@@ -62,7 +64,7 @@ export const FileListPage = () => {
                     setRowSelection({})
                 }
             } else if(actionType === 'vectorize') {
-                const filePaths = name ? [{ path: filePath }] : selectedFiles.map(file => ({ path: file.path }))
+                const filePaths = name ? [{ path: filePath }] : selectedFiles.filter(file => !file.vectorized).map(file => ({ path: file.path }))
                 const result = await fileVectorizeCommand.mutateAsync(filePaths)
                 if(result) {
                     fileListPageQuery.refetch()
