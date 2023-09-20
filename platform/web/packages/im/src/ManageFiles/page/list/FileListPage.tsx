@@ -1,4 +1,4 @@
-import { Page, Section, Button } from "@smartb/g2";
+import { Page, Section, Button, FormComposableField, FormComposable, useFormComposable } from "@smartb/g2";
 import { PageHeaderObject, useDeletedConfirmationPopUp } from "components";
 import { useTranslation } from "react-i18next";
 import { FileListTable } from "../../components";
@@ -15,6 +15,8 @@ import { PdfDisplayer } from "../../../PdfDisplayer";
 import { useGoto } from '../../../../../web-app/src/App/routes/goto'
 import { useParams } from "react-router-dom";
 import { useFileVectorizeCommand } from "../../api/command/vectorize";
+import { useFileUploadCommand } from "../../api/command/upload";
+import { useFileUploadPopUp } from "../../hooks/useFileUploadPopUp";
 
 type ActionType = 'download' | 'delete' | 'vectorize' | 'upload'
 
@@ -39,6 +41,7 @@ export const FileListPage = () => {
     const downloadFile = useFileDownloadQuery()
     const fileDeleteCommand = useFileDeleteCommand()
     const fileVectorizeCommand = useFileVectorizeCommand()
+    const fileUploadCommand = useFileUploadCommand()
     
     const handleFileAction = useCallback(async (actionType: ActionType) => {
         if(name || selectedFiles.length) {
@@ -94,11 +97,47 @@ export const FileListPage = () => {
         []
     )
     
-    const { popup, setOpen } = useDeletedConfirmationPopUp({
+    const { popup: deletePopup, setOpen: setDeleteOpen } = useDeletedConfirmationPopUp({
         title: t("fileList.delete"),
         component: <Typography sx={{ margin: (theme) => `${theme.spacing(4)} 0` }}>{t("fileList.deleteMessage")}</Typography>,
         onDelete: async () => { await handleFileAction("delete") }
     });
+
+    const onUpload = useCallback(async (values: any) => {
+        if(values && values.uploadFile) {
+            const { uploadFile } = values  
+            const result = await fileUploadCommand.mutateAsync({
+                command: {
+                    path: { objectType, objectId, directory, name: values.uploadFile.name },
+                    vectorize: false
+                },
+                files: uploadFile ? [{file: uploadFile}] : []
+            })
+            if(result) {
+                fileListPageQuery.refetch()
+                formState.resetForm()
+            }
+        }
+    }, [fileUploadCommand.mutateAsync, objectType, objectId, directory, fileListPageQuery.refetch])
+
+    const formState = useFormComposable({
+        onSubmit: onUpload
+    })
+
+    const uploadFileForm = useMemo((): FormComposableField[] => [{
+        name: "uploadFile",
+        type: "documentHandler",
+        label: t("fileList.uploadFile"),
+        params: {
+            isRequired: true
+        },
+    }], [t])
+
+    const { popup: uploadPopup, setOpen: setUploadOpen } = useFileUploadPopUp({
+        title: t("fileList.uploadFile"),
+        component: <FormComposable formState={formState} fields={uploadFileForm} />,
+        onUpload: formState.submitForm
+    })
 
     const fileListPage: PageQueryResult<FileDTO> = useMemo(() => {
         const fileList = fileListPageQuery?.data?.items ?? []
@@ -158,10 +197,10 @@ export const FileListPage = () => {
                         </Breadcrumbs>
                       ],
                       rightPart: [
-                        <Button key="uploadButton" sx={{color: "white"}} onClick={() => handleFileAction('upload')}  endIcon={<Upload />}> {t("uploadFile")} </Button>,
+                        <Button key="uploadButton" sx={{color: "white"}} onClick={() => setUploadOpen(true)} disabled={!directory || !!name} endIcon={<Upload />}> {t("uploadFile")} </Button>,
                         <Button key="vectorizeButton" sx={{color: "white"}} onClick={() => handleFileAction('vectorize')} disabled={!canVectorize} endIcon={<GridOn />}> {t("vectorize")} </Button>,
                         <Button key="downloadButton" sx={{color: "white"}} onClick={() => handleFileAction('download')} disabled={!selectedFiles.length && !name} endIcon={<Download />}> {t("download")} </Button>,
-                        <Button key="deleteButton" fail noDefaultIcon onClick={() => setOpen(true)} disabled={!selectedFiles.length && !name}>{t("delete")}</Button>
+                        <Button key="deleteButton" fail noDefaultIcon onClick={() => setDeleteOpen(true)} disabled={!selectedFiles.length && !name}>{t("delete")}</Button>
                       ]
                     }]
                   }}
@@ -181,7 +220,8 @@ export const FileListPage = () => {
                 }
                 </Stack>
             </Section>
-            {popup}
+            {deletePopup}
+            {uploadPopup}
         </Page>
     )
 }
