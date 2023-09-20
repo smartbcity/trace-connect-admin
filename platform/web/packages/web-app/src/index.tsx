@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   AppProvider,
   KeycloakProvider,
@@ -11,7 +11,7 @@ import { theme } from "Themes";
 import { QueryClient } from "@tanstack/react-query"
 import { createRoot } from 'react-dom/client'
 import { AppRouter } from "App/routes";
-import { OidcConfiguration } from "@axa-fr/oidc-client";
+import { OidcConfiguration, VanillaOidc } from "@axa-fr/oidc-client";
 import { AlertHub } from "@smartb/g2";
 
 const queryClient = new QueryClient({
@@ -46,6 +46,13 @@ root.render(
     <ThemeContextProvider theme={theme}>
       <KeycloakProvider
         configuration={oidcConfiguration}
+        sessionLostComponent={() => {
+          useEffect(() => {
+            VanillaOidc.get("default")?.loginAsync()
+          }, [])
+          
+          return <></>
+        }}
       >
         <OidcSecure>
           <AppProvider
