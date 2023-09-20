@@ -97,6 +97,7 @@
   },
   "fileList": {
     "noFiles": "No files found",
+    "uploadFile": "Upload a file",
     "delete": "Delete File",
     "deleteMessage": "Are you sure you want to delete the selected files? This action is irreversible and will permanently remove the files."
   },
@@ -116,12 +117,16 @@
       "fileList": "The list of files could not be retrieved",
       "fileGet": "The file could not be retrieved",
       "fileDownload": "The file could not be downloaded",
-      "fileDelete": "The file could not be deleted"
+      "fileDelete": "The file could not be deleted",
+      "fileVectorize": "The file could not be vectorized",
+      "fileUpload": "The file could not be uploaded"
     },
     "success": {
       "apiKeyCreate": "The API key has been created successfully",
       "apiKeyRemove": "The API key has been deleted successfully",
-      "fileDelete": "The file has been deleted successfully"
+      "fileDelete": "The file has been deleted successfully",
+      "fileVectorize": "The file has been vectorized successfully",
+      "fileUpload": "The file has been uploaded successfully"
     }
   }
 }

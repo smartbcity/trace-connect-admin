@@ -91,6 +91,7 @@
   },
   "fileList": {
     "noFiles": "Aucun fichier trouvé",
+    "uploadFile": "Charger un fichier",
     "delete": "Supprimer le fichier",
     "deleteMessage": "Êtes-vous sûr de vouloir supprimer les fichiers sélectionnés ? Cette action est irréversible et supprimera définitivement les fichiers."
   },
@@ -110,12 +111,16 @@
       "fileList": "La liste des fichiers n'a pas pu être récupérée",
       "fileGet": "Le fichier n'a pas pu être récupéré",
       "fileDownload": "Le fichier n'a pas pu être téléchargé",
-      "fileDelete": "Le fichier n'a pas pu être supprimé"
+      "fileDelete": "Le fichier n'a pas pu être supprimé",
+      "fileVectorize": "Le fichier n'a pas pu être vectoriser",
+      "fileUpload": "Le fichier n'a pas pu être charger"
     },
     "success": {
       "apiKeyCreate": "La clé d'api a bien été créée",
       "apiKeyRemove": "La clé d'api a bien été supprimée",
-      "fileDelete": "Le fichier a bien été supprimé"
+      "fileDelete": "Le fichier a bien été supprimé",
+      "fileVectorize": "Le fichier a bien été vectoriser",
+      "fileUpload": "Le fichier a bien été charger"
     }
   }
 }
