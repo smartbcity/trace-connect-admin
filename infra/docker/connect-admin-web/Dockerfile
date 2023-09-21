@@ -4,9 +4,6 @@ WORKDIR /app
 
 COPY platform/web ./
 
-ARG VERSION
-ENV REACT_APP_VERSION=$VERSION
-
 ARG CI_NPM_AUTH_TOKEN
 RUN echo -e "\
 access=public \n\
@@ -14,6 +11,8 @@ access=public \n\
 //gitlab.smartb.city/api/v4/projects/127/packages/npm/:_authToken=${CI_NPM_AUTH_TOKEN} \n\
 " > .npmrc
 
+ARG VERSION
+ENV VITE_APP_VERSION=$VERSION
 RUN yarn install
 ENV PATH /app/node_modules/.bin:$PATH
 RUN yarn workspace web-app build
