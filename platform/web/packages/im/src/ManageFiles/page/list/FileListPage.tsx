@@ -30,6 +30,10 @@ export const FileListPage = () => {
     const {'*': params} = useParams()
     const [objectType, objectId, directory, name] = (params || '').split('/')
 
+    const paramsList = useMemo(() => (
+        params?.length ? [t("home")].concat(params.split("/")) : [t("home")]
+    ), [params])
+
     const canVectorize = useMemo(() => {
         return selectedFiles.some(({ vectorized }) => !vectorized)
     }, [selectedFiles])
@@ -156,17 +160,17 @@ export const FileListPage = () => {
 
     
     const handleBreadcrumbClick = (index: number) => {
-        if(index + 1 !== params?.split('/').length) {
+        if(index + 1 !== paramsList.length) {
             setPdfFileUrl(undefined)
             const _pathStr = params?.split('/')
-            _pathStr?.splice(index + 1)
+            _pathStr?.splice(index)
             goto.fileView(_pathStr?.join('/')!)
         }
     }
       
     const breadcrumbs = useMemo(() => {
         if(true) {
-            return params?.split('/').map((el, index )=> (
+            return paramsList.map((el, index )=> (
                 <Link key={index} sx={{ cursor: 'pointer', fontSize: 12 }} color="secondary"  onClick={() => handleBreadcrumbClick(index)} >{el}</Link>    
             ))
         }
@@ -192,6 +196,7 @@ export const FileListPage = () => {
                             separator={<NavigateNext fontSize="small" />}
                             aria-label="breadcrumb"
                             sx={{userSelect: 'none'}}
+                            key="files"
                             >
                             {breadcrumbs}
                         </Breadcrumbs>

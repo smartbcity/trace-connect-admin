@@ -46,6 +46,7 @@
   "closeOrganization": "Close organization",
   "status": "Status",
   "manageFiles": "Manage Files",
+  "home": "Home",
   "roles": {
     "super_admin": "Super Admin",
     "admin": "Admin",
