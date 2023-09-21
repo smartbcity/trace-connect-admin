@@ -60,7 +60,7 @@
   },
   "organizationStatus": {
     "VALIDATED": "Validé",
-    "PENDING": "En attente",
+    "PENDING": "En attente de vérification",
     "REJECTED": "Rejeté"
   },
   "userList": {
