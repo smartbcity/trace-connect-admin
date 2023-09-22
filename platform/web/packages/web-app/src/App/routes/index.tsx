@@ -46,10 +46,10 @@ const imPages: PageRoute[] = [{
   element: <UserProfilePage readOnly={false} />
 }, {
   path: "myProfil",
-  element: <UserProfilePage myProfil readOnly />
+  element: <UserProfilePage myProfile readOnly />
 }, {
   path: "myProfil/edit",
-  element: <UserProfilePage myProfil readOnly={false} />
+  element: <UserProfilePage myProfile readOnly={false} />
 }, {
   path: "apiKeys",
   element: <ApikeyListPage />

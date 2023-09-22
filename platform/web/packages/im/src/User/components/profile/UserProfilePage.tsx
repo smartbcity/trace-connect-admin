@@ -11,19 +11,20 @@ import { useQueryClient } from '@tanstack/react-query';
 
 export interface UserProfilePageProps {
     readOnly: boolean
-    myProfil?: boolean
+    myProfile?: boolean
 }
 
 export const UserProfilePage = (props: UserProfilePageProps) => {
-    const { readOnly, myProfil = false } = props
+    const { readOnly, myProfile = false } = props
     const { t, i18n } = useTranslation();
     const [searchParams] = useSearchParams()
-    const { userId } = useParams();
     const navigate = useNavigate()
     const { keycloak, service, roles, policies } = useExtendedAuth()
     const getOrganizationRefs = useGetOrganizationRefs({ jwt: keycloak.token })
-    const isUpdate = !!userId || myProfil
-    const frontPolicies = usePolicies({ myProfil: myProfil })
+    const { userId =   service.getUserId() } = useParams();
+    const isUpdate = !!userId || myProfile
+    const frontPolicies = usePolicies({ myProfile: myProfile })
+
     const isAdmin = service.is_im_user_write()
     const queryClient = useQueryClient()
     const { usersUserIdView, usersUserIdEdit, organizationsOrganizationIdView, users } = useRoutesDefinition()
@@ -75,7 +76,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
         },
         userId,
         update: isUpdate,
-        myProfile: myProfil,
+        myProfile: myProfile,
         multipleRoles: false,
         organizationId
     })
@@ -86,12 +87,10 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
         }
 
         return [
-            //@ts-ignore
             policies.user.canDelete(user) ? <Button onClick={() => open(user)} color="error" key="deleteButton">{t("delete")}</Button> : undefined,
-            //@ts-ignore
             policies.user.canUpdate(user) ? <LinkButton to={usersUserIdEdit(user.id)} key="pageEditButton">{t("update")}</LinkButton> : undefined,
         ]
-    }, [readOnly, user, myProfil, usersUserIdEdit, open, userId, policies.user])
+    }, [readOnly, user, myProfile, usersUserIdEdit, open, userId, policies.user])
 
     const rolesOptions = useMemo(() => {
         const org = getOrganizationRefs.query.data?.items.find((org) => org.id === formState.values.memberOf)
@@ -105,7 +104,6 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
     )
 
     const actions = useMemo((): Action[] | undefined => {
-        //@ts-ignore
         if (!readOnly && ((isUpdate && user && policies.user.canUpdate(user)) || (!isUpdate && policies.user.canCreate(organizationId)))) {
             return [{
                 key: "cancel",
@@ -150,11 +148,11 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
             }
         }
     }, [t, rolesOptions, isUpdate, organizationOptions, frontPolicies.user, formState.values.memberOf])
-
+    console.log("user", user)
     return (
         <Page
             headerProps={PageHeaderObject({
-                title: myProfil ? t("profil") : t("users"),
+                title: myProfile ? t("profil") : t("users"),
                 titleProps: { sx: { flexShrink: 0 } },
                 rightPart: headerRightPart
             })}
@@ -167,7 +165,7 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
                 gap: (theme) => theme.spacing(2),
                 position: "relative"
             }}>
-                {myProfil && <Box
+                {myProfile && <Box
                     sx={{
                         position: "absolute",
                         top: "5px",
@@ -181,10 +179,10 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
                     formState={formState}
                     update={isUpdate}
                     isLoading={isLoading}
-                    user={user ?? undefined}
+                    user={user}
                     organizationId={organizationId}
                     userId={userId}
-                    resetPasswordType={myProfil ? 'email' : isAdmin ? "forced" : undefined}
+                    resetPasswordType={myProfile ? 'email' : isAdmin ? "forced" : undefined}
                     multipleRoles={false}
                     getOrganizationUrl={getOrganizationUrl}
                     fieldsOverride={fieldsOverride}

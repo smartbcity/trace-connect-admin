@@ -2,7 +2,7 @@ import {useExtendedAuth} from "components";
 import {useMemo} from "react"
 
 export interface UsePoliciesProps {
-  myProfil ?: boolean,
+  myProfile ?: boolean,
   myOrganization?: boolean
 }
 
@@ -30,9 +30,9 @@ export const usePolicies = (
       canVerify: hasSuperAdminRights,
     },
     user: {
-      canCreate: ( hasSuperAdminRights || isAdmin || props?.myProfil ),
-      canUpdate: ( hasSuperAdminRights || isAdmin || props?.myProfil ),
-      canUpdateRole: ( hasSuperAdminRights && !props?.myProfil ),
+      canCreate: ( hasSuperAdminRights || isAdmin || props?.myProfile ),
+      canUpdate: ( hasSuperAdminRights || isAdmin || props?.myProfile ),
+      canUpdateRole: ( hasSuperAdminRights && !props?.myProfile ),
       canUpdateOrganization: hasSuperAdminRights,
       canDelete: hasSuperAdminRights || isAdmin,
       canListAllUser: hasSuperAdminRights
