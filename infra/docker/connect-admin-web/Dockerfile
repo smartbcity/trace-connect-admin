@@ -15,6 +15,7 @@ ARG VERSION
 ENV VITE_APP_VERSION=$VERSION
 RUN yarn install
 ENV PATH /app/node_modules/.bin:$PATH
+ENV NODE_OPTIONS=--max-old-space-size=4096
 RUN yarn workspace web-app build
 
 FROM nginx:1.25.1-alpine
