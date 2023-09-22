@@ -9,7 +9,7 @@ import { city } from "@smartb/organization-domain"
 export interface OrganizationFormProps {
     isLoading: boolean
     formState: FormComposableState
-    readOnly: boolean
+    readOnly?: boolean
     isUpdate?: boolean
     canVerify?: boolean
     myOrganization?: boolean
@@ -18,7 +18,7 @@ export interface OrganizationFormProps {
 export const OrgStatusValues = city.smartb.im.f2.organization.domain.model.OrganizationStatusValues
 
 export const OrganizationForm = (props: OrganizationFormProps) => {
-    const { isLoading, formState, readOnly, isUpdate = false, myOrganization} = props
+    const { isLoading, formState, readOnly = false, isUpdate = false, myOrganization} = props
     const { t, i18n } = useTranslation();
     const { roles } = useExtendedAuth()
     const rolesOptions = useMemo(() => getOrgRolesOptions(i18n.language, roles), [i18n.language, roles])
@@ -46,7 +46,7 @@ export const OrganizationForm = (props: OrganizationFormProps) => {
             fullRow: !(readOnly || policies.organization.canUpdateRoles),
         },
         ...(readOnly || policies.organization.canUpdateRoles ? [fields.fields.roles] : []),
-        ...(isUpdate && policies.organization.canVerify ? [
+        ...(policies.organization.canVerify ? [
             {
                 name: "status",
                 type: "select",
