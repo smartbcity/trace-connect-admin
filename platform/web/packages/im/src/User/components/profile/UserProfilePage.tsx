@@ -29,7 +29,6 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
     const queryClient = useQueryClient()
     const { usersUserIdView, usersUserIdEdit, organizationsOrganizationIdView, users } = useRoutesDefinition()
 
-
     const userDisable = useUserDisable({
     })
 

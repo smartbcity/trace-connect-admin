@@ -17,16 +17,15 @@ export interface OrganizationProfilePageProps {
 export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => {
     const { readOnly, myOrganization = false } = props
     const { t } = useTranslation();
-    const { organizationId } = useParams();
-    const navigate = useNavigate()
     const { service, policies } = useExtendedAuth()
+    const { organizationId = service.getUser()?.memberOf } = useParams();
+    const navigate = useNavigate()
     const { organizationsOrganizationIdView, organizationsOrganizationIdEdit, organizations } = useRoutesDefinition()
 
     const orgId = myOrganization ? service.getUser()?.memberOf : organizationId
     const isUpdate = !!organizationId || myOrganization
 
     const orgDisable = useOrganizationDisable({
-        
     })
     const queryClient = useQueryClient()
 
