@@ -3,8 +3,10 @@ import { Route, useParams, useSearchParams } from "react-router-dom";
 import { Routes, useExtendedAuth } from "components";
 import { App } from "App";
 import {
+  OrganizationCreationPage,
   OrganizationListPage,
   OrganizationProfilePage,
+  OrganizationUpdatePage,
   UserListPage,
   UserProfilePage,
 } from "im"
@@ -19,19 +21,19 @@ const imPages: PageRoute[] = [{
   element: <OrganizationListPage />
 }, {
   path: "organizations/add",
-  element: <OrganizationProfilePage readOnly={false} />
+  element: <OrganizationCreationPage />
 }, {
   path: "organizations/:organizationId/view",
-  element: <OrganizationProfilePage readOnly />
+  element: <OrganizationProfilePage  />
 }, {
   path: "organizations/:organizationId/edit",
-  element: <OrganizationProfilePage readOnly={false} />
+  element: <OrganizationUpdatePage />
 }, {
   path: "myOrganization",
-  element: <OrganizationProfilePage myOrganization readOnly />
+  element: <OrganizationProfilePage myOrganization />
 }, {
   path: "myOrganization/edit",
-  element: <OrganizationProfilePage myOrganization readOnly={false} />
+  element: <OrganizationUpdatePage myOrganization />
 }, {
   path: "users",
   element: <UserListPage />
@@ -77,7 +79,7 @@ export const AppRouter = () => {
   return (
     <Router>
       <Route path="/" element={<App />} >
-        <Route path="" element={policies.organization.canList() ? <OrganizationListPage /> : <OrganizationProfilePage myOrganization readOnly />} />
+        <Route path="" element={policies.organization.canList() ? <OrganizationListPage /> : <OrganizationProfilePage myOrganization />} />
         {pages}
       </Route >
     </Router>
