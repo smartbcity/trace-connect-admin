@@ -147,7 +147,6 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
             }
         }
     }, [t, rolesOptions, isUpdate, organizationOptions, frontPolicies.user, formState.values.memberOf])
-    console.log("user", user)
     return (
         <Page
             headerProps={PageHeaderObject({

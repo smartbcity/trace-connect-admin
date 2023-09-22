@@ -32,7 +32,7 @@ export const UserListPage = () => {
     }
   ), [frontPolicies.user.canListAllUser, submittedFilters, service.getUser, roles])
 
-  const actions = policies.user.canCreate()
+  const actions = policies.user.canCreate(service.getUser()?.memberOf)
     ? [(<LinkButton to={usersAdd()} key="pageAddButton">{t("userList.create")}</LinkButton>)]
     : []
 
