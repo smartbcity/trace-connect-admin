@@ -7,8 +7,10 @@ import {
   OrganizationListPage,
   OrganizationProfilePage,
   OrganizationUpdatePage,
+  UserCreationPage,
   UserListPage,
   UserProfilePage,
+  UserUpdatePage,
 } from "im"
 import {useMemo} from "react"
 import {ApikeyListPage} from "im/src/Apikeys/page/list";
@@ -39,19 +41,19 @@ const imPages: PageRoute[] = [{
   element: <UserListPage />
 }, {
   path: "users/add",
-  element: <UserProfilePage readOnly={false} />
+  element: <UserCreationPage />
 }, {
   path: "users/:userId/view",
-  element: <UserProfilePage readOnly />
+  element: <UserProfilePage  />
 }, {
   path: "users/:userId/edit",
-  element: <UserProfilePage readOnly={false} />
+  element: <UserUpdatePage />
 }, {
   path: "myProfil",
-  element: <UserProfilePage myProfile readOnly />
+  element: <UserProfilePage myProfile />
 }, {
   path: "myProfil/edit",
-  element: <UserProfilePage myProfile readOnly={false} />
+  element: <UserUpdatePage myProfile />
 }, {
   path: "apiKeys",
   element: <ApikeyListPage />
