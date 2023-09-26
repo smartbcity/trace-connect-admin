@@ -1,6 +1,6 @@
 import { getUserRolesOptions, useExtendedAuth, useRoutesDefinition } from 'components';
 import { UserFactoryFieldsOverride, useGetOrganizationRefs, useUserFormState, userExistsByEmail } from 'connect-im';
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { usePolicies } from '../../../Policies/usePolicies';
@@ -11,10 +11,11 @@ interface UseUserFunctionnalitiesParams {
     userId?: string
     isUpdate?: boolean
     myProfile?: boolean
+    readonly?: boolean
 }
 
 export const useUserFunctionnalities = (params?: UseUserFunctionnalitiesParams) => {
-    const { isUpdate = false, myProfile = false, organizationId, userId } = params ?? {}
+    const { isUpdate = false, myProfile = false, organizationId, userId, readonly = false } = params ?? {}
     const { t, i18n } = useTranslation();
     const navigate = useNavigate()
     const { keycloak, roles } = useExtendedAuth()
@@ -55,6 +56,10 @@ export const useUserFunctionnalities = (params?: UseUserFunctionnalitiesParams) 
         (organizationId: string) => organizationsOrganizationIdView(organizationId),
         [organizationsOrganizationIdView],
     )
+
+    useEffect(() => {
+        if (!isUpdate && !readonly) formState.setFieldValue('roles', undefined)
+    }, [formState.values.memberOf, isUpdate, readonly])
 
     const formActions = useMemo((): Action[] | undefined => {
             return [{

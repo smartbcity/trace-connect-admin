@@ -47,7 +47,8 @@ export const UserProfilePage = (props: UserProfilePageProps) => {
 
     const {formState, user, isLoading, getOrganizationUrl, fieldsOverride} = useUserFunctionnalities({
         myProfile,
-        userId
+        userId,
+        readonly: true
     })
 
     const headerRightPart = useMemo(() => {
