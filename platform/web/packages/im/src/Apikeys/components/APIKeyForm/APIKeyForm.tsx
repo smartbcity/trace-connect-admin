@@ -15,7 +15,7 @@ export const APIKeyForm = (props: APIKeyFormProps) => {
     const { readOnly, formState, orgSelect = false, orgRefs } = props
     const { t, i18n } = useTranslation();
     const { roles, service } = useExtendedAuth()
-    const organizationId = service.getUser()!!.memberOf ?? ""
+    const organizationId = service.getUser()?.memberOf
 
     const fields = useMemo((): FormComposableField<keyof ApiKeyAddCommand>[] => {
         const refId = formState.values.organizationId ? formState.values.organizationId : organizationId
