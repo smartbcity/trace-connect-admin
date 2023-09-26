@@ -7,24 +7,18 @@ export interface useCustomFiltersParams {
     filters: FilterComposableField[]
     sortOptions?: Option[]
     defaultSortKey?: string
-    withPage?: boolean
     withOffset?: boolean
     actions?: Action[]
     initialValues?: any
 }
 
 export const useCustomFilters = <T extends {} = any>(params: useCustomFiltersParams) => {
-    const { filters, withPage = true, withOffset = false, actions, initialValues, sortOptions, defaultSortKey } = params
+    const { filters, withOffset = true, actions, initialValues, sortOptions, defaultSortKey } = params
     const { t } = useTranslation()
     const onSubmit = useCallback(
         (values: any, submittedFilters: any) => {
-            if (withOffset) {
-                const pagination = Offset.default
-                if (values.offset === submittedFilters.offset) return { ...values, ...pagination }
-                return 
-            }
-            const page = withPage ? 0 : undefined
-            if (values.page === submittedFilters.page) return { ...values, page: page }
+            const pagination = withOffset ? Offset.default : undefined
+            if (values.offset === submittedFilters.offset) return { ...values, ...pagination }
         },
         [],
     )
@@ -35,8 +29,6 @@ export const useCustomFilters = <T extends {} = any>(params: useCustomFiltersPar
                 ...(withOffset ? {
                     offset: 0,
                     limit: 10
-                } : withPage ? {
-                    page: 0
                 } : undefined),
                 ...initialValues
             }
@@ -51,17 +43,10 @@ export const useCustomFilters = <T extends {} = any>(params: useCustomFiltersPar
         [setAdditionalFilter],
     )
 
-    const setPage = useCallback(
-        (newPage: number) => {
-            setAdditionalFilter("page", newPage - 1)
-        },
-        [setAdditionalFilter],
-    )
-
     const component = useMemo(() => (
         <FiltersComposable
             formState={formState}
-            filterButtonProps={{ children: t("toFilterCount", { count: withPage ? filtersCount - 2 : filtersCount }) }}
+            filterButtonProps={{ children: t("toFilterCount", { count: withOffset ? filtersCount - 2 : filtersCount }) }}
             fields={filters}
             actions={actions}
             filterStyleProps={{ color: "default", variant: "outlined" }}
@@ -74,7 +59,6 @@ export const useCustomFilters = <T extends {} = any>(params: useCustomFiltersPar
     return {
         component: component,
         submittedFilters,
-        setOffset,
-        setPage
+        setOffset
     }
 }
