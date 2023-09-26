@@ -14,12 +14,14 @@ export interface APIKeyFormProps {
 export const APIKeyForm = (props: APIKeyFormProps) => {
     const { readOnly, formState, orgSelect = false, orgRefs } = props
     const { t, i18n } = useTranslation();
-    const { roles } = useExtendedAuth()
+    const { roles, service } = useExtendedAuth()
+    const organizationId = service.getUser()?.memberOf
 
     const fields = useMemo((): FormComposableField<keyof ApiKeyAddCommand>[] => {
-        const orgRole = formState.values.organizationId ? roles?.find(
-            (role) => role.identifier === orgRefs?.find((ref) => ref.id === formState.values.organizationId)?.roles[0] 
-            ) : undefined
+        const refId = formState.values.organizationId ? formState.values.organizationId : organizationId
+        const orgRole = roles?.find(
+            (role) => role.identifier === orgRefs?.find((ref) => ref.id === refId)?.roles[0]
+        )
         return [{
             name: "name",
             type: "textField",
@@ -37,17 +39,16 @@ export const APIKeyForm = (props: APIKeyFormProps) => {
                 }))
             },
             validator: validators.requiredField(t)
-        } as FormComposableField<keyof ApiKeyAddCommand>, {
+        } as FormComposableField<keyof ApiKeyAddCommand>] : []), {
             name: 'roles',
             type: 'select',
             label: t("role"),
             params: {
                 options: getApiKeysRolesOptions(i18n.language, orgRole, roles),
                 multiple: true,
-                disabled: !formState.values.organizationId
             },
             validator: validators.requiredField(t)
-        } as FormComposableField<keyof ApiKeyAddCommand>] : [])]
+        } as FormComposableField<keyof ApiKeyAddCommand>]
     }, [t, orgSelect, orgRefs, i18n.language, roles, formState.values.organizationId])
 
     return (

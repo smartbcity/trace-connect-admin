@@ -1,5 +1,4 @@
 import { BasicProps, MergeMuiElementProps } from '@smartb/g2-themes'
-import { useState } from 'react'
 import { OrganizationTable, OrganizationTableProps } from './OrganizationTable'
 import { useGetOrganizations } from '../../Api'
 import { Organization, OrganizationId } from '../../Domain'
@@ -19,14 +18,6 @@ export interface AutomatedOrganizationTableBasicProps<T extends Organization>
    * Pass the current state of the filters
    */
   filters?: any
-  /**
-   * Override the default local page state
-   */
-  page?: number
-  /**
-   * the event called when the page changes
-   */
-  setPage?: (newPage: number) => void
   /**
    * the table state params
    */
@@ -56,23 +47,14 @@ export const AutomatedOrganizationTable = <
   const {
     filters,
     getOrganizationsOptions,
-    page,
-    setPage,
     tableStateParams,
     ...other
   } = props
 
-  const [localPage, localSetPage] = useState<number>(1)
-
   const getOrganizations = useGetOrganizations<T>({
-    query: {
-      page: localPage - 1,
-      ...filters
-    },
+    query: filters,
     options: getOrganizationsOptions
   })
-
-  const total = getOrganizations.data?.total ? Math.ceil(getOrganizations.data?.total / 10) : 0
 
   const tableState = useOrganizationTableState<T>({
     organizations: getOrganizations.data?.items ?? [],
@@ -83,13 +65,6 @@ export const AutomatedOrganizationTable = <
     <OrganizationTable<T>
       isLoading={!getOrganizations.isSuccess}
       tableState={tableState}
-      totalPages={
-        total && total > 1
-          ? total
-          : undefined
-      }
-      page={page ?? localPage}
-      setPage={setPage ?? localSetPage}
       {...other}
     />
   )

@@ -13,14 +13,6 @@ export interface UserTableBasicProps<T extends User> extends BasicProps {
    */
   totalPages?: number
   /**
-   * The current page
-   */
-  page: number
-  /**
-   * The current page
-   */
-  setPage: (newPage: number) => void
-  /**
    * The component to displauy if no user is found
    */
   noDataComponent?: JSX.Element
@@ -34,8 +26,6 @@ export type UserTableProps<T extends User = User> = MergeMuiElementProps<
 export const UserTable = <T extends User = User>(props: UserTableProps<T>) => {
   const {
     totalPages,
-    page,
-    setPage,
     noDataComponent,
     isLoading,
     tableState,
@@ -46,10 +36,7 @@ export const UserTable = <T extends User = User>(props: UserTableProps<T>) => {
     return noDataComponent
   return (
     <TableV2<T>
-      page={page}
       tableState={tableState}
-      handlePageChange={setPage}
-      totalPages={totalPages}
       variant='grounded'
       isLoading={isLoading}
       {...other}
