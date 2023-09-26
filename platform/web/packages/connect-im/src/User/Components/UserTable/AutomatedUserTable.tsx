@@ -1,5 +1,4 @@
 import { BasicProps, MergeMuiElementProps } from '@smartb/g2-themes'
-import { useState } from 'react'
 import { UserTable, UserTableProps } from './UserTable'
 import { useGetUsers } from '../../Api'
 import { User } from '../../Domain'
@@ -20,14 +19,6 @@ export interface AutomatedUserTableBasicProps<T extends User = User>
    * Pass the current state of the filters
    */
   filters?: any
-  /**
-   * Override the default local page state
-   */
-  page?: number
-  /**
-   * the event called when the page changes
-   */
-  setPage?: (newPage: number) => void
   /**
    * the table state params
    */
@@ -54,25 +45,17 @@ export const AutomatedUserTable = <T extends User = User>(
   const {
     filters,
     getUsersOptions,
-    page,
-    setPage,
     tableStateParams,
     getOrganizationUrl,
     hasOrganizations,
     ...other
   } = props
 
-  const [localPage, localSetPage] = useState<number>(1)
 
   const getUsers = useGetUsers<T>({
-    query: {
-      page: localPage - 1,
-      ...filters
-    },
+    query: filters,
     options: getUsersOptions
   })
-
-  const total = Math.ceil((getUsers.data?.total ?? 0) / 10)
 
   const tableState = useUserTableState<T>({
     users: getUsers.data?.items ?? [],
@@ -83,15 +66,8 @@ export const AutomatedUserTable = <T extends User = User>(
 
   return (
     <UserTable<T>
-      page={page ?? localPage}
-      setPage={setPage ?? localSetPage}
       isLoading={!getUsers.isSuccess}
       tableState={tableState}
-      totalPages={
-        total && total > 1
-          ? total
-          : undefined
-      }
       {...other}
     />
   )

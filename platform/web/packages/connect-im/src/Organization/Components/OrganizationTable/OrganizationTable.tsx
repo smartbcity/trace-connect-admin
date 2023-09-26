@@ -14,21 +14,9 @@ export interface OrganizationTableBasicProps<T extends Organization>
    */
   tableState: TableState<T>
   /**
-   * The current page
-   */
-  page: number
-  /**
-   * The current page
-   */
-  setPage: (newPage: number) => void
-  /**
    * The actions place on the top near the filters
    */
   tableActions?: React.ReactNode
-  /**
-   * Used for the pagination
-   */
-  totalPages?: number
 
   /**
    * The actions available on a organization
@@ -52,10 +40,7 @@ export const OrganizationTable = <T extends Organization = Organization>(
   const {
     tableState,
     getActions,
-    page,
-    setPage,
     tableActions,
-    totalPages,
     noDataComponent,
     isLoading,
     ...other
@@ -70,10 +55,7 @@ export const OrganizationTable = <T extends Organization = Organization>(
     )
   return (
     <TableV2<T>
-      page={page}
-      handlePageChange={setPage}
       tableState={tableState}
-      totalPages={totalPages}
       variant='grounded'
       isLoading={isLoading}
       {...other}
