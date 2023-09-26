@@ -1,5 +1,5 @@
 import { Page, LinkButton } from "@smartb/g2"
-import { AutomatedUserTable } from "connect-im"
+import { UserTable, useGetUsers, useUserTableState } from "connect-im"
 import { Typography } from "@mui/material";
 import { PageHeaderObject, useExtendedAuth, useRoutesDefinition } from "components";
 import { useTranslation } from "react-i18next";
@@ -7,6 +7,7 @@ import { useUserFilters } from "./useUserFilters";
 import { useUserListPage } from "../../hooks";
 import { useMemo } from "react";
 import { usePolicies } from "../../../Policies/usePolicies";
+import { FixedPagination } from "template/src/OffsetTable/FixedPagination";
 
 export const UserListPage = () => {
   const { t } = useTranslation();
@@ -17,9 +18,7 @@ export const UserListPage = () => {
 
   const frontPolicies = usePolicies()
 
-  const { component, submittedFilters, setPage } = useUserFilters({ searchOrg: frontPolicies.user.canListAllUser })
-
-  
+  const { component, submittedFilters, setOffset } = useUserFilters({ searchOrg: frontPolicies.user.canListAllUser })
 
   const filters = useMemo(() => (
     {
@@ -36,25 +35,39 @@ export const UserListPage = () => {
     ? [(<LinkButton to={usersAdd()} key="pageAddButton">{t("userList.create")}</LinkButton>)]
     : []
 
+  const getUsers = useGetUsers({
+    query: filters
+  })
+
+  const tableState = useUserTableState({
+    users: getUsers.data?.items ?? [],
+    hasOrganizations: true,
+    columns
+  })
+
+  const page = useMemo(() => ({
+    items: getUsers.data?.items ?? [],
+    total: getUsers.data?.total ?? 0
+  }), [getUsers.data])
+
   return (
     <Page
       headerProps={PageHeaderObject({
         title: t("manageUsers"),
         rightPart: actions
       })}
+      sx={{
+        marginBottom: "60px"
+      }}
     >
       {component}
-      <AutomatedUserTable
-        tableStateParams={{
-          columns
-        }}
+      <UserTable
+        isLoading={!getUsers.isSuccess}
+        tableState={tableState}
         getRowLink={getRowLink}
-        hasOrganizations
-        filters={filters}
         noDataComponent={<Typography align="center">{t("userList.noUserOrg")}</Typography>}
-        page={submittedFilters.page + 1}
-        setPage={setPage}
       />
+      <FixedPagination pagination={submittedFilters} page={page} isLoading={!getUsers.isSuccess} onOffsetChange={setOffset} />
     </Page>
   )
 };
