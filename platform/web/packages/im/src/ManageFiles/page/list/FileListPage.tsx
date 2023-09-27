@@ -47,40 +47,6 @@ export const FileListPage = () => {
     const fileVectorizeCommand = useFileVectorizeCommand()
     const fileUploadCommand = useFileUploadCommand()
     
-    const handleFileAction = useCallback(async (actionType: ActionType) => {
-        if(name || selectedFiles.length) {
-            const filePath = name ? {objectType, objectId, directory, name: `${name}.pdf`} : selectedFiles[0].path
-
-            if(actionType === 'download') {
-                const url = await downloadFile(filePath!)
-                if(url) {
-                    const link = document.createElement('a')
-                    link.href = url
-                    link.download = filePath!.name,
-                    link.click()
-                    setRowSelection({})
-                    setPdfFileUrl(url)
-                    return url;
-                }
-            
-            } else if(actionType === 'delete') {
-                const result = await fileDeleteCommand.mutateAsync(filePath!)
-                if(result) {
-                    if(name) goto.fileView(params?.substring(0, params.lastIndexOf('/'))!)
-                    fileListPageQuery.refetch()
-                    setRowSelection({})
-                }
-            } else if(actionType === 'vectorize') {
-                const filePaths = name ? [{ path: filePath }] : selectedFiles.filter(file => !file.vectorized).map(file => ({ path: file.path }))
-                const result = await fileVectorizeCommand.mutateAsync(filePaths)
-                if(result) {
-                    fileListPageQuery.refetch()
-                    setRowSelection({})
-                }
-            }
-        }
-    }, [selectedFiles, fileListPageQuery.refetch, fileDeleteCommand.mutateAsync, downloadFile, objectType, objectId, directory, name, goto.fileView, fileVectorizeCommand.mutateAsync])
-   
     
     const getFileUrl = async () => {
         const url = await downloadFile({ objectType, objectId, directory, name: `${name}.pdf`, })
@@ -91,6 +57,37 @@ export const FileListPage = () => {
 
     useEffect(() => { if(name) { getFileUrl() } }, [name])
     
+    const onDelete = useCallback(
+        async(file: FileDTO) => {
+            const result = await fileDeleteCommand.mutateAsync(file.path)
+            if(result) {
+                fileListPageQuery.refetch()
+            }
+        },
+        [fileDeleteCommand.mutateAsync, fileListPageQuery.refetch]
+    )
+    const onVectorize = useCallback(
+        async(file: FileDTO) => {
+            const result = await fileVectorizeCommand.mutateAsync({path: file.path})
+            if(result) {
+                fileListPageQuery.refetch()
+            }
+        }, 
+        [fileDeleteCommand.mutateAsync, fileListPageQuery.refetch]
+    )
+    const onDownload = useCallback(
+        async(file: FileDTO) => {
+            const url = await downloadFile(file.path)
+            if(url) {
+                const link = document.createElement('a')
+                link.href = url
+                link.download = file.path.name,
+                link.click()
+                setPdfFileUrl(url)
+                return url;
+            }
+    }, [downloadFile])
+
     const onRowClicked = useCallback(
         (row: Row<FileDTO>) => {
             if(row.original.path.name) {
@@ -101,12 +98,6 @@ export const FileListPage = () => {
         []
     )
     
-    const { popup: deletePopup, setOpen: setDeleteOpen } = useDeletedConfirmationPopUp({
-        title: t("fileList.delete"),
-        component: <Typography sx={{ margin: (theme) => `${theme.spacing(4)} 0` }}>{t("fileList.deleteMessage")}</Typography>,
-        onDelete: async () => { await handleFileAction("delete") }
-    });
-
     const onUpload = useCallback(async (values: any) => {
         if(values && values.uploadFile) {
             const { uploadFile } = values  
@@ -202,12 +193,6 @@ export const FileListPage = () => {
                             >
                             {breadcrumbs}
                         </Breadcrumbs>
-                      ],
-                      rightPart: [
-                        <Button key="uploadButton" sx={{color: "white"}} onClick={() => setUploadOpen(true)} disabled={!directory || !!name} endIcon={<Upload />}> {t("uploadFile")} </Button>,
-                        <Button key="vectorizeButton" sx={{color: "white"}} onClick={() => handleFileAction('vectorize')} disabled={!canVectorize && !name} endIcon={<GridOn />}> {t("vectorize")} </Button>,
-                        <Button key="downloadButton" sx={{color: "white"}} onClick={() => handleFileAction('download')} disabled={!selectedFiles.length && !name} endIcon={<Download />}> {t("download")} </Button>,
-                        <Button key="deleteButton" fail noDefaultIcon onClick={() => setDeleteOpen(true)} disabled={!selectedFiles.length && !name}>{t("delete")}</Button>
                       ]
                     }]
                   }}
@@ -223,11 +208,13 @@ export const FileListPage = () => {
                         onRowClicked={onRowClicked}
                         rowSelection={rowSelection}
                         onRowSelectionChange={setRowSelection}
+                        onDownload={onDownload}
+                        onVectorize={onVectorize}
+                        onDelete={onDelete}
                     />
                 }
                 </Stack>
             </Section>
-            {deletePopup}
             {uploadPopup}
         </Page>
     )
