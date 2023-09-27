@@ -20,7 +20,6 @@ import { useFileUploadPopUp } from "../../hooks/useFileUploadPopUp";
 
 
 export const FileListPage = () => {
-    const [selectedFiles, setSelectedFiles] = useState<FileDTO[]>([]);
     const { t } = useTranslation()
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
     const [pdfFileUrl, setPdfFileUrl] = useState<string | undefined>(undefined)
@@ -139,13 +138,6 @@ export const FileListPage = () => {
         } 
     }, [fileListPageQuery?.data?.items])
     
-    useEffect(() => {
-        const selectedRows = Object.keys(rowSelection).filter(key => rowSelection[key]).map(key => parseInt(key));
-        const updatedSelectedFiles = fileListPage.items.filter((_, index) => selectedRows.includes(index));
-
-        setSelectedFiles(updatedSelectedFiles);
-    }, [rowSelection, fileListPage.items]);
-
     
     const handleBreadcrumbClick = (index: number) => {
         if(index + 1 !== paramsList.length) {
