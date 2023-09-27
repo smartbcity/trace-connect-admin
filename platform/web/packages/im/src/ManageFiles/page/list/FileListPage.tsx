@@ -183,13 +183,15 @@ export const FileListPage = () => {
     return(
         <Page
             headerProps={PageHeaderObject({
-                title: t("manageFiles")
+                title: t("files"),
             })}
         >
 
             <Section
                 flexContent
+                sx={{background: "transparent"}}
                 headerProps={{
+                    sx:{ background: 'transparent' },
                     content: [{
                       leftPart: [ 
                         <Breadcrumbs
@@ -203,7 +205,7 @@ export const FileListPage = () => {
                       ],
                       rightPart: [
                         <Button key="uploadButton" sx={{color: "white"}} onClick={() => setUploadOpen(true)} disabled={!directory || !!name} endIcon={<Upload />}> {t("uploadFile")} </Button>,
-                        <Button key="vectorizeButton" sx={{color: "white"}} onClick={() => handleFileAction('vectorize')} disabled={!canVectorize} endIcon={<GridOn />}> {t("vectorize")} </Button>,
+                        <Button key="vectorizeButton" sx={{color: "white"}} onClick={() => handleFileAction('vectorize')} disabled={!canVectorize && !name} endIcon={<GridOn />}> {t("vectorize")} </Button>,
                         <Button key="downloadButton" sx={{color: "white"}} onClick={() => handleFileAction('download')} disabled={!selectedFiles.length && !name} endIcon={<Download />}> {t("download")} </Button>,
                         <Button key="deleteButton" fail noDefaultIcon onClick={() => setDeleteOpen(true)} disabled={!selectedFiles.length && !name}>{t("delete")}</Button>
                       ]

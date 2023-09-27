@@ -75,9 +75,9 @@ export const useMenu = (t: TFunction) => {
         isVisible: service.hasUserRouteAuth({route: "apiKeys"})
 
     }, {
-        key: "manageFiles",
+        key: "files",
         to: files(),
-        label: t("manageFiles"),
+        label: t("files"),
         icon: <Folder />,
         isVisible: service.hasUserRouteAuth({route: "files"})
     }], [t, service.hasUserRouteAuth, location.pathname])

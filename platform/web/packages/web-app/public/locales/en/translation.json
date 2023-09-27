@@ -42,10 +42,10 @@
   "apiKeySummary": "API Key summary",
   "manageAccount": "Manage account",
   "manageUsers": "Manage users",
-  "manageAPIKeys": "Manage API keys",
+  "manageAPIKeys": "API keys",
   "closeOrganization": "Close organization",
   "status": "Status",
-  "manageFiles": "Manage Files",
+  "files": "Files",
   "home": "Home",
   "roles": {
     "super_admin": "Super Admin",

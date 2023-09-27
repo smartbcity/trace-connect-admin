@@ -6,6 +6,7 @@ export const theme: DeepPartial<AruiTheme> = {// to complete and to use
   colors: {
     primary: "#EDBA27",
     secondary: "#353945",
+    background: "#FAF8F3"
   },
   //@ts-ignore
   permanentHeader: PermanentHeader,
