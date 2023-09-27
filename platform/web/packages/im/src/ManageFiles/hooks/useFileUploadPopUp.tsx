@@ -5,6 +5,7 @@ import { Typography } from "@mui/material";
 
 export interface UseFileUploadPopUpProps {
     title: string
+    disabled: boolean,
     component?: React.ReactNode
     onUpload: () => Promise<void>
 }
@@ -18,13 +19,12 @@ export interface UseFileUploadPopUpType {
 }
 
 export const useFileUploadPopUp = (props: UseFileUploadPopUpProps): UseFileUploadPopUpType => {
-    const {  title, component, onUpload  } = props
+    const {  title, disabled, component, onUpload  } = props
     const { t } = useTranslation()
     const [isOpen, setOpen] = useState(false)
 
     const close = useCallback(
         async() => {
-            await onUpload()
             setOpen(false)
         },
         [],
@@ -36,12 +36,23 @@ export const useFileUploadPopUp = (props: UseFileUploadPopUpProps): UseFileUploa
         [],
     )
 
+    const onUploadClicked = useCallback(async () => {
+        await onUpload()
+        close()
+    }, [onUpload, close])
+
     const actions = useMemo((): Action[] => [{
         key: "cancel",
         label: t("cancel"),
         onClick: close,
         variant: "text"
-    }], [close, t])
+    }, {
+        key: "upload",
+        label: t("upload"),
+        color: "primary",
+        disabled: disabled,
+        onClick: onUploadClicked,
+    }], [close, t, disabled, onUploadClicked])
 
 
     const popup = useMemo(() => (

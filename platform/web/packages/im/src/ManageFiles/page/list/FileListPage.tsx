@@ -130,6 +130,7 @@ export const FileListPage = () => {
 
     const { popup: uploadPopup, setOpen: setUploadOpen } = useFileUploadPopUp({
         title: t("fileList.uploadFile"),
+        disabled: !formState.values.uploadFile,
         component: <FormComposable formState={formState} fields={uploadFileForm} />,
         onUpload: formState.submitForm
     })
@@ -174,7 +175,10 @@ export const FileListPage = () => {
     return(
         <Page
             headerProps={PageHeaderObject({
-                title: t("files"),
+                title: t("manageFiles"),
+                rightPart: [
+                    <Button key="uploadButton" sx={{color: "white"}} onClick={() => setUploadOpen(true)} disabled={!directory || !!name} > {t("uploadFile")} </Button>,
+                ]
             })}
         >
 
