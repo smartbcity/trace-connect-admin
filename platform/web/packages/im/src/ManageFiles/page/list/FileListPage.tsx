@@ -1,5 +1,5 @@
 import { Page, Section, Button, FormComposableField, FormComposable, useFormComposable } from "@smartb/g2";
-import { PageHeaderObject, useDeletedConfirmationPopUp } from "components";
+import { PageHeaderObject } from "components";
 import { useTranslation } from "react-i18next";
 import { FileListTable } from "../../components";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -9,8 +9,8 @@ import { FileDTO } from "../../api";
 import { Row, RowSelectionState } from '@tanstack/react-table';
 import { useFileDownloadQuery } from "../../api/query/get";
 import { useFileDeleteCommand } from "../../api/command/delete";
-import { Breadcrumbs, Link, Stack, Typography } from "@mui/material";
-import { Download, GridOn, NavigateNext, Upload } from "@mui/icons-material"
+import { Breadcrumbs, Link, Stack } from "@mui/material";
+import { NavigateNext } from "@mui/icons-material"
 import { PdfDisplayer } from "../../../PdfDisplayer";
 import { useGoto } from '../../../../../web-app/src/App/routes/goto'
 import { useParams } from "react-router-dom";
@@ -18,7 +18,6 @@ import { useFileVectorizeCommand } from "../../api/command/vectorize";
 import { useFileUploadCommand } from "../../api/command/upload";
 import { useFileUploadPopUp } from "../../hooks/useFileUploadPopUp";
 
-type ActionType = 'download' | 'delete' | 'vectorize' | 'upload'
 
 export const FileListPage = () => {
     const [selectedFiles, setSelectedFiles] = useState<FileDTO[]>([]);
@@ -34,9 +33,6 @@ export const FileListPage = () => {
         params?.length ? [t("home")].concat(params.split("/")) : [t("home")]
     ), [params])
 
-    const canVectorize = useMemo(() => {
-        return selectedFiles.some(({ vectorized }) => !vectorized)
-    }, [selectedFiles])
 
     const fileListPageQuery = useFileListPageQueryFunction({
         query: { objectType, objectId, directory, recursive: "false", }
