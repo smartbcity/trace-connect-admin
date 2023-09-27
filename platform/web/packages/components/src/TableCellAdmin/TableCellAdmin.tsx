@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { IconButton, Stack } from "@mui/material";
 import { Tooltip } from "@smartb/g2";
-import { DeleteRounded, Download, EditRounded, GridOn, Upload } from "@mui/icons-material";
+import { DeleteRounded, Download, EditRounded, GridOn } from "@mui/icons-material";
 
 export interface TableCellAdminProps {
     onDelete?: () => void
