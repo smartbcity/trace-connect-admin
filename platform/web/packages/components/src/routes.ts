@@ -11,7 +11,7 @@ const IMRoutesAuthorizations = {
     "myOrganization": "open",
     "myOrganization/edit": ["im_organization_write_own"],
     "users": "open",
-    "users/add": [["memberOf", "im_user_write"], ["im_user_write", "im_organization_write"]],
+    "users/add": ["im_user_write"],
     "users/:userId/view": "open",
     "users/:userId/edit": ["im_user_write"],
     "myProfil": "open",
