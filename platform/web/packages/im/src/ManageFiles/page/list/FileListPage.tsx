@@ -163,7 +163,7 @@ export const FileListPage = () => {
     return(
         <Page
             headerProps={PageHeaderObject({
-                title: t("manageFiles"),
+                title: t("files"),
                 rightPart: [
                     <Button key="uploadButton" sx={{color: "white"}} onClick={() => setUploadOpen(true)} disabled={!directory || !!name} > {t("uploadFile")} </Button>,
                 ]
