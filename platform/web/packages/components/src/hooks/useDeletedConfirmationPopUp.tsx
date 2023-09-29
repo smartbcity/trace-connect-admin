@@ -14,7 +14,7 @@ export interface UseDeletedConfirmationType {
     isOpen: boolean
     setOpen: (open: boolean) => void
     open: () => void
-    close: () => void
+    close: (event: React.ChangeEvent<{}>) => void
 }
 
 export const useDeletedConfirmationPopUp = (props: UseDeletedConfirmationProps): UseDeletedConfirmationType => {
@@ -23,7 +23,8 @@ export const useDeletedConfirmationPopUp = (props: UseDeletedConfirmationProps):
     const [isOpen, setOpen] = useState(false)
 
     const close = useCallback(
-        () => {
+        (event: React.ChangeEvent<{}>) => {
+            event.stopPropagation()
             setOpen(false)
         },
         [],
@@ -35,15 +36,16 @@ export const useDeletedConfirmationPopUp = (props: UseDeletedConfirmationProps):
         [],
     )
 
-    const onDeleteClicked = useCallback(async () => {
+    const onDeleteClicked = useCallback(async (event: React.ChangeEvent<{}>) => {
+        event.stopPropagation()
         await onDelete()
-        close()
+        close(event)
     }, [onDelete, close])
 
     const actions = useMemo((): Action[] => [{
         key: "cancel",
         label: t("cancel"),
-        onClick: close,
+        onClick: (event) => close(event),
         variant: "text"
     }, {
         key: "delete",
@@ -54,7 +56,7 @@ export const useDeletedConfirmationPopUp = (props: UseDeletedConfirmationProps):
 
 
     const popup = useMemo(() => (
-        <PopUp open={isOpen} onClose={close} actions={actions}>
+        <PopUp open={isOpen} onClose={(event) => close(event)} actions={actions}>
             <Typography sx={{ whiteSpace: "pre-line" }} color="secondary" variant="h4">{title}</Typography>
             {component && <>{component}</>}
         </PopUp>

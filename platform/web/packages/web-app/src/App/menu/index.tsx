@@ -56,7 +56,7 @@ export const useMenu = (t: TFunction) => {
     } as MenuItem] : [{
         key: "myOrganization",
         to: "/",
-        label: t("manageAccount"),
+        label: t("account"),
         icon: <AccountCircle />,
         isVisible: service.hasUserRouteAuth({route: "myOrganization"}),
         isSelected: location.pathname === "/" || location.pathname.includes(myOrganization())
@@ -64,20 +64,20 @@ export const useMenu = (t: TFunction) => {
      {
         key: "users",
         to: users(),
-        label: service.is_im_organization_write() ? t("users") : t("manageUsers"),
+        label: t("users"),
         icon: <SupervisedUserCircleIcon />,
         isVisible: service.hasUserRouteAuth({route: "users"})
     },{
         key: "apiKeys",
         to: apiKeys(),
-        label: t("manageAPIKeys"),
+        label: t("apiKeys"),
         icon: <VpnKeyRounded />,
         isVisible: service.hasUserRouteAuth({route: "apiKeys"})
 
     }, {
-        key: "manageFiles",
+        key: "files",
         to: files(),
-        label: t("manageFiles"),
+        label: t("files"),
         icon: <Folder />,
         isVisible: service.hasUserRouteAuth({route: "files"})
     }], [t, service.hasUserRouteAuth, location.pathname])

@@ -61,7 +61,7 @@ export const ApiKeyAddPage = (props: APIKeyProfilePageProps) => {
     return (
         <Page
             headerProps={PageHeaderObject({
-                title: t("manageAPIKeys"),
+                title: t("apiKeys"),
                 titleProps: { sx: { flexShrink: 0 }, color: "secondary" },
             })}
             bottomActionsProps={{
