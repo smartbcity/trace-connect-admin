@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useFileListPageQueryFunction } from "../../api/query/page";
 import { Offset, PageQueryResult } from "template";
 import { FileDTO } from "../../api";
-import { Row, RowSelectionState } from '@tanstack/react-table';
+import { Row } from '@tanstack/react-table';
 import { useFileDownloadQuery } from "../../api/query/get";
 import { useFileDeleteCommand } from "../../api/command/delete";
 import { Breadcrumbs, Link, Stack } from "@mui/material";
@@ -21,7 +21,6 @@ import { useFileUploadPopUp } from "../../hooks/useFileUploadPopUp";
 
 export const FileListPage = () => {
     const { t } = useTranslation()
-    const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
     const [pdfFileUrl, setPdfFileUrl] = useState<string | undefined>(undefined)
 
     const goto = useGoto()
@@ -198,8 +197,6 @@ export const FileListPage = () => {
                         page={fileListPage}
                         pagination={pagination}
                         onRowClicked={onRowClicked}
-                        rowSelection={rowSelection}
-                        onRowSelectionChange={setRowSelection}
                         onDownload={onDownload}
                         onVectorize={onVectorize}
                         onDelete={onDelete}
