@@ -53,7 +53,7 @@ export const UserListPage = () => {
   return (
     <Page
       headerProps={PageHeaderObject({
-        title: t("manageUsers"),
+        title: t("users"),
         rightPart: actions
       })}
       sx={{

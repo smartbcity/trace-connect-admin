@@ -24,7 +24,7 @@ export const OrganizationUpdatePage = (props: OrganizationUpdatePageProps) => {
     return (
         <Page
             headerProps={PageHeaderObject({
-                title: myOrganization ? t("manageAccount") : organization?.name ?? t("organizations"),
+                title: myOrganization ? t("account") : organization?.name ?? t("organizations"),
                 titleProps: { sx: { flexShrink: 0 }, color: "secondary" }
             })}
             bottomActionsProps={{
