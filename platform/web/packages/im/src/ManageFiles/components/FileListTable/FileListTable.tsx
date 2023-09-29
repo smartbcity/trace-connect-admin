@@ -44,7 +44,7 @@ const useFileListColumn = (props: UseFileListColumnProps) => {
             vectorized: generators.text({
                 header: t("vectorized"),
                 getCellProps: (file) => ({
-                    value: file.vectorized ? t("yes") : t("no")
+                    value: file.isDirectory ? "-" : file.vectorized ? t("yes") : t("no")
                 })
             }),
             // @ts-ignore
@@ -54,7 +54,7 @@ const useFileListColumn = (props: UseFileListColumnProps) => {
                     const popUp = useDeleteFilePopUp({ onDeleteClick: onDelete, file: row.original })
                     return (
                         <Stack sx={{flexDirection: 'row'}}>
-                            {!row.original.vectorized && <TableCellAdmin onVectorize={() => onVectorize(row.original)} />}
+                            <TableCellAdmin onVectorize={() => onVectorize(row.original)} />
                             <TableCellAdmin onDownload={() => onDownload(row.original)} />
                             <TableCellAdmin onDelete={() => popUp.open()} />
                             {popUp.popup}

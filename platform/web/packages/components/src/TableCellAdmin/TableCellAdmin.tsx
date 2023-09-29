@@ -40,7 +40,7 @@ export const TableCellAdmin = (props: TableCellAdminProps) => {
                 </Tooltip>
                 : ''}
             {onDownload ? 
-                <Tooltip helperText={t("upload")}>
+                <Tooltip helperText={t("download")}>
                     <IconButton onClick={
                         (e: React.MouseEvent<HTMLButtonElement>) => {
                             e.stopPropagation()
