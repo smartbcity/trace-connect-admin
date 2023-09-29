@@ -1,4 +1,4 @@
-import { PictureAsPdfOutlined, TextSnippetOutlined, FolderOutlined, FmdGoodOutlined } from "@mui/icons-material"
+import { PictureAsPdfOutlined, TextSnippetOutlined, FolderOutlined, FmdGoodOutlined, Image } from "@mui/icons-material"
 import { FileDTO } from "../../api"
 
 export const formatFileSize = (bytes: number) => {
@@ -23,6 +23,8 @@ export const getFileIcon = (extension: string | undefined) => {
             return <TextSnippetOutlined fontSize="small" />;
         case 'kml':
             return <FmdGoodOutlined fontSize="small" />
+        case 'png':
+            return <Image fontSize="small" />
         default:
             return <FolderOutlined fontSize="small" />;
     }

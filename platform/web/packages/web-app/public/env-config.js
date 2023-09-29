@@ -4,7 +4,7 @@ window._env_ = {
       url: "https://dev.connect.smart-b.io/im", 
     },
     fs: {
-      url: "https://dev.trace.smart-b.io/fs"
+      url: "https://dev.connect.smart-b.io/fs"
     },
     keycloak: {
       realm: "sb-dev",
