@@ -4,7 +4,7 @@ import { useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import { OffsetPagination, OffsetTable, PageQueryResult } from "template"
 import { FileDTO } from "../../api"
-import { Row, OnChangeFn, RowSelectionState } from '@tanstack/react-table';
+import { Row } from '@tanstack/react-table';
 import { TableCellAdmin, TableCellFileName } from "components"
 import { getFolderName, formatFileSize, getFileIcon, getFileExtension } from "./FileOperations"
 import { useDeleteFilePopUp } from "../../hooks/useDeleteFilePopUp"
@@ -71,15 +71,13 @@ export interface FileListTableProps {
     isLoading?: boolean
     pagination: OffsetPagination
     onRowClicked: (row: Row<FileDTO>) => void
-    rowSelection?: RowSelectionState,
-    onRowSelectionChange?: OnChangeFn<RowSelectionState>
     onDownload: (file: FileDTO) => Promise<string | undefined>
     onVectorize: (file: FileDTO) => Promise<void>
     onDelete: (file: FileDTO) => Promise<void>
 }
 
 export const FileListTable = (props: FileListTableProps) => {
-    const { page, isLoading, pagination, onRowClicked, rowSelection, onRowSelectionChange, onDownload, onVectorize, onDelete } = props
+    const { page, isLoading, pagination, onRowClicked, onDownload, onVectorize, onDelete } = props
     const { t } = useTranslation()
 
     const columns = useFileListColumn({onDownload, onVectorize, onDelete})
@@ -87,11 +85,6 @@ export const FileListTable = (props: FileListTableProps) => {
     const tableState = useTable({
         data: page?.items ?? [],
         columns: columns,
-        state: {
-            rowSelection
-        },
-        enableRowSelection: true,
-        onRowSelectionChange: onRowSelectionChange
     })
 
 
