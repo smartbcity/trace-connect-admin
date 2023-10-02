@@ -40,7 +40,7 @@ export const useOrganizationFilters = () => {
                 multiple: true
             }
         }
-    ], [t])
+    ], [t, rolesOptions])
 
     return useCustomFilters({filters: filters})
 }
