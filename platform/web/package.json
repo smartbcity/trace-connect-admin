@@ -19,13 +19,13 @@
     "@types/react-table": "^7.7.12"
   },
   "dependencies": {
-    "@axa-fr/oidc-client": "^6.20.0",
+    "@axa-fr/oidc-client": "^7.6.0",
     "@emotion/react": "^11.10.6",
     "@emotion/css": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.12",
-    "@smartb/g2": "1.0.0-alpha.176",
+    "@smartb/g2": "1.0.0-alpha.180",
     "@smartb/privilege-domain": "0.15.0-experimental.1695388358212",
     "@smartb/apikey-domain": "0.15.0-experimental.1695388358212",
     "@smartb/user-domain": "0.15.0-experimental.1695388358212",
@@ -42,6 +42,7 @@
   ],
   "scripts": {
     "start": "yarn workspace web-app start",
+    "postinstall": "node ./node_modules/@axa-fr/react-oidc/bin/copy-service-worker-files.mjs /packages/web-app/public",
     "type": "yarn workspace web-app type",
     "build": "yarn workspace web-app build"
   },
